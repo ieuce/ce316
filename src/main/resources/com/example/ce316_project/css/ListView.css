@@ -1,0 +1,4 @@
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
