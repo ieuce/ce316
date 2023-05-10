@@ -50,16 +50,15 @@ public class DBConnector {
                         "PROJECT_MAIN_FILE_FORMAT TEXT)");
 
                 System.out.println("Tables have Created!!");
-
-                insertLecture = connection
-                        .prepareStatement("INSERT INTO Lecture (LECTURE_ID, LECTURE_NAME, LECTURER) VALUES (?,?,?)");
-                insertProgrammingLanguage = connection
-                        .prepareStatement("INSERT INTO ProgrammingLanguage (PLANGUAGE_ID, PLANGUAGE_NAME, PLANGUAGE_VERSIONSTRING, PLANGUAGE_NEEDCOMPILER, PLANGUAGE_COMPILEINSSTRING, PLANGUAGE_RUNINSSTRING, PLANGUAGE_VERSIONCHECKCOMMAND, PLANGUAGE_VERSIONEXTRACTPATTERN) VALUES (?,?,?,?,?,?,?,?)");
-                insertProject = connection
-                        .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
-
-
             }
+
+            insertLecture = connection
+                    .prepareStatement("INSERT INTO Lecture (LECTURE_ID, LECTURE_NAME, LECTURER) VALUES (?,?,?)");
+            insertProgrammingLanguage = connection
+                    .prepareStatement("INSERT INTO ProgrammingLanguage (PLANGUAGE_ID, PLANGUAGE_NAME, PLANGUAGE_VERSIONSTRING, PLANGUAGE_NEEDCOMPILER, PLANGUAGE_COMPILEINSSTRING, PLANGUAGE_RUNINSSTRING, PLANGUAGE_VERSIONCHECKCOMMAND, PLANGUAGE_VERSIONEXTRACTPATTERN) VALUES (?,?,?,?,?,?,?,?)");
+            insertProject = connection
+                    .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
+
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -114,7 +113,7 @@ public class DBConnector {
             insertProgrammingLanguage.setString(6, runInsString);
             insertProgrammingLanguage.setString(7, versionCheckCommand);
             insertProgrammingLanguage.setString(8, versionExtractPattern);
-            insertLecture.execute();
+            insertProgrammingLanguage.execute();
 
         } catch (Exception e) {
             System.out.println(e);
