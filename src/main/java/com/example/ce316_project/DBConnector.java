@@ -2,6 +2,8 @@ package com.example.ce316_project;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class DBConnector {
     private static DBConnector instance = null;
@@ -10,7 +12,8 @@ public class DBConnector {
     private Connection connection;
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject,
-            getLectur, getProgrammingLanguge, getProject,
+            getPLConfig, getAllPLConfigIds,
+            getLectur, getProject,
             deleteLectur, deleteLanguge, deleteProject;
 
 
@@ -50,16 +53,20 @@ public class DBConnector {
                         "PROJECT_MAIN_FILE_FORMAT TEXT)");
 
                 System.out.println("Tables have Created!!");
-
-                insertLecture = connection
-                        .prepareStatement("INSERT INTO Lecture (LECTURE_ID, LECTURE_NAME, LECTURER) VALUES (?,?,?)");
-                insertProgrammingLanguage = connection
-                        .prepareStatement("INSERT INTO ProgrammingLanguage (PLANGUAGE_ID, PLANGUAGE_NAME, PLANGUAGE_VERSIONSTRING, PLANGUAGE_NEEDCOMPILER, PLANGUAGE_COMPILEINSSTRING, PLANGUAGE_RUNINSSTRING, PLANGUAGE_VERSIONCHECKCOMMAND, PLANGUAGE_VERSIONEXTRACTPATTERN) VALUES (?,?,?,?,?,?,?,?)");
-                insertProject = connection
-                        .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
-
-
             }
+
+            insertLecture = connection
+                    .prepareStatement("INSERT INTO Lecture (LECTURE_ID, LECTURE_NAME, LECTURER) VALUES (?,?,?)");
+            insertProgrammingLanguage = connection
+                    .prepareStatement("INSERT INTO ProgrammingLanguage (PLANGUAGE_ID, PLANGUAGE_NAME, PLANGUAGE_VERSIONSTRING, PLANGUAGE_NEEDCOMPILER, PLANGUAGE_COMPILEINSSTRING, PLANGUAGE_RUNINSSTRING, PLANGUAGE_VERSIONCHECKCOMMAND, PLANGUAGE_VERSIONEXTRACTPATTERN) VALUES (?,?,?,?,?,?,?,?)");
+            insertProject = connection
+                    .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
+
+            getPLConfig = connection
+                    .prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
+
+            getAllPLConfigIds = connection
+                    .prepareStatement("SELECT PLANGUAGE_ID FROM ProgrammingLanguage");
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -90,4 +97,99 @@ public class DBConnector {
             System.err.println(e);
         }
     }
+    public void addPL(PLConfig language) {
+        try {
+            int id = language.getId();
+            String name = language.getName();
+            String versionString = language.getVersionString();
+            boolean need_compiler = language.isNeed_compiler();
+            String compileInsString = language.getCompileInsString();
+            String runInsString = language.getRunInsString();
+            String versionCheckCommand = language.getVersionCheckCommand();
+            String versionExtractPattern = language.getVersionExtractPattern().pattern();
+            int need_compilerint;
+            if (need_compiler == true) {
+                need_compilerint = 1;
+            } else {
+                need_compilerint = 0;
+            }
+            insertProgrammingLanguage.setInt(1, id);
+            insertProgrammingLanguage.setString(2, name);
+            insertProgrammingLanguage.setString(3, versionString);
+            insertProgrammingLanguage.setInt(4, need_compilerint);
+            insertProgrammingLanguage.setString(5, compileInsString);
+            insertProgrammingLanguage.setString(6, runInsString);
+            insertProgrammingLanguage.setString(7, versionCheckCommand);
+            insertProgrammingLanguage.setString(8, versionExtractPattern);
+            insertProgrammingLanguage.execute();
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+    }
+
+    public PLConfig getPLConfigObject(int id) {
+        try {
+            getPLConfig.setInt(1, id);
+            getPLConfig.execute();
+            ResultSet rs = getPLConfig.executeQuery();
+            rs.next();
+
+            String name = rs.getString(2);
+            String versionString = rs.getString(3);
+            int need_compilerint = rs.getInt(4);
+            ;
+            String compileInsString = rs.getString(5);
+            String runInsString = rs.getString(6);
+            String versionCheckCommand = rs.getString(7);
+            String versionExtractPattern = rs.getString(8);
+
+            boolean need_compiler;
+            if (need_compilerint == 1) {
+                need_compiler = true;
+            } else {
+                need_compiler = false;
+            }
+
+            PLConfig config = new PLConfig(id, name, versionString, need_compiler, compileInsString, runInsString, versionCheckCommand, Pattern.compile(versionExtractPattern));
+
+            return config;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public ArrayList<PLConfig> getAllPLConfigObjects() {
+        ArrayList<PLConfig> configList = new ArrayList<>();
+        try {
+            ResultSet rs = getAllPLConfigIds.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            try {
+                while (rs.next()) {
+                    int i = 1;
+                    while (i <= columnCount) {
+                        int id = rs.getInt(i++);
+                        PLConfig config = getPLConfigObject(id);
+                        configList.add(config);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            return configList;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return configList;
+    }
+
+
 }

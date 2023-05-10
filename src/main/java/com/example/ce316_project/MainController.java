@@ -178,12 +178,12 @@ public class MainController {
                 ProjectGoColumn.setCellValueFactory(new PropertyValueFactory<LectureConfig, ImageView>("image2"));
 
 
-                for (int i = 0; i < DBConnection.getInstance().getTemplates().size(); i++) {
+               /* for (int i = 0; i < DBConnection.getInstance().getTemplates().size(); i++) {
                         templateList.add(new ProjectConfig(DBConnection.getInstance().getTemplates().get(i),
                                 new ImageView(image),new ImageView(image2)));
                 }
 
-                ProjectTableView.setItems(ProjectList);
+                ProjectTableView.setItems(ProjectList);*/
         }
         @FXML
         public void openAddLectureScreen() {
@@ -252,11 +252,11 @@ public class MainController {
                 LectureGoColumn.setCellValueFactory(new PropertyValueFactory<LectureConfig, ImageView>("image2"));
 
                 // TODO : Database daha yazılmadı ben şimdiden koydum
-                for (int i = 0; i < DBConnection.getInstance().getLectures().size(); i++) {
+              /*  for (int i = 0; i < DBConnection.getInstance().getLectures().size(); i++) {
                         LectureList.add(new LectureConfig(DBConnection.getInstance().getLectures().get(i),
                                 new ImageView(image),new ImageView(image2)));
                 }
-                LectureTableView.setItems(LectureList);
+                LectureTableView.setItems(LectureList);*/
         }
 
         @FXML
@@ -283,13 +283,13 @@ public class MainController {
                 } else {
 
 
-                        LectureConfig Lecture = DBConnection.getInstance().getLectureObject(LectureName);
+                        //LectureConfig Lecture = DBConnection.getInstance().getLectureObject(LectureName);
 
 
 
 
-                        ObservableList<Node> children = templateList.getChildren();
-                        children.clear();
+                       // ObservableList<Node> children = templateList.getChildren();
+                       // children.clear();
 
 
                 }
@@ -313,7 +313,7 @@ public class MainController {
                         //DBConnection.getInstance().deleteTemplate(templateName);
                         System.out.println(ProjectName);
                         // fillTableViews();
-                } else {
+                }/* else {
                         generateResume.getChildren().clear();
                         Label l1 = new Label("Attributes");
                         l1.setStyle("-fx-font-size: 20;");
@@ -331,7 +331,7 @@ public class MainController {
                         children.clear();
 
 
-                }
+                }*/
         }
 
 

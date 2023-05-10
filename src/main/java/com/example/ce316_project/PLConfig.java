@@ -148,5 +148,27 @@ public class PLConfig{
         }
     }
 
+    public String getVersionString() {
+        return versionString;
+    }
 
+    public boolean isNeed_compiler() {
+        return need_compiler;
+    }
+
+    public String getCompileInsString() {
+        return compileInsString;
+    }
+
+    public String getRunInsString() {
+        return runInsString;
+    }
+
+    public String getVersionCheckCommand() {
+        return versionCheckCommand;
+    }
+
+    public Pattern getVersionExtractPattern() {
+        return versionExtractPattern;
+    }
 }
