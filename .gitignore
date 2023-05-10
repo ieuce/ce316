@@ -5,3 +5,4 @@
 index/*
 info.db
 *.jar
+*.class
