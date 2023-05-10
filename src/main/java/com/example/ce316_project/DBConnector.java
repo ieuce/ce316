@@ -2,6 +2,7 @@ package com.example.ce316_project;
 
 import java.io.File;
 import java.sql.*;
+import java.util.regex.Pattern;
 
 public class DBConnector {
     private static DBConnector instance = null;
@@ -10,7 +11,7 @@ public class DBConnector {
     private Connection connection;
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject,
-            getLectur, getProgrammingLanguge, getProject,
+            getLectur, getPLConfig, getProject,
             deleteLectur, deleteLanguge, deleteProject;
 
 
@@ -59,6 +60,8 @@ public class DBConnector {
             insertProject = connection
                     .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
 
+            getPLConfig = connection
+                    .prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -120,4 +123,40 @@ public class DBConnector {
 
         }
     }
+
+    public PLConfig getPLConfigObject(int id) {
+        try {
+            getPLConfig.setInt(1, id);
+            getPLConfig.execute();
+            ResultSet rs = getPLConfig.executeQuery();
+            rs.next();
+
+            String name = rs.getString(2);
+            String versionString = rs.getString(3);
+            int need_compilerint = rs.getInt(4);
+            ;
+            String compileInsString = rs.getString(5);
+            String runInsString = rs.getString(6);
+            String versionCheckCommand = rs.getString(7);
+            String versionExtractPattern = rs.getString(8);
+
+            boolean need_compiler;
+            if (need_compilerint == 1) {
+                need_compiler = true;
+            } else {
+                need_compiler = false;
+            }
+
+            PLConfig config = new PLConfig(id, name, versionString, need_compiler, compileInsString, runInsString, versionCheckCommand, Pattern.compile(versionExtractPattern));
+
+            return config;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+
 }

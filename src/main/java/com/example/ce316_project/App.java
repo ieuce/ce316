@@ -32,7 +32,7 @@ public class App extends Application {
         /*LectureConfig ce316 = new LectureConfig(316,"CE316","İlker Korkmaz");
         db.addLecture(ce316);*/
 
-        PLConfig config = null;
+        /*PLConfig config = null;
         // JAVA
         try {
             config = new PLConfig(0, "Java18", "18.0.2.1", true, "javac <PARENT_DIRECTORY>/<FILENAME>.java", "java -classpath <PARENT_DIRECTORY> <FILENAME> <ARGS>", "java --version", Pattern.compile("java (\\d+\\.\\d+\\.\\d+\\.\\d+)"));
@@ -49,8 +49,9 @@ public class App extends Application {
         } catch (Exception e) {
             System.out.println("Failed to create config: " + e.getMessage());
         }
-        db.addPL(config);
+        db.addPL(config);*/
 
+        PLConfig config = db.getPLConfigObject(0);
 
         launch();
     }
