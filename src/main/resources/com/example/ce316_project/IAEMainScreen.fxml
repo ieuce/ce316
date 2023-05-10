@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane alignment="TOP_LEFT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ce316_project.MainController">
+    <children>
+        <HBox fx:id="firstEllipses" prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <VBox alignment="TOP_RIGHT" minHeight="-Infinity" prefHeight="700.0" prefWidth="225.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <ImageView fx:id="ellipse1" fitHeight="91.0" fitWidth="371.0" pickOnBounds="true">
+                            <image>
+                                <Image url="@images/ellipse1.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+                <VBox fx:id="generatedResumeBox" alignment="BOTTOM_RIGHT" minHeight="-Infinity" prefHeight="700.0" prefWidth="271.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <ImageView fx:id="ellipse2" fitHeight="722.0" fitWidth="371.0" pickOnBounds="true" smooth="false">
+                            <image>
+                                <Image url="@images/ellipse2.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <HBox fx:id="secondEllipses" minHeight="-Infinity" prefHeight="700.0" visible="false">
+            <children>
+                <VBox alignment="BOTTOM_LEFT" prefHeight="700.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <ImageView fitHeight="140.0" fitWidth="555.0" pickOnBounds="true" smooth="false">
+                            <image>
+                                <Image url="@images/ellipse3.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+                <VBox alignment="BOTTOM_RIGHT" prefHeight="700.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <ImageView fitHeight="668.0" fitWidth="386.0" pickOnBounds="true">
+                            <image>
+                                <Image url="@images/ellipse4.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <HBox fx:id="thirdEllipses" prefHeight="100.0" prefWidth="200.0" visible="false">
+            <children>
+                <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <ImageView fitHeight="81.0" fitWidth="396.0" pickOnBounds="true">
+                            <image>
+                                <Image url="@images/ellipse5.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <ImageView fitHeight="339.0" fitWidth="479.0" pickOnBounds="true">
+                            <image>
+                                <Image url="@images/ellipse6.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <HBox fx:id="allHbox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0">
+            <children>
+                <StackPane fx:id="drawerStackPane" alignment="TOP_LEFT" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="276.0">
+                    <children>
+                        <VBox fx:id="drawerLong" alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="700.0" prefWidth="255.0" StackPane.alignment="TOP_LEFT">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="132.0" prefWidth="362.0" VBox.vgrow="NEVER">
+                                    <children>
+                                        <Button fx:id="leftBarButton" mnemonicParsing="false" prefWidth="48.0" style="-fx-background-color: transparent;">
+                                            <graphic>
+                                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@images/programming.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                        <Label prefHeight="60.0" prefWidth="283.0" text="IAE" wrapText="true" HBox.hgrow="ALWAYS">
+                                            <font>
+                                                <Font size="36.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets left="-12.0" />
+                                    </VBox.margin>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="350.0" spacing="20.0" VBox.vgrow="NEVER">
+                                    <children>
+                                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@images/template.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Label prefHeight="53.0" prefWidth="200.0" style="-fx-font-family: Nunito;" text="Lectures" wrapText="true">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="80.0" prefWidth="285.0" spacing="20.0" VBox.vgrow="NEVER">
+                                    <children>
+                                        <ImageView fitHeight="52.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@images/programming-language-icon.png" />
+                                            </image>
+                                        </ImageView>
+                                        <Label prefHeight="54.0" prefWidth="199.0" style="-fx-font-family: Nunito;" text="Programming Languages" wrapText="true">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                                        </Label>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                </HBox>
+                                <HBox alignment="BOTTOM_LEFT" prefWidth="266.0" VBox.vgrow="ALWAYS">
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" />
+                                    </VBox.margin>
+                                    <padding>
+                                        <Insets left="-10.0" />
+                                    </padding>
+                                </HBox>
+                        <HBox alignment="BOTTOM_LEFT" prefWidth="266.0">
+                           <children>
+                              <Button mnemonicParsing="false" prefWidth="48.0" style="-fx-background-color: transparent;">
+                                 <graphic>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/help.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                           <padding>
+                              <Insets left="-10.0" />
+                           </padding>
+                        </HBox>
+                            </children>
+                            <StackPane.margin>
+                                <Insets />
+                            </StackPane.margin>
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </VBox>
+                        <VBox fx:id="drawerShort" prefHeight="820.0" prefWidth="12.0" spacing="10.0" visible="false" StackPane.alignment="TOP_LEFT">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="131.0" prefWidth="289.0">
+                                    <children>
+                                        <Button fx:id="leftBarButton1" mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                            <graphic>
+                                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@images/logo.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                            <HBox.margin>
+                                                <Insets left="-3.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets left="-6.0" />
+                                    </VBox.margin>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="350.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                            <graphic>
+                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@images/search.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="278.0" spacing="40.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                            <graphic>
+                                                <ImageView fitHeight="40.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@images/resume.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="40.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" style="-fx-background-color: transparent;">
+                                            <graphic>
+                                                <ImageView fitHeight="40.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@images/template.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Button mnemonicParsing="false" prefWidth="48.0" style="-fx-background-color: transparent;">
+                                            <graphic>
+                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@images/help.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                            </children>
+                            <StackPane.margin>
+                                <Insets bottom="20.0" />
+                            </StackPane.margin>
+                        </VBox>
+                    </children>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </StackPane>
+                <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="856.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <HBox VBox.vgrow="ALWAYS">
+                            <children>
+                                <StackPane prefHeight="510.0" prefWidth="802.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <HBox fx:id="LecturesHBox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0" visible="false" StackPane.alignment="CENTER">
+                                            <children>
+                                                <VBox fx:id="originalResumeVBox" alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <HBox alignment="CENTER" prefHeight="26.0" prefWidth="500.0" spacing="40.0" VBox.vgrow="NEVER">
+                                                            <children>
+                                                                <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="25.0" prefWidth="337.0" style="-fx-font-size: 24;" text=" Lectures" textFill="#070707">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                   <padding>
+                                                      <Insets right="100.0" />
+                                                   </padding></Label>
+                                                <Button fx:id="share" mnemonicParsing="false" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-color: transparent; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;">
+                                                   <graphic>
+                                                      <ImageView fitHeight="25.0" fitWidth="25.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@images/add.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </Button>
+                                                <Button fx:id="share1" mnemonicParsing="false" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-color: transparent; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;">
+                                                   <graphic>
+                                                      <ImageView fitHeight="25.0" fitWidth="25.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@images/trash.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </Button>
+                                                            </children>
+                                                            <VBox.margin>
+                                                                <Insets top="10.0" />
+                                                            </VBox.margin>
+                                                        </HBox>
+                                          <TableView fx:id="LectureTableView" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
+                                             <columns>
+                                                <TableColumn editable="false" minWidth="-Infinity" prefWidth="90.0" resizable="false" sortable="false" text="Column X" />
+                                                <TableColumn fx:id="LectureNameColumn1" editable="false" minWidth="-Infinity" prefWidth="350.0" sortable="false" />
+                                                <TableColumn fx:id="LectureTrashColumn1" editable="false" minWidth="-Infinity" prefWidth="30.0" sortable="false" />
+                                                <TableColumn fx:id="LectureGoColumn" editable="false" minWidth="-Infinity" prefWidth="30.0" sortable="false" />
+                                             </columns>
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                          </TableView>
+                                                    </children>
+                                                    <HBox.margin>
+                                                        <Insets />
+                                                    </HBox.margin>
+                                       <padding>
+                                          <Insets top="100.0" />
+                                       </padding>
+                                                </VBox>
+                                                <VBox alignment="TOP_CENTER" maxWidth="600.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <HBox alignment="TOP_RIGHT" spacing="10.0">
+                                                            <padding>
+                                                                <Insets right="10.0" />
+                                                            </padding>
+                                                            <VBox.margin>
+                                                                <Insets top="5.0" />
+                                                            </VBox.margin>
+                                                        </HBox>
+                                                        <VBox fx:id="generatedResumeVBox" alignment="BOTTOM_CENTER" style="-fx-background-color: white; -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
+                                                            <children>
+                                                                <VBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+                                                                    <VBox.margin>
+                                                                        <Insets />
+                                                                    </VBox.margin>
+                                                                    <children>
+                                                                        <ScrollPane fx:id="generatedResumeScrollPane" fitToHeight="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="393.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER">
+                                                                            <content>
+                                                                                  <GridPane fx:id="LectureGrid" alignment="CENTER" prefHeight="66.0" prefWidth="393.0" vgap="10.0">
+                                                                                      <columnConstraints>
+                                                                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="292.0" minWidth="10.0" prefWidth="196.0" />
+                                                                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="230.0" minWidth="10.0" prefWidth="197.0" />
+                                                                                      </columnConstraints>
+                                                                                      <rowConstraints>
+                                                                                          <RowConstraints prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                                                      </rowConstraints>
+                                                                                  </GridPane>
+                                                                            </content>
+                                                                            <padding>
+                                                                                <Insets top="10.0" />
+                                                                            </padding>
+                                                                        </ScrollPane>
+                                                                    </children>
+                                                                </VBox>
+                                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="394.0" spacing="20.0">
+                                                   <children>
+                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Save" />
+                                                   </children>
+                                                </HBox>
+                                                            </children>
+                                                            <opaqueInsets>
+                                                                <Insets />
+                                                            </opaqueInsets>
+                                                            <VBox.margin>
+                                                                <Insets bottom="10.0" right="10.0" top="5.0" />
+                                                            </VBox.margin>
+                                                            <effect>
+                                                                <DropShadow />
+                                                            </effect>
+                                                        </VBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                              <HBox fx:id="ProjectsHBox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0">
+                                 <children>
+                                    <VBox fx:id="originalResumeVBox1" alignment="TOP_CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="26.0" prefWidth="500.0" spacing="40.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="25.0" prefWidth="337.0" style="-fx-font-size: 24;" text="Projects" textFill="#070707">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                   <padding>
+                                                      <Insets right="100.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Button fx:id="share1" mnemonicParsing="false" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-color: transparent; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;">
+                                                   <graphic>
+                                                      <ImageView fitHeight="25.0" fitWidth="25.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@images/add.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </Button>
+                                                <Button fx:id="share11" mnemonicParsing="false" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-color: transparent; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;">
+                                                   <graphic>
+                                                      <ImageView fitHeight="25.0" fitWidth="25.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@images/trash.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </Button>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <TableView fx:id="ProjectTableView" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
+                                             <columns>
+                                                <TableColumn editable="false" minWidth="-Infinity" prefWidth="90.0" resizable="false" sortable="false" text="Column X" />
+                                                <TableColumn fx:id="ProjectNameColumn" editable="false" minWidth="-Infinity" prefWidth="350.0" sortable="false" />
+                                                <TableColumn fx:id="ProjectTrashColumn" editable="false" minWidth="-Infinity" prefWidth="30.0" sortable="false" />
+                                                <TableColumn fx:id="ProjectGoColumn" editable="false" minWidth="-Infinity" prefWidth="30.0" sortable="false" />
+                                             </columns>
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                          </TableView>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <padding>
+                                          <Insets top="100.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox alignment="TOP_CENTER" maxWidth="600.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="TOP_RIGHT" spacing="10.0">
+                                             <padding>
+                                                <Insets right="10.0" />
+                                             </padding>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <VBox fx:id="generatedResumeVBox1" alignment="BOTTOM_CENTER" style="-fx-background-color: white; -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <VBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                   <children>
+                                                      <ScrollPane fx:id="generatedResumeScrollPane1" fitToHeight="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="393.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER">
+                                                         <content>
+                                                            <GridPane fx:id="ProjectGrid" alignment="CENTER" prefHeight="66.0" prefWidth="393.0" vgap="10.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="185.0" minWidth="10.0" prefWidth="175.0" />
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="178.0" minWidth="10.0" prefWidth="172.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                               </rowConstraints>
+                                                            </GridPane>
+                                                         </content>
+                                                         <padding>
+                                                            <Insets top="10.0" />
+                                                         </padding>
+                                                      </ScrollPane>
+                                                   </children>
+                                                </VBox>
+                                                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="394.0" spacing="20.0">
+                                                   <children>
+                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Save" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" right="10.0" top="5.0" />
+                                             </VBox.margin>
+                                             <effect>
+                                                <DropShadow />
+                                             </effect>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                                        <HBox fx:id="AddLectureBox" alignment="CENTER" minHeight="-Infinity" prefHeight="561.0" prefWidth="810.0" visible="false" StackPane.alignment="CENTER">
+                                            <children>
+                                                <VBox alignment="CENTER" prefHeight="620.0" prefWidth="624.0">
+                                                    <HBox.margin>
+                                                        <Insets />
+                                                    </HBox.margin>
+                                                    <children>
+                                                        <StackPane prefHeight="620.0" prefWidth="585.0" style="-fx-background-color: grey; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+                                                            <children>
+                                                                <HBox alignment="CENTER" prefHeight="600.0" prefWidth="516.0">
+                                                                    <children>
+                                                                        <ScrollPane focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" minWidth="-Infinity" prefHeight="600.0" prefWidth="608.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER">
+                                                                            <content>
+                                                                                <VBox alignment="CENTER" prefWidth="609.0">
+                                                                                    <children>
+                                                                                        <VBox fx:id="templatePane" alignment="CENTER" prefHeight="602.0" prefWidth="610.0" style="-fx-background-color: white; -fx-border-width: 0;" VBox.vgrow="ALWAYS">
+                                                                                            <children>
+                                                                                                <VBox fx:id="templateNameVBox" maxWidth="200.0" prefWidth="205.0" VBox.vgrow="NEVER">
+                                                                                                    <children>
+                                                                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="229.0" style="-fx-border-color: grey; -fx-border-width: 2;" text=" Lecture">
+                                                                                 <font>
+                                                                                    <Font name="System Bold" size="20.0" />
+                                                                                 </font>
+                                                                              </Label>
+                                                                                                    </children>
+                                                                                                    <VBox.margin>
+                                                                                                        <Insets bottom="30.0" top="20.0" />
+                                                                                                    </VBox.margin>
+                                                                                                </VBox>
+                                                                        <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="369.0" prefWidth="609.0">
+                                                                           <children>
+                                                                              <ScrollPane fx:id="generatedResumeScrollPane2" fitToHeight="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="608.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER">
+                                                                                 <content>
+                                                                                    <GridPane fx:id="generateResume2" alignment="CENTER" prefHeight="361.0" prefWidth="606.0" vgap="10.0">
+                                                                                       <columnConstraints>
+                                                                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="357.0" minWidth="10.0" prefWidth="194.0" />
+                                                                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="371.0" minWidth="10.0" prefWidth="191.0" />
+                                                                                       </columnConstraints>
+                                                                                       <rowConstraints>
+                                                                                          <RowConstraints prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                                                       </rowConstraints>
+                                                                                    </GridPane>
+                                                                                 </content>
+                                                                                 <padding>
+                                                                                    <Insets top="10.0" />
+                                                                                 </padding>
+                                                                              </ScrollPane>
+                                                                           </children>
+                                                                        </VBox>
+                                                                                                <VBox fx:id="templateAttributeView" alignment="TOP_CENTER" prefHeight="901.0" prefWidth="609.0" VBox.vgrow="ALWAYS">
+                                                                                                    <children>
+                                                                                                        <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Add" />
+                                                                                                    </children>
+                                                                                                    <VBox.margin>
+                                                                                                        <Insets bottom="50.0" top="50.0" />
+                                                                                                    </VBox.margin>
+                                                                                                </VBox>
+                                                                                            </children>
+                                                                                            <effect>
+                                                                                                <DropShadow />
+                                                                                            </effect>
+                                                                                        </VBox>
+                                                                                    </children>
+                                                                                </VBox>
+                                                                            </content>
+                                                                        </ScrollPane>
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                            <padding>
+                                                                <Insets bottom="10.0" top="10.0" />
+                                                            </padding>
+                                                        </StackPane>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                            <StackPane.margin>
+                                                <Insets />
+                                            </StackPane.margin>
+                                            <padding>
+                                                <Insets bottom="40.0" left="100.0" right="100.0" top="40.0" />
+                                            </padding>
+                                        </HBox>
+                              <HBox fx:id="AddProjectBox" alignment="CENTER" minHeight="-Infinity" prefHeight="561.0" prefWidth="810.0" visible="false">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="620.0" prefWidth="624.0">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <children>
+                                          <StackPane prefHeight="620.0" prefWidth="585.0" style="-fx-background-color: grey; -fx-background-radius: 20;">
+                                             <children>
+                                                <HBox alignment="CENTER" prefHeight="600.0" prefWidth="516.0">
+                                                   <children>
+                                                      <ScrollPane focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" minWidth="-Infinity" prefHeight="600.0" prefWidth="608.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER">
+                                                         <content>
+                                                            <VBox alignment="CENTER" prefWidth="609.0">
+                                                               <children>
+                                                                  <VBox fx:id="templatePane1" alignment="CENTER" prefHeight="602.0" prefWidth="610.0" style="-fx-background-color: white; -fx-border-width: 0;" VBox.vgrow="ALWAYS">
+                                                                     <children>
+                                                                        <VBox fx:id="templateNameVBox1" maxWidth="200.0" prefWidth="205.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="229.0" style="-fx-border-color: grey; -fx-border-width: 2;" text=" Project">
+                                                                                 <font>
+                                                                                    <Font name="System Bold" size="20.0" />
+                                                                                 </font>
+                                                                              </Label>
+                                                                           </children>
+                                                                           <VBox.margin>
+                                                                              <Insets bottom="30.0" top="20.0" />
+                                                                           </VBox.margin>
+                                                                        </VBox>
+                                                                        <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="369.0" prefWidth="609.0">
+                                                                           <children>
+                                                                              <ScrollPane fx:id="generatedResumeScrollPane21" fitToHeight="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="608.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER">
+                                                                                 <content>
+                                                                                    <GridPane fx:id="generateResume21" alignment="CENTER" prefHeight="361.0" prefWidth="606.0" vgap="10.0">
+                                                                                       <columnConstraints>
+                                                                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="357.0" minWidth="10.0" prefWidth="194.0" />
+                                                                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="371.0" minWidth="10.0" prefWidth="191.0" />
+                                                                                       </columnConstraints>
+                                                                                       <rowConstraints>
+                                                                                          <RowConstraints prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                                                                       </rowConstraints>
+                                                                                    </GridPane>
+                                                                                 </content>
+                                                                                 <padding>
+                                                                                    <Insets top="10.0" />
+                                                                                 </padding>
+                                                                              </ScrollPane>
+                                                                           </children>
+                                                                        </VBox>
+                                                                        <VBox fx:id="templateAttributeView1" alignment="TOP_CENTER" prefHeight="901.0" prefWidth="609.0" VBox.vgrow="ALWAYS">
+                                                                           <children>
+                                                                              <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Add" />
+                                                                           </children>
+                                                                           <VBox.margin>
+                                                                              <Insets bottom="50.0" top="50.0" />
+                                                                           </VBox.margin>
+                                                                        </VBox>
+                                                                     </children>
+                                                                     <effect>
+                                                                        <DropShadow />
+                                                                     </effect>
+                                                                  </VBox>
+                                                               </children>
+                                                            </VBox>
+                                                         </content>
+                                                      </ScrollPane>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" top="10.0" />
+                                             </padding>
+                                          </StackPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="40.0" left="100.0" right="100.0" top="40.0" />
+                                 </padding>
+                              </HBox>
+                                    </children>
+                                </StackPane>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</StackPane>

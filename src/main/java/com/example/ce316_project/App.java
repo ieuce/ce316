@@ -13,7 +13,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException, ParseException, ClassNotFoundException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("CvDatabase.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("IAEMainScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         String path = "images/paintedLogo.png";
         Image image = new Image(getClass().getResource(path).toExternalForm());
