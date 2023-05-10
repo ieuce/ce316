@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -66,6 +67,8 @@ public class App extends Application {
             System.out.println("Success: " + output.getSuccess());
             System.out.println("Output: " + output.getOutput());
         }*/
+
+        // ArrayList<PLConfig> configs = db.getAllPLConfigObjects();
 
         launch();
     }
