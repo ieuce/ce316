@@ -51,7 +51,21 @@ public class App extends Application {
         }
         db.addPL(config);*/
 
-        PLConfig config = db.getPLConfigObject(0);
+        /*PLConfig config = db.getPLConfigObject(0);
+        ExecuteStatus output = null;
+        if(config != null){
+            output = config.executeProgram(new File("sample_files/example.java"), "1 2 3");
+            System.out.println("Success: " + output.getSuccess());
+            System.out.println("Output: " + output.getOutput());
+        }*/
+
+        /*PLConfig config = db.getPLConfigObject(1);
+        ExecuteStatus output = null;
+        if(config != null){
+            output = config.executeProgram(new File("sample_files/example.py"), "1 2 3");
+            System.out.println("Success: " + output.getSuccess());
+            System.out.println("Output: " + output.getOutput());
+        }*/
 
         launch();
     }
