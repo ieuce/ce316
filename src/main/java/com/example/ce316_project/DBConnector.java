@@ -90,4 +90,35 @@ public class DBConnector {
             System.err.println(e);
         }
     }
+    public void addPL(PLConfig language) {
+        try {
+            int id = language.getId();
+            String name = language.getName();
+            String versionString = language.getVersionString();
+            boolean need_compiler = language.isNeed_compiler();
+            String compileInsString = language.getCompileInsString();
+            String runInsString = language.getRunInsString();
+            String versionCheckCommand = language.getVersionCheckCommand();
+            String versionExtractPattern = language.getVersionExtractPattern().pattern();
+            int need_compilerint;
+            if (need_compiler == true) {
+                need_compilerint = 1;
+            } else {
+                need_compilerint = 0;
+            }
+            insertProgrammingLanguage.setInt(1, id);
+            insertProgrammingLanguage.setString(2, name);
+            insertProgrammingLanguage.setString(3, versionString);
+            insertProgrammingLanguage.setInt(4, need_compilerint);
+            insertProgrammingLanguage.setString(5, compileInsString);
+            insertProgrammingLanguage.setString(6, runInsString);
+            insertProgrammingLanguage.setString(7, versionCheckCommand);
+            insertProgrammingLanguage.setString(8, versionExtractPattern);
+            insertLecture.execute();
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+    }
 }
