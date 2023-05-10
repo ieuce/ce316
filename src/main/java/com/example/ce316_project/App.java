@@ -26,6 +26,10 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        DBConnector db = DBConnector.getInstance();
+        LectureConfig ce316 = new LectureConfig(316,"CE316","İlker Korkmaz");
+        db.addLecture(ce316);
+
         launch();
     }
 }
