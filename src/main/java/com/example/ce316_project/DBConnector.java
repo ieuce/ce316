@@ -2,6 +2,7 @@ package com.example.ce316_project;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class DBConnector {
@@ -11,7 +12,8 @@ public class DBConnector {
     private Connection connection;
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject,
-            getLectur, getPLConfig, getProject,
+            getPLConfig, getAllPLConfigIds,
+            getLectur, getProject,
             deleteLectur, deleteLanguge, deleteProject;
 
 
@@ -62,6 +64,9 @@ public class DBConnector {
 
             getPLConfig = connection
                     .prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
+
+            getAllPLConfigIds = connection
+                    .prepareStatement("SELECT PLANGUAGE_ID FROM ProgrammingLanguage");
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -156,6 +161,34 @@ public class DBConnector {
         }
 
         return null;
+    }
+
+    public ArrayList<PLConfig> getAllPLConfigObjects() {
+        ArrayList<PLConfig> configList = new ArrayList<>();
+        try {
+            ResultSet rs = getAllPLConfigIds.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            try {
+                while (rs.next()) {
+                    int i = 1;
+                    while (i <= columnCount) {
+                        int id = rs.getInt(i++);
+                        PLConfig config = getPLConfigObject(id);
+                        configList.add(config);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            return configList;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return configList;
     }
 
 
