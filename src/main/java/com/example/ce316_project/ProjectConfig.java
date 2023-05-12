@@ -12,16 +12,16 @@ public class ProjectConfig {
     private int lecture_id;
     private int programming_language_id;
     private String main_file_format;
-    private ImageView image;
 
-    public ProjectConfig(int id, String title, String description, int lecture_id, int programming_language_id, String main_file_format, ImageView image) {
+
+    public ProjectConfig(int id, String title, String description, int lecture_id, int programming_language_id, String main_file_format) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.lecture_id = lecture_id;
         this.programming_language_id = programming_language_id;
         this.main_file_format = main_file_format;
-        this.image = image;
+
     }
 
     public int getId() {
@@ -72,11 +72,4 @@ public class ProjectConfig {
         this.main_file_format = main_file_format;
     }
 
-    public ImageView getImage() {
-        return image;
-    }
-
-    public void setImage(ImageView image) {
-        this.image = image;
-    }
 }

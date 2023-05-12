@@ -12,9 +12,9 @@ public class DBConnector {
     private Connection connection;
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject,
-            getPLConfig, getAllPLConfigIds,
-            getLectur, getProject,
-            deleteLectur, deleteLanguge, deleteProject;
+            getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
+            getLectureConfig, getProjectConfig,
+            deleteLecture, deleteLanguage, deleteProject,getLecture,getPL;
 
 
     DBConnector() {
@@ -39,7 +39,7 @@ public class DBConnector {
                         "PLANGUAGE_NAME TEXT," +
                         "PLANGUAGE_VERSIONSTRING TEXT," +
                         "PLANGUAGE_NEEDCOMPILER INTEGER," +
-                        "PLANGUAGE_COMPILEINSSTRING INTEGER," +
+                        "PLANGUAGE_COMPILEINSSTRING TEXT," +
                         "PLANGUAGE_RUNINSSTRING TEXT," +
                         "PLANGUAGE_VERSIONCHECKCOMMAND TEXT," +
                         "PLANGUAGE_VERSIONEXTRACTPATTERN TEXT)");
@@ -67,6 +67,26 @@ public class DBConnector {
 
             getAllPLConfigIds = connection
                     .prepareStatement("SELECT PLANGUAGE_ID FROM ProgrammingLanguage");
+
+            getAllLectureIds=connection
+                    .prepareStatement("SELECT LECTURE_ID FROM Lecture");
+
+            getAllProjectIds=connection
+                    .prepareStatement("SELECT PROJECT_ID FROM Project");
+
+
+            getProjectConfig=connection
+                    .prepareStatement("SELECT * FROM Project WHERE PROJECT_ID = ?");
+
+            getLectureConfig=connection
+                    .prepareStatement("SELECT * FROM Lecture WHERE LECTURE_ID = ?");
+
+            getLecture=connection.prepareStatement("SELECT * FROM LECTURE WHERE LECTURE_NAME = ?");
+
+            getPL=connection.prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_NAME = ?");
+
+
+
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -129,6 +149,30 @@ public class DBConnector {
         }
     }
 
+    public void addProject(ProjectConfig project) {
+        try {
+            int project_id=project.getId();
+            String title=project.getTitle();
+            String description=project.getDescription();
+            int lecture_id = project.getLecture_id();
+            int programming_language_id=project.getProgramming_language_id();
+            String mainFileFormat=project.getMain_file_format();
+
+
+            insertProject.setInt(1,project_id);
+            insertProject.setString(2, title);
+            insertProject.setString(3, description);
+            insertProject.setInt(4,lecture_id);
+            insertProject.setInt(5,programming_language_id);
+            insertProject.setString(6,mainFileFormat);
+
+            insertProject.execute();
+
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
     public PLConfig getPLConfigObject(int id) {
         try {
             getPLConfig.setInt(1, id);
@@ -139,7 +183,6 @@ public class DBConnector {
             String name = rs.getString(2);
             String versionString = rs.getString(3);
             int need_compilerint = rs.getInt(4);
-            ;
             String compileInsString = rs.getString(5);
             String runInsString = rs.getString(6);
             String versionCheckCommand = rs.getString(7);
@@ -190,6 +233,177 @@ public class DBConnector {
 
         return configList;
     }
+
+
+
+
+    public LectureConfig getLectureConfigObject(int id) {
+        try {
+            getLectureConfig.setInt(1, id);
+            getLectureConfig.execute();
+            ResultSet rs = getLectureConfig.executeQuery();
+            rs.next();
+
+            String Lecturename = rs.getString(2);
+            String Lecturername = rs.getString(3);
+
+
+            LectureConfig config = new LectureConfig(id, Lecturename, Lecturername);
+
+            return config;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+    //Kontrol edilmesi lazım getLecturenin
+    public LectureConfig getLecture(String Name) throws SQLException {
+        try {
+            getLecture.setString(1, Name);
+            getLecture.execute();
+            ResultSet rs = getLecture.executeQuery();
+            rs.next();
+
+            int LectureID = rs.getInt(1);
+            String Lecturername = rs.getString(3);
+
+
+            LectureConfig config = new LectureConfig(LectureID, Name, Lecturername);
+
+            return config;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+
+
+    }
+    public PLConfig getPL(String Name) throws SQLException {
+        try { getPL.setString(1, Name);
+            getPL.execute();
+            ResultSet rs = getPL.executeQuery();
+            rs.next();
+            int id = rs.getInt(1);
+            String version = rs.getString(3);
+            int need_compilerint= rs.getInt(4);
+            boolean need_compiler;
+            if (need_compilerint == 1) {
+                need_compiler = true;
+            } else {
+                need_compiler = false;
+            }
+            String compileIns = rs.getString(5);
+            String RunIns =rs.getString(6);
+            String VersionCheck=rs.getString(7);
+            String versionPattern=rs.getString(8);
+            Pattern pattern = Pattern.compile(versionPattern);
+
+            PLConfig config = new PLConfig(id, Name, version,need_compiler,compileIns,RunIns,VersionCheck,pattern);
+            return config;
+
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return null;
+        }
+
+
+    }
+
+
+    public ArrayList<LectureConfig> getAllLectureConfigObjects() {
+        ArrayList<LectureConfig> configList = new ArrayList<>();
+        try {
+            ResultSet rs = getAllLectureIds.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            try {
+                while (rs.next()) {
+                    int i = 1;
+                    while (i <= columnCount) {
+                        int id = rs.getInt(i++);
+                        LectureConfig config = getLectureConfigObject(id);
+                        configList.add(config);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            return configList;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return configList;
+    }
+
+
+
+
+    public ProjectConfig getPConfigObject(int id) {
+        try {
+            getProjectConfig.setInt(1, id);
+            getProjectConfig.execute();
+            ResultSet rs = getProjectConfig.executeQuery();
+            rs.next();
+
+            String title = rs.getString(2);
+            String description = rs.getString(3);
+            int lectureId = rs.getInt(4);
+            ;
+            int PlId = rs.getInt(5);
+            String mainFileFormat = rs.getString(6);
+
+
+
+            ProjectConfig config = new ProjectConfig(id, title, description, lectureId, PlId, mainFileFormat);
+
+            return config;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public ArrayList<ProjectConfig> getAllPConfigObjects() {
+        ArrayList<ProjectConfig> configList = new ArrayList<>();
+        try {
+            ResultSet rs = getAllProjectIds.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            try {
+                while (rs.next()) {
+                    int i = 1;
+                    while (i <= columnCount) {
+                        int id = rs.getInt(i++);
+                        ProjectConfig config = getPConfigObject(id);
+                        configList.add(config);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            return configList;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return configList;
+    }
+
+
+
+
 
 
 }

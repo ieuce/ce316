@@ -3,6 +3,15 @@ package com.example.ce316_project;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.regex.Pattern;
+import java.util.regex.Pattern;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -92,7 +101,7 @@ public class MainController {
         private TableColumn PLNameColumn;
 
         @FXML
-        private TableView<?> PLTableView;
+        private TableView PLTableView;
 
         @FXML
         private TableColumn PLTrashColumn;
@@ -276,8 +285,10 @@ public class MainController {
                 LecturesHBox.setVisible(true);
                 ProjectsHBox.setVisible(false);
                 LecturesHBox.setEffect(null);
+                PL_HBox.setVisible(false);
                 AddProjectBox.setVisible(false);
                 AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(false);
 
                 firstEllipses.setVisible(false);
                 secondEllipses.setVisible(true);
@@ -299,16 +310,19 @@ public class MainController {
 
                 LectureGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
 
-                // TODO : Database daha yazılmadı ben şimdiden koydum
-               /* for (int i = 0; i < DBConnector.getInstance().getLectures().size(); i++) {
-                        LectureList.add(new LectureConfig(DBConnector.getInstance().getLectures().get(i),
-                                new ImageView(image),new ImageView(image2)));
-                }*/
 
-                LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
-                LectureList.add(new TableShow("ce326",new ImageView(image),new ImageView(image2)));
-                LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
+                // TODO : Database daha yazılmadı ben şimdiden koydum
+                for (int i = 1; i <= DBConnector.getInstance().getAllLectureConfigObjects().size(); i++) {
+                        LectureList.add(new TableShow(DBConnector.getInstance().getLectureConfigObject(i).getLecture_Name(),new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
+                }
+
+
+                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
+                //LectureList.add(new TableShow("ce326",new ImageView(image),new ImageView(image2)));
+                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
                 LectureTableView.setItems(LectureList);
+
+
 
         }
 
@@ -393,13 +407,13 @@ public class MainController {
                         System.out.println(LectureName);
                         openLectureScreen();
                 } else if (selectedCells.get(0).getTableColumn().equals(LectureGoColumn)) {
+
                        // openProjectScreen();
 
                 } else {
 
 
-                        //LectureConfig Lecture = DBConnector.getInstance().getLecture(LectureName);
-                        LectureConfig Lecture = new LectureConfig(0,"CE316","İlkerHoca");
+                        LectureConfig Lecture = DBConnector.getInstance().getLecture(LectureName);
                         ObservableList<Node> children = LectureGrid.getChildren();
                         children.clear();
                         String TempID=Integer.toString(Lecture.getLecture_id());
@@ -434,7 +448,7 @@ public class MainController {
 
 
 
-     /*   @FXML
+       @FXML
         public void openProjectScreen() {
                 LecturesHBox.setVisible(true);
                 ProjectsHBox.setVisible(false);
@@ -449,28 +463,28 @@ public class MainController {
                 Image image = new Image(getClass().getResource(path).toExternalForm());
                 Image image2 = new Image(getClass().getResource(path2).toExternalForm());
 
-                ObservableList<LectureConfig> ProjectList = FXCollections
+                ObservableList<TableShow> ProjectList = FXCollections
                         .observableArrayList();
                 ProjectNameColumn.setCellValueFactory(new PropertyValueFactory<LectureConfig, String>("name"));
                 ProjectTrashColumn.setCellValueFactory(new PropertyValueFactory<LectureConfig, ImageView>("image"));
                 ProjectGoColumn.setCellValueFactory(new PropertyValueFactory<LectureConfig, ImageView>("image2"));
 
+        try {
+                for (int i = 1; i <= DBConnector.getInstance().getAllPConfigObjects().size(); i++) {
 
-                for (int i = 0; i < DBConnector.getInstance().getProject().size(); i++) {
-                        ProjectList.add(new ProjectConfig(DBConnector.getInstance().getProject().get(i),
-                                new ImageView(image),new ImageView(image2)));
+                        ProjectList.add(new TableShow(DBConnector.getInstance().getPConfigObject(i).getTitle(), new ImageView(image), new ImageView(image2)));
+                        // new ImageView(image),new ImageView(image2)));
+                        //new ImageView(image),new ImageView(image2)));
                 }
+        }catch (Exception e ){
+                System.out.println("PROJEYİ ALAMADI DATABASE HATA VERDİ");
+        }
 
                 ProjectTableView.setItems(ProjectList);
         }
-*/
 
 
-
-
-
-
-  /*      @FXML
+       @FXML
         public void openAddProjectScreen() {
 
                 LecturesHBox.setVisible(false);
@@ -492,9 +506,9 @@ public class MainController {
 
 
                 Label l1 = new Label("Project ID :");
-                l1.setStyle("-fx-font-size: 20;");
+
                 Label l2 = new Label(SatırsayısıtoString);
-                l2.setStyle("-fx-font-size: 20;");
+
 
                 AddProjectGrid.addRow(0, l1, l2);
 
@@ -503,6 +517,8 @@ public class MainController {
                 Label ProjectLectureIDLabel = new Label("Project Lecture ID : ");
                 Label ProjectPL_IDLabel = new Label("Programming Language ID: ");
                 Label Project_Main_File_Name_FormatLabel = new Label("Main File Name Format : ");
+
+
                 TextField selectedPL_ID=new TextField();
                 TextField selectedProjectTitle = new TextField();
                 TextField selectedProjectDescription=new TextField();
@@ -511,10 +527,10 @@ public class MainController {
 
 
 
-                AddProjectGrid.addRow(1,ProjectTitleLabel,selectedPL_ID );
-                AddProjectGrid.addRow(2,ProjectDescriptionLabel,selectedProjectTitle);
-                AddProjectGrid.addRow(3,ProjectLectureIDLabel,selectedProjectDescription);
-                AddProjectGrid.addRow(4,ProjectPL_IDLabel,selectedProjectL_ID);
+                AddProjectGrid.addRow(1,ProjectTitleLabel,selectedProjectTitle);
+                AddProjectGrid.addRow(2,ProjectDescriptionLabel,selectedProjectDescription);
+                AddProjectGrid.addRow(3,ProjectLectureIDLabel,selectedProjectL_ID);
+                AddProjectGrid.addRow(4,ProjectPL_IDLabel,selectedPL_ID);
                 AddProjectGrid.addRow(5,Project_Main_File_Name_FormatLabel,selectedMain_File_Format);
 
                 AddAttribute.setOnAction(event -> {
@@ -530,15 +546,21 @@ public class MainController {
                         String TempP_D=selectedProjectDescription.getText();
                         int TempL_ID =Integer.parseInt(selectedProjectL_ID.getText());
                         String TempM_F_F=selectedMain_File_Format.getText();
-                        String path = "images/trash.png";
-                        ImageView image = new ImageView(getClass().getResource(path).toExternalForm());
 
-                        ProjectConfig Project = new ProjectConfig(ProjectIDTEMP,Temp_PT,TempP_D,TempL_ID,TempPL_ID,TempM_F_F,image);
+
+                        ProjectConfig Project = new ProjectConfig(ProjectIDTEMP,Temp_PT,TempP_D,TempL_ID,TempPL_ID,TempM_F_F);
                         DBConnector.getInstance().addProject(Project);
 
                         LecturesHBox.setEffect(null);
                         AddLectureBox.setVisible(false);
                         LecturesHBox.setVisible(true);
+
+                        for (Node node : AddProjectGrid.getChildren()) {
+                                if (node instanceof Label) {
+                                        Label label = (Label) node;
+                                        label.setText("");
+                                }
+                        }
 
                 });
 
@@ -551,7 +573,8 @@ public class MainController {
         }
 
 
-*/
+
+
 /*
         @FXML
         public void selectFromProjectTable() throws SQLException, IOException {
@@ -614,6 +637,232 @@ public class MainController {
         }
 
 */
+@FXML
+public void openPLScreen() {
+        LecturesHBox.setVisible(false);
+        ProjectsHBox.setVisible(false);
+        PL_HBox.setVisible(true);
+        PL_HBox.setEffect(null);
+        AddProjectBox.setVisible(false);
+        AddLectureBox.setVisible(false);
+        AddPLBox.setVisible(false);
+        firstEllipses.setVisible(false);
+        secondEllipses.setVisible(false);
+        thirdEllipses.setVisible(true);
+
+        String path = "images/trash.png";
+        String path2="images/GO.png";
+
+        Image image = new Image(getClass().getResource(path).toExternalForm());
+        Image image2 = new Image(getClass().getResource(path2).toExternalForm());
+
+        ObservableList<TableShow> ProgrammingLanguageList = FXCollections
+                .observableArrayList();
+
+        PLNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
+
+
+        PLTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
+
+        PLGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
+
+        // TODO : Database daha yazılmadı ben şimdiden koydum
+                for (int i = 0; i < DBConnector.getInstance().getAllPLConfigObjects().size(); i++) {
+                        ProgrammingLanguageList.add(new TableShow(DBConnector.getInstance().getPLConfigObject(i).getName(),
+                                new ImageView(image),new ImageView(image2)));
+                }
+
+        // ProgrammingLanguageList.add(new TableShow("Python",new ImageView(image),new ImageView(image2)));
+        // ProgrammingLanguageList.add(new TableShow("Java",new ImageView(image),new ImageView(image2)));
+        // ProgrammingLanguageList.add(new TableShow("JavaScript",new ImageView(image),new ImageView(image2)));
+        PLTableView.setItems(ProgrammingLanguageList);
+
+}
+        @FXML
+        public void openAddProgLangScreen() {
+
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(false);
+                PL_HBox.setVisible(true);
+                AddProjectBox.setVisible(false);
+                AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(true);
+
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(false);
+                thirdEllipses.setVisible(false);
+                BoxBlur blur = new BoxBlur();
+                blur.setWidth(10);
+                blur.setHeight(10);
+                blur.setIterations(3);
+                PL_HBox.setEffect(blur);
+
+                int ProgLangIDTEMP = (PLTableView.getItems().size())+1;
+                String SatırsayısıtoString=Integer.toString(ProgLangIDTEMP);
+
+
+                Label l1 = new Label("Programming Language ID :");
+
+                Label l2 = new Label(SatırsayısıtoString);
+
+
+
+                Label ProgLangName = new Label("Programming Langugage Name  : ");
+                Label ProgLangVersion = new Label("Programming Language Version  : ");
+                Label ProgLangNeedCompiler = new Label("Need Compiler  : ");
+                Label ProgLangCompileİns = new Label(" Compile İnstructions : ");
+                Label ProgLangRunİns = new Label("Run İnstructions  : ");
+                Label ProgLangVersionCheck = new Label("Version Check command  : ");
+                Label ProgLangVersionExtractPattern = new Label("Version Extract Pattern  : ");
+
+                TextField selectedPL_Name=new TextField();
+                TextField selectedPL_Version = new TextField();
+                TextField selectedPL_Compiler=new TextField();
+                TextField selectedPL_Compileİns = new TextField();
+                TextField selectedPL_Runİns=new TextField();
+                TextField selectedPL_VersionCheck=new TextField();
+                TextField selectedPL_VersionExtractPattern=new TextField();
+
+
+                AddPLGrid.add(l1,0,0);
+                AddPLGrid.add(ProgLangName,0,1);
+                AddPLGrid.add(ProgLangVersion,0,2);
+                AddPLGrid.add(ProgLangNeedCompiler,0,3);
+                AddPLGrid.add(ProgLangCompileİns,0,4);
+                AddPLGrid.add(ProgLangRunİns,0,5);
+                AddPLGrid.add(ProgLangVersionCheck,0,6);
+                AddPLGrid.add(ProgLangVersionExtractPattern,0,7);
+
+                AddPLGrid.add(l2,1,0);
+                AddPLGrid.add(selectedPL_Name ,1,1);
+                AddPLGrid.add(selectedPL_Version,1,2);
+                AddPLGrid.add(selectedPL_Compiler,1,3);
+                AddPLGrid.add(selectedPL_Compileİns,1,4);
+                AddPLGrid.add(selectedPL_Runİns,1,5);
+                AddPLGrid.add(selectedPL_VersionCheck,1,6);
+                AddPLGrid.add(selectedPL_VersionExtractPattern,1,7);
+
+                selectedPL_Name.textProperty().addListener((observable, oldValue, newValue) -> {
+                        if (Objects.equals(selectedPL_Name.getText(), "Python")){
+                                selectedPL_Compiler.setText("false");
+                                selectedPL_Compileİns.setText("null");
+                                selectedPL_Runİns.setText("python <PARENT_DIRECTORY>/<FILENAME>.py <ARGS>");
+                                selectedPL_VersionCheck.setText("python --version");
+                                selectedPL_VersionExtractPattern.setText("Python (\\d+\\.\\d+\\.\\d+)");
+                        } else if (Objects.equals(selectedPL_Name.getText(), "Java")) {
+                                selectedPL_Compiler.setText("true");
+                                selectedPL_Compileİns.setText("javac <PARENT_DIRECTORY>/<FILENAME>.java");
+                                selectedPL_Runİns.setText("java -classpath <PARENT_DIRECTORY> <FILENAME> <ARGS>");
+                                selectedPL_VersionCheck.setText("java --version");
+                                selectedPL_VersionExtractPattern.setText("java (\\d+\\.\\d+\\.\\d+\\.\\d+)");
+
+                        }
+                });
+                AddPLButton.setOnAction(event -> {
+
+
+                        String TempPL_Name =selectedPL_Name.getText();
+                        String TempPL_Version=selectedPL_Version.getText();
+                        Boolean TempPL_NeedCompiler =Boolean.parseBoolean(selectedPL_Compiler.getText());
+                        String TempPL_Compilerİns=selectedPL_Compileİns.getText();
+                        String TempPL_Runİns=selectedPL_Runİns.getText();
+                        String TempPL_VersionCheck=selectedPL_VersionCheck.getText();
+                        
+                        
+                        String TempPL_VersionExtractPattern=selectedPL_VersionExtractPattern.getText();
+                        Pattern pattern = Pattern.compile(TempPL_VersionExtractPattern);
+
+                      try {
+                               PLConfig ProgrammingLanguageConf = new PLConfig(ProgLangIDTEMP,TempPL_Name,TempPL_Version,TempPL_NeedCompiler,TempPL_Compilerİns,TempPL_Runİns,TempPL_VersionCheck,pattern);
+                               DBConnector.getInstance().addPL(ProgrammingLanguageConf);
+                     } catch (Exception e) {
+                               throw new RuntimeException(e);
+                        }
+
+                        PL_HBox.setEffect(null);
+                        AddPLBox.setVisible(false);
+                        PL_HBox.setVisible(true);
+                        ObservableList<Node> children = AddPLGrid.getChildren();
+                        children.clear();
+                        openPLScreen();
+
+                });
+        }
+
+        public void selectFromPLTable() throws SQLException, IOException {
+                if (PLTableView.getSelectionModel().getSelectedCells() == null ||
+                        PLTableView.getSelectionModel().getSelectedIndex() == -1) {
+                        return;
+                }
+
+                int index = PLTableView.getSelectionModel().getSelectedIndex();
+
+                String ProgrammingLanguageName = (String) PLNameColumn.getCellData(index);
+
+
+                ObservableList<TablePosition> selectedCells = PLTableView.getSelectionModel().getSelectedCells();
+
+
+
+                if (selectedCells.get(0).getTableColumn().equals(PLTrashColumn)) {
+                        //DBConnection.getInstance().deleteTemplate(LectureName);
+                        System.out.println(ProgrammingLanguageName);
+                        //openLectureScreen();
+                } else if (selectedCells.get(0).getTableColumn().equals(PLGoColumn)) {
+
+                        // openProjectScreen();
+
+                } else {
+
+
+                        PLConfig ProgrammingLanguage = DBConnector.getInstance().getPL(ProgrammingLanguageName);
+                        ObservableList<Node> children = PLGrid.getChildren();
+                        children.clear();
+                        String TempID=Integer.toString(ProgrammingLanguage.getId());
+                        String TempName=ProgrammingLanguage.getName();
+                        String version=ProgrammingLanguage.getVersionString();
+                        String needcompiler=Boolean.toString(ProgrammingLanguage.isNeed_compiler());
+                        String compileIns = ProgrammingLanguage.getCompileInsString();
+                        String RunIns=ProgrammingLanguage.getRunInsString();
+                        String versionCheck=ProgrammingLanguage.getVersionCheckCommand();
+                        String pattern = ProgrammingLanguage.getVersionExtractPattern().toString();
+
+                        Label l1 = new Label("Programming Language ID :");
+
+                        Label l2 = new Label(TempID);
+
+                        PLGrid.addRow(0, l1, l2);
+
+                        Label ProgLangName = new Label("Programming Langugage Name  : ");
+                        Label ProgLangVersion = new Label("Programming Language Version  : ");
+                        Label ProgLangNeedCompiler = new Label("Need Compiler  : ");
+                        Label ProgLangCompileİns = new Label(" Compile İnstructions : ");
+                        Label ProgLangRunİns = new Label("Run İnstructions  : ");
+                        Label ProgLangVersionCheck = new Label("Version Check command  : ");
+                        Label ProgLangVersionExtractPattern = new Label("Version Extract Pattern  : ");
+
+                        Label selectedPL_Name=new Label(TempName);
+                        Label selectedPL_Version = new Label(version);
+                        Label selectedPL_Compiler=new Label(needcompiler);
+                        Label selectedPL_Compileİns = new Label(compileIns);
+                        Label selectedPL_Runİns=new Label(RunIns);
+                        Label selectedPL_VersionCheck=new Label(versionCheck);
+                        Label selectedPL_VersionExtractPattern=new Label(pattern);
+
+
+
+                        PLGrid.addRow(1,ProgLangName,selectedPL_Name );
+                        PLGrid.addRow(2,ProgLangVersion,selectedPL_Version);
+                        PLGrid.addRow(3,ProgLangNeedCompiler,selectedPL_Compiler);
+                        PLGrid.addRow(4,ProgLangCompileİns,selectedPL_Compileİns);
+                        PLGrid.addRow(5,ProgLangRunİns,selectedPL_Runİns);
+                        PLGrid.addRow(6,ProgLangVersionCheck,selectedPL_VersionCheck);
+                        PLGrid.addRow(7,ProgLangVersionExtractPattern,selectedPL_VersionExtractPattern);
+
+
+
+                }
+        }
 
 
 
