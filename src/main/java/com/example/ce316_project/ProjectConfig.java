@@ -12,18 +12,15 @@ public class ProjectConfig {
     private int lecture_id;
     private int programming_language_id;
     private String main_file_format;
-
-    private ArrayList<String> attributes;
     private ImageView image;
 
-    public ProjectConfig(int id, String title, String description, int lecture_id, int programming_language_id, String main_file_format, ArrayList<String> attributes, ImageView image) {
+    public ProjectConfig(int id, String title, String description, int lecture_id, int programming_language_id, String main_file_format, ImageView image) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.lecture_id = lecture_id;
         this.programming_language_id = programming_language_id;
         this.main_file_format = main_file_format;
-        this.attributes = attributes;
         this.image = image;
     }
 
@@ -73,14 +70,6 @@ public class ProjectConfig {
 
     public void setMain_file_format(String main_file_format) {
         this.main_file_format = main_file_format;
-    }
-
-    public ArrayList<String> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(ArrayList<String> attributes) {
-        this.attributes = attributes;
     }
 
     public ImageView getImage() {
