@@ -14,9 +14,8 @@ public class ProjectConfig {
     private String main_file_format;
 
     private ArrayList<String> attributes;
-    private ImageView image;
 
-    public ProjectConfig(int id, String title, String description, int lecture_id, int programming_language_id, String main_file_format, ArrayList<String> attributes, ImageView image) {
+    public ProjectConfig(int id, String title, String description, int lecture_id, int programming_language_id, String main_file_format, ArrayList<String> attributes) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -24,7 +23,7 @@ public class ProjectConfig {
         this.programming_language_id = programming_language_id;
         this.main_file_format = main_file_format;
         this.attributes = attributes;
-        this.image = image;
+
     }
 
     public int getId() {
@@ -83,11 +82,4 @@ public class ProjectConfig {
         this.attributes = attributes;
     }
 
-    public ImageView getImage() {
-        return image;
-    }
-
-    public void setImage(ImageView image) {
-        this.image = image;
-    }
 }
