@@ -13,8 +13,8 @@ public class DBConnector {
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject,
             getPLConfig, getAllPLConfigIds,
-            getLectur, getProject,
-            deleteLectur, deleteLanguge, deleteProject;
+            getLectureConfig, getProjectConfig, getAllLectureConfigs, getAllProjectConfigs,
+            deleteLecture, deleteLanguge, deleteProject;
 
 
     DBConnector() {
@@ -65,8 +65,22 @@ public class DBConnector {
             getPLConfig = connection
                     .prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
 
+            getProjectConfig = connection.prepareStatement("SELECT * FROM Project WHERE PROJECT_ID = ?");
+
+            getLectureConfig = connection.prepareStatement("SELECT * FROM Lecture WHERE LECTURE_ID = ?");
+
             getAllPLConfigIds = connection
                     .prepareStatement("SELECT PLANGUAGE_ID FROM ProgrammingLanguage");
+
+            getAllLectureConfigs = connection.prepareStatement("SELECT LECTURE_ID FROM Lecture");
+
+            getAllProjectConfigs = connection.prepareStatement("SELECT PROJECT_ID FROM Project");
+
+            deleteLecture = connection.prepareStatement("DELETE FROM Lecture WHERE LECTURE_ID = ?");
+            deleteLanguge = connection.prepareStatement("DELETE FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
+            deleteProject = connection.prepareStatement("DELETE FROM Project WHERE PROJECT_ID = ?");
+
+
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -80,6 +94,29 @@ public class DBConnector {
         }
 
         return instance;
+    }
+
+    public void addProject(ProjectConfig project){
+        try {
+            int project_id = project.getId();
+            String title = project.getTitle();
+            String description = project.getDescription();
+            int lecture_id = project.getId();
+            int programming_language_id  = project.getProgramming_language_id();
+            String project_main_file_format = project.getMain_file_format();
+
+            insertProject.setInt(1, project_id);
+            insertProject.setString(2, title);
+            insertProject.setString(3, description);
+            insertProject.setInt(4, lecture_id);
+            insertProject.setInt(5, programming_language_id);
+            insertProject.setString(6, project_main_file_format);
+            insertProject.execute();
+
+        }catch (Exception e){
+            System.out.println(e);
+
+        }
     }
 
     public void addLecture(LectureConfig lecture) {
@@ -97,6 +134,7 @@ public class DBConnector {
             System.err.println(e);
         }
     }
+
     public void addPL(PLConfig language) {
         try {
             int id = language.getId();
@@ -127,6 +165,54 @@ public class DBConnector {
             System.out.println(e);
 
         }
+    }
+
+    public ProjectConfig getProjectConfigObject(int id) {
+        try {
+            getProjectConfig.setInt(1, id);
+            getPLConfig.execute();
+            ResultSet rs = getProjectConfig.executeQuery();
+            rs.next();
+
+            String title = rs.getString(2);
+            String description = rs.getString(3);
+            int lecture_id = rs.getInt(4);
+
+            int programming_language_id = rs.getInt(5);
+            String project_main_file_format = rs.getString(6);
+
+
+            ProjectConfig pConfig = new ProjectConfig(id, title, description, lecture_id, programming_language_id, project_main_file_format);
+
+            return pConfig;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public LectureConfig getLectureConfigObject(int id){
+        try {
+            getLectureConfig.setInt(1, id);
+            getPLConfig.execute();
+            ResultSet rs = getLectureConfig.executeQuery();
+            rs.next();
+
+            String lecture_name = rs.getString(2);
+            String lecturer = rs.getString(3);
+
+            LectureConfig lConfig = new LectureConfig(id, lecture_name,lecturer);
+
+            return lConfig;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+
     }
 
     public PLConfig getPLConfigObject(int id) {
@@ -163,6 +249,64 @@ public class DBConnector {
         return null;
     }
 
+    public ArrayList<LectureConfig> getAllLectureConfigObjects() {
+        ArrayList<LectureConfig> lectureList = new ArrayList<>();
+        try {
+            ResultSet rs = getAllLectureConfigs.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            try {
+                while (rs.next()) {
+                    int i = 1;
+                    while (i <= columnCount) {
+                        int id = rs.getInt(i++);
+                        LectureConfig config = getLectureConfigObject(id);
+                        lectureList.add(config);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            return lectureList;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return lectureList;
+    }
+
+    public ArrayList<ProjectConfig> getAllProjectConfigObjects(){
+        ArrayList<ProjectConfig> configList = new ArrayList<>();
+        try {
+            ResultSet rs = getAllProjectConfigs.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            try {
+                while (rs.next()) {
+                    int i = 1;
+                    while (i <= columnCount) {
+                        int id = rs.getInt(i++);
+                        ProjectConfig config = getProjectConfigObject(id);
+                        configList.add(config);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            return configList;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return configList;
+    }
+
+
+
     public ArrayList<PLConfig> getAllPLConfigObjects() {
         ArrayList<PLConfig> configList = new ArrayList<>();
         try {
@@ -190,6 +334,43 @@ public class DBConnector {
 
         return configList;
     }
+
+    public void deleteLectureObject(int id) {
+        try {
+            deleteLecture.setInt(1, id);
+            deleteLecture.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deletePLanguageObject(int id){
+        try {
+            deleteLanguge.setInt(1, id);
+            deleteLanguge.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteProjectObject(int id){
+        try {
+            deleteProject.setInt(1, id);
+            deleteProject.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void updateLecture(LectureConfig newLecture) {
+        String oldResumid = newResume.getName();
+        deleteResume(oldResumeName);
+        addResume(newResume);
+    }
+
+
+
+
 
 
 }

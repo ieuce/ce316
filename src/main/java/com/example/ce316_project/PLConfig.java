@@ -116,7 +116,7 @@ public class PLConfig{
     }
 
     public static void main(String[] args) {
-        PLConfig config = null;
+       PLConfig config = null;
         ExecuteStatus output = null;
 
         // JAVA
@@ -146,6 +146,9 @@ public class PLConfig{
             System.out.println("Success: " + output.getSuccess());
             System.out.println("Output: " + output.getOutput());
         }
+
+
+
     }
 
     public String getVersionString() {

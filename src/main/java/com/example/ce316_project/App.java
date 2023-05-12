@@ -29,6 +29,8 @@ public class App extends Application {
 
     public static void main(String[] args) {
         DBConnector db = DBConnector.getInstance();
+        ProjectConfig proje = new ProjectConfig(31,"otuzbirciler","allah yok",32,33,"sa000");
+        db.addProject(proje);
         /*LectureConfig ce316 = new LectureConfig(316,"CE316","İlker Korkmaz");
         db.addLecture(ce316);*/
 
