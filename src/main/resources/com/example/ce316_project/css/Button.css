@@ -1,0 +1,21 @@
+
+    .button {
+    -fx-background-color: transparent;
+    -fx-border-radius:50%;
+    -fx-text-overrun: clip;
+
+
+
+    }
+    .button:hover {
+     -fx-background-color: #c5d6f5 ;
+    }
+    .button:pressed{
+     -fx-background-color: #90bbff;
+        }
+
+
+
+
+
+

@@ -1,5 +1,7 @@
 package com.example.ce316_project;
 
+
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -172,3 +174,12 @@ public class PLConfig{
         return versionExtractPattern;
     }
 }
+
+    //convert pattern's regex as string
+    /*
+    Pattern pattern = Pattern.compile("[a-z]+\\d+");
+    String patternString = pattern.pattern(); // converts pattern to string
+     */
+
+
+

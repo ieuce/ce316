@@ -5,11 +5,14 @@ public class LectureConfig {
     private String lecture_Name;
     private String lecturer_Name;
 
+
     public LectureConfig(int lecture_id, String lecture_Name, String lecturer_Name) {
         this.lecture_id = lecture_id;
         this.lecture_Name = lecture_Name;
         this.lecturer_Name = lecturer_Name;
+
     }
+
 
     public int getLecture_id() {
         return lecture_id;
