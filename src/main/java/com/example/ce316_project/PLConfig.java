@@ -179,7 +179,6 @@ public class PLConfig{
             System.out.println("Output: " + output.getOutput());
         }
 
-
         if (config != null) {
             File file = new File("sample_files/example.java");
 
@@ -219,6 +218,14 @@ public class PLConfig{
             double score = (double) correctAnswers / inputs.size() * 100;
             System.out.println("Overall Score: " + score);
         }
+
+        ProjectConfig CE316 = new ProjectConfig(31,"Çakma IDE","Proje kodlarını çalıştıran bir uyg",316,31,"JAVA");
+        ProjectConfig CE317 = new ProjectConfig(433,"CV Database","CV depolayan uyg",302,32,"JAVA");
+        DBConnector db = new DBConnector();
+        db.updateProject(CE317);
+
+
+
 
 
     }
