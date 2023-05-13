@@ -676,10 +676,11 @@ public void openPLScreen() {
         PLGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
 
         // TODO : Database daha yazılmadı ben şimdiden koydum
-                for (int i = 0; i < DBConnector.getInstance().getAllPLConfigObjects().size(); i++) {
-                        ProgrammingLanguageList.add(new TableShow(DBConnector.getInstance().getPLConfigObject(i).getName(),
-                                new ImageView(image),new ImageView(image2)));
-                }
+        ArrayList<PLConfig> plconfigs = DBConnector.getInstance().getAllPLConfigObjects();
+        for (PLConfig plconfig : plconfigs) {
+                ProgrammingLanguageList.add(new TableShow(plconfig.getName(),
+                        new ImageView(image),new ImageView(image2)));
+        }
 
         // ProgrammingLanguageList.add(new TableShow("Python",new ImageView(image),new ImageView(image2)));
         // ProgrammingLanguageList.add(new TableShow("Java",new ImageView(image),new ImageView(image2)));
