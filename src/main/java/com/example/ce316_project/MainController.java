@@ -72,6 +72,10 @@ public class MainController {
 
         @FXML
         private Button GoToAddPLButton;
+        @FXML
+        private Button StudentOpenZip;
+        @FXML
+        private Button StudentRun;
 
         @FXML
         private Button GoToAddProjectButton;
@@ -84,12 +88,16 @@ public class MainController {
 
         @FXML
         private GridPane LectureGrid;
+        @FXML
+        private GridPane StudentGrid;
 
         @FXML
         private TableColumn LectureNameColumn;
 
         @FXML
         private TableView LectureTableView;
+        @FXML
+        private TableView StudentTableView;
 
         @FXML
         private TableColumn LectureTrashColumn;
@@ -275,7 +283,7 @@ public class MainController {
                         }
                 });*/
 
-               openLectureScreen();
+              openLectureScreen();
 
 
 
@@ -584,7 +592,7 @@ public class MainController {
 
 
 
-/*
+
         @FXML
         public void selectFromProjectTable() throws SQLException, IOException {
                 if (ProjectTableView.getSelectionModel().getSelectedCells() == null ||
@@ -606,7 +614,7 @@ public class MainController {
                 } else {
 
 
-                        ProjectConfig Project = DBConnector.getInstance().getProject(ProjectName);
+                        ProjectConfig Project = DBConnector.getInstance().getPConfigObject(index);
 
 
 
@@ -645,7 +653,7 @@ public class MainController {
                 }
         }
 
-*/
+
 @FXML
 public void openPLScreen() {
         LecturesHBox.setVisible(false);
@@ -681,9 +689,7 @@ public void openPLScreen() {
                                 new ImageView(image),new ImageView(image2)));
                 }
 
-        // ProgrammingLanguageList.add(new TableShow("Python",new ImageView(image),new ImageView(image2)));
-        // ProgrammingLanguageList.add(new TableShow("Java",new ImageView(image),new ImageView(image2)));
-        // ProgrammingLanguageList.add(new TableShow("JavaScript",new ImageView(image),new ImageView(image2)));
+
         PLTableView.setItems(ProgrammingLanguageList);
 
 }
@@ -871,6 +877,51 @@ public void openPLScreen() {
 
 
                 }
+        }
+        @FXML
+        public void openStudentScreen() {
+                LecturesHBox.setVisible(true);
+                ProjectsHBox.setVisible(false);
+                LecturesHBox.setEffect(null);
+                PL_HBox.setVisible(false);
+                AddProjectBox.setVisible(false);
+                AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(false);
+
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(true);
+                thirdEllipses.setVisible(false);
+
+                String path = "images/trash.png";
+                String path2="images/GO.png";
+
+                Image image = new Image(getClass().getResource(path).toExternalForm());
+                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
+
+                ObservableList<TableShow> LectureList = FXCollections
+                        .observableArrayList();
+
+                LectureNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
+
+
+                LectureTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
+
+                LectureGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
+
+
+                // TODO : Database daha yazılmadı ben şimdiden koydum
+                for (int i = 1; i <= DBConnector.getInstance().getAllLectureConfigObjects().size(); i++) {
+                        LectureList.add(new TableShow(DBConnector.getInstance().getLectureConfigObject(i).getLecture_Name(),new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
+                }
+
+
+                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
+                //LectureList.add(new TableShow("ce326",new ImageView(image),new ImageView(image2)));
+                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
+                LectureTableView.setItems(LectureList);
+
+
+
         }
 
 

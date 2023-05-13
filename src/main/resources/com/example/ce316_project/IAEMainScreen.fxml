@@ -264,7 +264,7 @@
                             <children>
                                 <StackPane prefHeight="510.0" prefWidth="802.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <HBox fx:id="LecturesHBox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0" StackPane.alignment="CENTER">
+                                        <HBox fx:id="LecturesHBox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0" visible="false" StackPane.alignment="CENTER">
                                             <children>
                                                 <VBox fx:id="originalResumeVBox" alignment="TOP_CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                                     <children>
@@ -483,9 +483,121 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox fx:id="PL_HBox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0" visible="false">
+                              <HBox fx:id="StudentsHbox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0">
                                  <children>
                                     <VBox fx:id="originalResumeVBox2" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="26.0" prefWidth="500.0" spacing="40.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="368.0" style="-fx-font-size: 24;" text="Students Performance" textFill="#070707">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <Button fx:id="GoToAddPLButton" mnemonicParsing="false" onAction="#openAddProgLangScreen" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-color: transparent; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;">
+                                                   <graphic>
+                                                      <ImageView fitHeight="25.0" fitWidth="25.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@images/add.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </Button>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <TableView fx:id="StudentTableView" onMouseClicked="#selectFromStudentTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
+                                             <columns>
+                                                <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Column X" />
+                                                <TableColumn fx:id="PLNameColumn" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
+                                                <TableColumn fx:id="PLTrashColumn" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
+                                                <TableColumn fx:id="PLGoColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
+                                             </columns>
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                          </TableView>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <padding>
+                                          <Insets top="100.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox fx:id="drawerLong1" alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="700.0" prefWidth="401.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="132.0" prefWidth="362.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <Button fx:id="leftBarButton1" mnemonicParsing="false" prefWidth="48.0" style="-fx-background-color: transparent;" />
+                                                <Label prefHeight="60.0" prefWidth="283.0" text="Actions :" textFill="#2200ff" wrapText="true" HBox.hgrow="ALWAYS">
+                                                   <font>
+                                                      <Font size="36.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="-12.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="BASELINE_LEFT" prefHeight="80.0" prefWidth="285.0" spacing="20.0" VBox.vgrow="NEVER">
+                                             <VBox.margin>
+                                                <Insets top="100.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="80.0" prefWidth="443.0" styleClass="button2" stylesheets="@css/Button.css" text="Upload and Run your Zip file" textFill="#cd0b0b">
+                                                   <graphic>
+                                                      <ImageView fitHeight="73.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@images/Runİcon.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="BOTTOM_LEFT" prefWidth="266.0" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets left="-10.0" />
+                                             </padding>
+                                          </HBox>
+                                          <HBox alignment="BOTTOM_LEFT" prefWidth="266.0">
+                                             <children>
+                                                <Button mnemonicParsing="false" prefWidth="48.0" style="-fx-background-color: transparent;">
+                                                   <graphic>
+                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@images/help.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </Button>
+                                             </children>
+                                             <padding>
+                                                <Insets left="-10.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="PL_HBox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0" visible="false">
+                                 <children>
+                                    <VBox fx:id="originalResumeVBox21" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <HBox alignment="CENTER" prefHeight="26.0" prefWidth="500.0" spacing="40.0" VBox.vgrow="NEVER">
                                              <children>
@@ -514,9 +626,9 @@
                                           <TableView fx:id="PLTableView" onMouseClicked="#selectFromPLTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
                                              <columns>
                                                 <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Column X" />
-                                                <TableColumn fx:id="PLNameColumn" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
-                                                <TableColumn fx:id="PLTrashColumn" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
-                                                <TableColumn fx:id="PLGoColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
+                                                <TableColumn fx:id="PLNameColumn1" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
+                                                <TableColumn fx:id="PLTrashColumn1" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
+                                                <TableColumn fx:id="PLGoColumn1" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
                                              </columns>
                                              <VBox.margin>
                                                 <Insets bottom="20.0" />
@@ -540,14 +652,14 @@
                                                 <Insets top="5.0" />
                                              </VBox.margin>
                                           </HBox>
-                                          <VBox fx:id="generatedResumeVBox2" alignment="BOTTOM_CENTER" style="-fx-background-color: white; -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
+                                          <VBox fx:id="generatedResumeVBox21" alignment="BOTTOM_CENTER" style="-fx-background-color: white; -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <VBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                    <children>
-                                                      <ScrollPane fx:id="generatedResumeScrollPane3" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="393.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+                                                      <ScrollPane fx:id="generatedResumeScrollPane31" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="393.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                                                          <content>
                                                             <GridPane fx:id="PLGrid" alignment="CENTER" prefHeight="615.0" prefWidth="404.0" stylesheets="@css/Gridpane.css">
                                                                <columnConstraints>
