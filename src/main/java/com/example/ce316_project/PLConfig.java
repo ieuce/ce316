@@ -286,10 +286,14 @@ public class PLConfig{
             System.out.println("Overall Score: " + score);
         }
 
+        DBConnector db = new DBConnector();
         ProjectConfig CE316 = new ProjectConfig(31,"Çakma IDE","Proje kodlarını çalıştıran bir uyg",316,31,"JAVA");
         ProjectConfig CE317 = new ProjectConfig(433,"CV Database","CV depolayan uyg",302,32,"JAVA");
-        DBConnector db = new DBConnector();
-        db.updateProject(CE317);
+        Grade ouz = new Grade(3,32,201,100);
+        Evolution oğuz = new Evolution(12,32,"selam","aleykümselam");
+        db.addGrade(ouz);
+        db.addEvolution(oğuz);
+
 
 
 

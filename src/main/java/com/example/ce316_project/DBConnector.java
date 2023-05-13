@@ -11,7 +11,7 @@ public class DBConnector {
     private final String fileName;
     private Connection connection;
 
-    private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject,
+    private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvolution,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
             getLectureConfig, getProjectConfig,
             getLecture,getPL, deleteLecture, deleteLanguge, deleteProject;;
@@ -52,6 +52,19 @@ public class DBConnector {
                         "PROJECT_PROGRAMMING_LANGUAGE_ID INTEGER," +
                         "PROJECT_MAIN_FILE_FORMAT TEXT)");
 
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Grade_Table (" +
+                        "ID INTEGER PRIMARY KEY," +
+                        "PROJECT_ID INTEGER," +
+                        "STUDENT_ID INTEGER," +
+                        "GRADE INTEGER)");
+
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Evolution_Table (" +
+                        "ID INTEGER PRIMARY KEY," +
+                        "PROJECT_ID INTEGER," +
+                        "P_INPUT TEXT," +
+                        "P_OUTPUT TEXT)");
+
+
                 System.out.println("Tables have Created!!");
             }
 
@@ -61,6 +74,11 @@ public class DBConnector {
                     .prepareStatement("INSERT INTO ProgrammingLanguage (PLANGUAGE_ID, PLANGUAGE_NAME, PLANGUAGE_VERSIONSTRING, PLANGUAGE_NEEDCOMPILER, PLANGUAGE_COMPILEINSSTRING, PLANGUAGE_RUNINSSTRING, PLANGUAGE_VERSIONCHECKCOMMAND, PLANGUAGE_VERSIONEXTRACTPATTERN) VALUES (?,?,?,?,?,?,?,?)");
             insertProject = connection
                     .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
+
+            insertEvolution = connection.prepareStatement("INSERT INTO Evolution_Table (ID, PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?,?)");
+
+            insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(ID, PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?,?)");
+
 
             getPLConfig = connection
                     .prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
@@ -121,6 +139,42 @@ public class DBConnector {
         } catch (Exception e) {
             System.err.println(e);
         }
+    }
+
+    public void addGrade(Grade grade){
+        try {
+            int id = grade.getId();
+            int prjojectid = grade.getProject_id();
+            int studentid = grade.getStudent_id();
+            int gradeint = grade.getGrade();
+
+            insertGrade.setInt(1,id);
+            insertGrade.setInt(2,prjojectid);
+            insertGrade.setInt(3,studentid);
+            insertGrade.setInt(4,gradeint);
+            insertGrade.execute();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+    }
+
+    public void addEvolution(Evolution evo){
+        try {
+            int id = evo.getId();
+            int prjojectid = evo.getProject_id();
+            String pinput = evo.getPinput();
+            String pout = evo.getPoutput();
+
+            insertGrade.setInt(1,id);
+            insertGrade.setInt(2,prjojectid);
+            insertGrade.setString(3,pinput);
+            insertGrade.setString(4,pout);
+            insertGrade.execute();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
     }
     public void addPL(PLConfig language) {
         try {
