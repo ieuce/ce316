@@ -1,17 +1,25 @@
 package com.example.ce316_project;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Objects;
 import java.util.regex.Pattern;
-import java.util.regex.Pattern;
-import javafx.application.Application;
-import javafx.scene.Scene;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -20,13 +28,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.*;
 
-import org.controlsfx.control.CheckListView;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.w3c.dom.Text;
 
 
 public class MainController {
@@ -249,6 +254,12 @@ public class MainController {
         @FXML
         private HBox thirdEllipses;
 
+
+        int lec_id = -1;
+        int pl_id = -1;
+        int project_id = -1;
+        int student_id = -1;
+
         public void initialize() throws SQLException, IOException {
                 firstEllipses.widthProperty().addListener((obs, oldVal, newVal) -> {
                         if (firstEllipses.getWidth() < 1400)
@@ -326,20 +337,12 @@ public class MainController {
 
                 LectureGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
 
-
-                // TODO : Database daha yazılmadı ben şimdiden koydum
-                for (int i = 1; i <= DBConnector.getInstance().getAllLectureConfigObjects().size(); i++) {
-                        LectureList.add(new TableShow(DBConnector.getInstance().getLectureConfigObject(i).getLecture_Name(),new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
+                
+                for(LectureConfig lecture_config: DBConnector.getInstance().getAllLectureConfigObjects()){
+                        LectureList.add(new TableShow(lecture_config.getLecture_id(), lecture_config.getLecture_Name(), new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
                 }
 
-
-                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
-                //LectureList.add(new TableShow("ce326",new ImageView(image),new ImageView(image2)));
-                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
                 LectureTableView.setItems(LectureList);
-
-
-
         }
 
 
@@ -424,11 +427,7 @@ public class MainController {
                         openLectureScreen();
                 } else if (selectedCells.get(0).getTableColumn().equals(LectureGoColumn)) {
                         LectureConfig Lecture = DBConnector.getInstance().getLecture(LectureName);
-                        int id=Lecture.getLecture_id();
-                        openProjectScreen(id);
-
-
-
+                        openProjectScreen(Lecture.getLecture_id());
                 } else {
 
 
@@ -464,9 +463,6 @@ public class MainController {
                 }
         }
 
-
-
-       int lec_id ;
        @FXML
         public void openProjectScreen(int id) {
                 LecturesHBox.setVisible(false);
@@ -481,7 +477,7 @@ public class MainController {
                 firstEllipses.setVisible(true);
                 secondEllipses.setVisible(false);
                 thirdEllipses.setVisible(false);
-                lec_id=id;
+                lec_id = id;
 
                 String path = "images/trash.png";
                 String path2="images/GO.png";
@@ -496,16 +492,17 @@ public class MainController {
                 ProjectTrashColumn.setCellValueFactory(new PropertyValueFactory<LectureConfig, ImageView>("image"));
                 ProjectGoColumn.setCellValueFactory(new PropertyValueFactory<LectureConfig, ImageView>("image2"));
 
-        try {
-                for (int i = 1; i <= DBConnector.getInstance().getAllPConfigObjects().size(); i++) {
-                        if(DBConnector.getInstance().getPConfigObject(i).getLecture_id()==id) {
+                try {
+                        ArrayList<ProjectConfig> projectConfigs = DBConnector.getInstance().getAllPConfigObjects();
+                        for (ProjectConfig projectConfig : projectConfigs) {
+                                if(projectConfig.getLecture_id()==id) {
 
-                                ProjectList.add(new TableShow(DBConnector.getInstance().getPConfigObject(i).getTitle(), new ImageView(image), new ImageView(image2)));
+                                        ProjectList.add(new TableShow(projectConfig.getId(), projectConfig.getTitle(), new ImageView(image), new ImageView(image2)));
+                                }
                         }
+                }catch (Exception e ){
+                        System.out.println("PROJEYİ ALAMADI DATABASE HATA VERDİ");
                 }
-        }catch (Exception e ){
-                System.out.println("PROJEYİ ALAMADI DATABASE HATA VERDİ");
-        }
 
                 ProjectTableView.setItems(ProjectList);
         }
@@ -513,9 +510,6 @@ public class MainController {
 
        @FXML
         public void openAddProjectScreen() {
-
-                System.out.println("Butona basıldı");
-
                 LecturesHBox.setVisible(false);
                 ProjectsHBox.setVisible(true);
                 PL_HBox.setVisible(false);
@@ -584,20 +578,23 @@ public class MainController {
                         String TempP_D=selectedProjectDescription.getText();
                         int TempL_ID =Integer.parseInt(selectedProjectL_ID.getText());
                         String TempM_F_F=selectedMain_File_Format.getText();
+                        
+                        ArrayList<Evaluation> evaluations = new ArrayList<>();
+                        Evaluation evaluation1 = new Evaluation(1, ProjectIDTEMP, "0", "0");
+                        Evaluation evaluation2 = new Evaluation(2, ProjectIDTEMP, "1 2 3", "6");
+                        Evaluation evaluation3 = new Evaluation(3, ProjectIDTEMP, "5 6 7", "18");
+                        Evaluation evaluation4 = new Evaluation(4, ProjectIDTEMP, "7 8 9", "24");
+                        evaluations.add(evaluation1);
+                        evaluations.add(evaluation2);
+                        evaluations.add(evaluation3);
+                        evaluations.add(evaluation4);
 
-                        ProjectConfig Project = new ProjectConfig(ProjectIDTEMP,Temp_PT,TempP_D,TempL_ID,TempPL_ID,TempM_F_F);
+                        ProjectConfig Project = new ProjectConfig(ProjectIDTEMP,Temp_PT,TempP_D,TempL_ID,TempPL_ID,TempM_F_F,evaluations);
                         DBConnector.getInstance().addProject(Project);
-
-
                         openProjectScreen(lec_id);
-
                 });
 
         }
-
-
-
-
 
         @FXML
         public void selectFromProjectTable() throws SQLException, IOException {
@@ -612,14 +609,15 @@ public class MainController {
                 String ProjectName = (String) ProjectNameColumn.getCellData(index);
                 ObservableList<TablePosition> selectedCells = ProjectTableView.getSelectionModel().getSelectedCells();
 
-
-
                 if (selectedCells.get(0).getTableColumn().equals(ProjectTrashColumn)) {
                         //DBConnection.getInstance().deleteTemplate(templateName);
                         System.out.println(ProjectName);
                         // fillTableViews();
                 } else if (selectedCells.get(0).getTableColumn().equals(ProjectGoColumn)) {
-                        openStudentScreen();
+                        ObservableList<TableShow> ts_list = ProjectTableView.getSelectionModel().getSelectedItems();
+                        TableShow ts = ts_list.get(0);
+                        project_id = ts.getId();
+                        openStudentScreen(project_id);
 
                 } else {
 
@@ -704,7 +702,7 @@ public void openPLScreen() {
         // TODO : Database daha yazılmadı ben şimdiden koydum
         ArrayList<PLConfig> plconfigs = DBConnector.getInstance().getAllPLConfigObjects();
         for (PLConfig plconfig : plconfigs) {
-                ProgrammingLanguageList.add(new TableShow(plconfig.getName(),
+                ProgrammingLanguageList.add(new TableShow(plconfig.getId(), plconfig.getName(),
                         new ImageView(image),new ImageView(image2)));
         }
 
@@ -898,7 +896,7 @@ public void openPLScreen() {
                 }
         }
         @FXML
-        public void openStudentScreen() {
+        public void openStudentScreen(int id) {
                 LecturesHBox.setVisible(false);
                 ProjectsHBox.setVisible(false);
                 LecturesHBox.setEffect(null);
@@ -930,14 +928,11 @@ public void openPLScreen() {
 
 
                 // TODO : Database daha yazılmadı ben şimdiden koydum
-                for (int i = 1; i <= DBConnector.getInstance().getAllLectureConfigObjects().size(); i++) {
-                        LectureList.add(new TableShow(DBConnector.getInstance().getLectureConfigObject(i).getLecture_Name(),new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
+                ArrayList<LectureConfig> lecture_configs = DBConnector.getInstance().getAllLectureConfigObjects();
+                for (LectureConfig lecture_config : lecture_configs) {
+                        LectureList.add(new TableShow(lecture_config.getLecture_id(), lecture_config.getLecture_Name(),new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
                 }
 
-
-                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
-                //LectureList.add(new TableShow("ce326",new ImageView(image),new ImageView(image2)));
-                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
                 LectureTableView.setItems(LectureList);
 
 
@@ -968,5 +963,88 @@ public void openPLScreen() {
                         longDrawer();
                 } else
                         shortDrawer();
+        }
+
+        @FXML
+        public void uploadAndRunZIP(){
+                ProjectConfig project_config = DBConnector.getInstance().getPConfigObject(project_id);
+                int pl_config_id = project_config.getProgramming_language_id();
+                PLConfig pl_config = DBConnector.getInstance().getPLConfigObject(pl_config_id);
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Projects' ZIP File (projects.zip)");
+                File file = fileChooser.showOpenDialog(null);
+                if (file != null) {
+                        System.out.println(file.getAbsolutePath());
+                        String destinationPath = "src/main/resources/student_performances/project-"+String.valueOf(project_config.getId());
+                        extractZipFile(file, new File(destinationPath));
+
+                        File directory = new File(destinationPath+"/projects");
+                        File[] folders = directory.listFiles(File::isDirectory);
+                        
+                        if (folders != null) {
+                                for (File folder : folders) {
+                                        String folderName = folder.getName();
+                                        double score = pl_config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+project_config.getMain_file_format()), project_config.getEvaluations(), false);
+                                        if(Double.isNaN(score)){
+                                                score=0;
+                                        }
+                                        System.out.println("Score for "+folderName+" is "+score);
+                                }
+                        }
+
+                        try {
+                                Path folder = Path.of(destinationPath);
+                                Files.walkFileTree(folder, new SimpleFileVisitor<>() {
+                                        @Override
+                                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                                                Files.delete(file);
+                                                return FileVisitResult.CONTINUE;
+                                        }
+                        
+                                        @Override
+                                        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                                                Files.delete(dir);
+                                                return FileVisitResult.CONTINUE;
+                                        }
+                                });
+                                
+                                System.out.println("Folder removed successfully.");
+                        } catch (IOException e) {
+                                System.out.println("Error removing folder: " + e.getMessage());
+                        }
+                }
+        }
+
+        private void extractZipFile(File zipFile, File outputDirectory) {
+                try {
+                        ZipFile zip = new ZipFile(zipFile);
+                        Enumeration<? extends ZipEntry> entries = zip.entries();
+                        
+                        byte[] buffer = new byte[1024];
+                        while (entries.hasMoreElements()) {
+                        ZipEntry entry = entries.nextElement();
+                        File entryFile = new File(outputDirectory, entry.getName());
+                        
+                        if (entry.isDirectory()) {
+                                entryFile.mkdirs();
+                        } else {
+                                entryFile.getParentFile().mkdirs();
+                                InputStream inputStream = zip.getInputStream(entry);
+                                FileOutputStream outputStream = new FileOutputStream(entryFile);
+                                int length;
+                                while ((length = inputStream.read(buffer)) > 0) {
+                                outputStream.write(buffer, 0, length);
+                                }
+                                outputStream.close();
+                                inputStream.close();
+                        }
+                        }
+                        
+                        zip.close();
+                        System.out.println("Extraction completed successfully.");
+                } catch (IOException e) {
+                        System.out.println("Error extracting zip file: " + e.getMessage());
+                }
         }
 }

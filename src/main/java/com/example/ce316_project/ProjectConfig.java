@@ -11,17 +11,18 @@ public class ProjectConfig {
     private String description;
     private int lecture_id;
     private int programming_language_id;
-    private String main_file_format;
+    private String main_filename_format;
+    private ArrayList<Evaluation> evaluations;
 
 
-    public ProjectConfig(int id, String title, String description, int lecture_id, int programming_language_id, String main_file_format) {
+    public ProjectConfig(int id, String title, String description, int lecture_id, int programming_language_id, String main_filename_format, ArrayList<Evaluation> evaluations) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.lecture_id = lecture_id;
         this.programming_language_id = programming_language_id;
-        this.main_file_format = main_file_format;
-
+        this.main_filename_format = main_filename_format;
+        this.evaluations = evaluations;
     }
 
     public int getId() {
@@ -65,11 +66,19 @@ public class ProjectConfig {
     }
 
     public String getMain_file_format() {
-        return main_file_format;
+        return main_filename_format;
     }
 
     public void setMain_file_format(String main_file_format) {
-        this.main_file_format = main_file_format;
+        this.main_filename_format = main_file_format;
+    }
+
+    public ArrayList<Evaluation> getEvaluations() {
+        return evaluations;
+    }
+
+    public void setEvaluations(ArrayList<Evaluation> evaluations) {
+        this.evaluations = evaluations;
     }
 
 }

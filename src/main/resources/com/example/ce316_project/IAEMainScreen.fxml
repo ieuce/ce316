@@ -541,7 +541,7 @@
                                                 <Insets top="100.0" />
                                              </VBox.margin>
                                              <children>
-                                                <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="80.0" prefWidth="443.0" styleClass="button2" stylesheets="@css/Button.css" text="Upload and Run your Zip file" textFill="#cd0b0b">
+                                                <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#uploadAndRunZIP" prefHeight="80.0" prefWidth="443.0" styleClass="button2" stylesheets="@css/Button.css" text="Upload and Run your Zip file" textFill="#cd0b0b">
                                                    <graphic>
                                                       <ImageView fitHeight="73.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>

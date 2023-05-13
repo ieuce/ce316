@@ -13,8 +13,8 @@ public class DBConnector {
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
-            getLectureConfig, getProjectConfig,
-            getLecture,getPL, deleteLecture, deleteLanguge, deleteProject;;
+            getLectureConfig, getProjectConfig, getEvaluations,
+            getLecture,getPL, deleteLecture, deleteLanguge, deleteProject;
 
 
     DBConnector() {
@@ -58,7 +58,7 @@ public class DBConnector {
                         "STUDENT_ID INTEGER," +
                         "GRADE INTEGER)");
 
-                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Evolution_Table (" +
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Evaluation_Table (" +
                         "ID INTEGER PRIMARY KEY," +
                         "PROJECT_ID INTEGER," +
                         "P_INPUT TEXT," +
@@ -75,7 +75,7 @@ public class DBConnector {
             insertProject = connection
                     .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
 
-            insertEvaluation = connection.prepareStatement("INSERT INTO Evolution_Table (ID, PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?,?)");
+            insertEvaluation = connection.prepareStatement("INSERT INTO Evaluation_Table (ID, PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?,?)");
 
             insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(ID, PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?,?)");
 
@@ -102,6 +102,8 @@ public class DBConnector {
             getLecture=connection.prepareStatement("SELECT * FROM LECTURE WHERE LECTURE_NAME = ?");
 
             getPL=connection.prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_NAME = ?");
+
+            getEvaluations=connection.prepareStatement("SELECT * FROM Evaluation_Table WHERE PROJECT_ID = ?");
 
 
             deleteLecture = connection.prepareStatement("DELETE FROM Lecture WHERE LECTURE_ID = ?");
@@ -159,7 +161,7 @@ public class DBConnector {
 
     }
 
-    public void addEvaluation(Evalution evo){
+    public void addEvaluation(Evaluation evo){
         try {
             int id = evo.getId();
             int prjojectid = evo.getProject_id();
@@ -217,15 +219,18 @@ public class DBConnector {
             int programming_language_id=project.getProgramming_language_id();
             String mainFileFormat=project.getMain_file_format();
 
-
             insertProject.setInt(1,project_id);
             insertProject.setString(2, title);
             insertProject.setString(3, description);
             insertProject.setInt(4,lecture_id);
             insertProject.setInt(5,programming_language_id);
             insertProject.setString(6,mainFileFormat);
-
             insertProject.execute();
+
+            ArrayList<Evaluation> evaluations = project.getEvaluations();
+            for(Evaluation evaluation : evaluations){
+                addEvaluation(evaluation);
+            }
 
         } catch (Exception e) {
             System.err.println(e);
@@ -402,9 +407,6 @@ public class DBConnector {
         return configList;
     }
 
-
-
-
     public ProjectConfig getPConfigObject(int id) {
         try {
             getProjectConfig.setInt(1, id);
@@ -415,14 +417,11 @@ public class DBConnector {
             String title = rs.getString(2);
             String description = rs.getString(3);
             int lectureId = rs.getInt(4);
-            ;
             int PlId = rs.getInt(5);
             String mainFileFormat = rs.getString(6);
 
-
-
-            ProjectConfig config = new ProjectConfig(id, title, description, lectureId, PlId, mainFileFormat);
-
+            ArrayList<Evaluation> evaluations = getEvaluationsObject(id);
+            ProjectConfig config = new ProjectConfig(id, title, description, lectureId, PlId, mainFileFormat, evaluations);
             return config;
 
         } catch (Exception e) {
@@ -430,6 +429,25 @@ public class DBConnector {
         }
 
         return null;
+    }
+
+    public ArrayList<Evaluation> getEvaluationsObject(int projectId) {
+        ArrayList<Evaluation> evaluations = new ArrayList<>();
+        try {
+            getEvaluations.setInt(1, projectId);
+            getEvaluations.execute();
+            ResultSet rs = getEvaluations.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String input = rs.getString(3);
+                String output = rs.getString(4);
+                Evaluation evaluation = new Evaluation(id, projectId, input, output);
+                evaluations.add(evaluation);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return evaluations;
     }
 
     public ArrayList<ProjectConfig> getAllPConfigObjects() {

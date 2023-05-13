@@ -124,13 +124,14 @@ public class PLConfig{
         return this.name;
     }
 
-    public double executeAndEvaluate(File file, ArrayList<String> inputs, ArrayList<String> expectedOutputs, boolean debug) {
-        int totalQuestions = inputs.size();
+    public double executeAndEvaluate(File file, ArrayList<Evaluation> evaluations, boolean debug) {
+        int totalQuestions = evaluations.size();
         int correctAnswers = 0;
 
         for (int i = 0; i < totalQuestions; i++) {
-            String input = inputs.get(i);
-            String expectedOutput = expectedOutputs.get(i);
+            Evaluation evaluation = evaluations.get(i);
+            String input = evaluation.getPinput();
+            String expectedOutput = evaluation.getPoutput();
 
             ExecuteStatus output = executeProgram(file, input, debug);
             String actualOutput = output.getOutput();
@@ -223,7 +224,7 @@ public class PLConfig{
         ProjectConfig CE316 = new ProjectConfig(31,"Çakma IDE","Proje kodlarını çalıştıran bir uyg",316,31,"JAVA");
         ProjectConfig CE317 = new ProjectConfig(433,"CV Database","CV depolayan uyg",302,32,"JAVA");
         Grade ouz = new Grade(3,32,201,100);
-        Evalution sa = new Evalution(123,321,"as","selamünaleykim");
+        Evaluation sa = new Evaluation(123,321,"as","selamünaleykim");
         //db.addGrade(ouz);
         db.addEvaluation(sa);
 
