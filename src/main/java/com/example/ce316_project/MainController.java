@@ -33,6 +33,12 @@ public class MainController {
 
         @FXML
         private Button AddAttribute;
+        @FXML
+        private Button SmallLectureButton;
+
+        @FXML
+        private Button SmallPLButton;
+
 
         @FXML
         private HBox AddLectureBox;
@@ -259,9 +265,6 @@ public class MainController {
                         generatedResumeScrollPane.setPrefHeight(allHbox.getHeight() - 200);
                 });
 
-                generatedResumeScrollPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-                        LectureGrid.setPrefWidth(generatedResumeScrollPane.getWidth());
-                });
               /*  LectureTableView.getSelectionModel().selectedItemProperty().addListener((observable,oldvalue,newValue) ->{
                         try {
                                 selectFromLectureTable();
@@ -272,7 +275,7 @@ public class MainController {
                         }
                 });*/
 
-                openLectureScreen();
+               openLectureScreen();
 
 
 
@@ -407,8 +410,11 @@ public class MainController {
                         System.out.println(LectureName);
                         openLectureScreen();
                 } else if (selectedCells.get(0).getTableColumn().equals(LectureGoColumn)) {
+                        LectureConfig Lecture = DBConnector.getInstance().getLecture(LectureName);
+                        int id=Lecture.getLecture_id();
+                        openProjectScreen(id);
 
-                       // openProjectScreen();
+
 
                 } else {
 
@@ -447,18 +453,25 @@ public class MainController {
 
 
 
-
+       int lec_id ;
        @FXML
-        public void openProjectScreen() {
-                LecturesHBox.setVisible(true);
-                ProjectsHBox.setVisible(false);
+        public void openProjectScreen(int id) {
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(true);
+                PL_HBox.setVisible(false);
+                AddProjectBox.setVisible(false);
+                AddPLBox.setVisible(false);
+                AddLectureBox.setVisible(false);
+                ProjectsHBox.setEffect(null);
 
                 firstEllipses.setVisible(true);
                 secondEllipses.setVisible(false);
                 thirdEllipses.setVisible(false);
+                lec_id=id;
 
                 String path = "images/trash.png";
                 String path2="images/GO.png";
+
 
                 Image image = new Image(getClass().getResource(path).toExternalForm());
                 Image image2 = new Image(getClass().getResource(path2).toExternalForm());
@@ -471,10 +484,10 @@ public class MainController {
 
         try {
                 for (int i = 1; i <= DBConnector.getInstance().getAllPConfigObjects().size(); i++) {
+                        if(DBConnector.getInstance().getPConfigObject(i).getLecture_id()==id) {
 
-                        ProjectList.add(new TableShow(DBConnector.getInstance().getPConfigObject(i).getTitle(), new ImageView(image), new ImageView(image2)));
-                        // new ImageView(image),new ImageView(image2)));
-                        //new ImageView(image),new ImageView(image2)));
+                                ProjectList.add(new TableShow(DBConnector.getInstance().getPConfigObject(i).getTitle(), new ImageView(image), new ImageView(image2)));
+                        }
                 }
         }catch (Exception e ){
                 System.out.println("PROJEYİ ALAMADI DATABASE HATA VERDİ");
@@ -487,14 +500,18 @@ public class MainController {
        @FXML
         public void openAddProjectScreen() {
 
+                System.out.println("Butona basıldı");
+
                 LecturesHBox.setVisible(false);
                 ProjectsHBox.setVisible(true);
+                PL_HBox.setVisible(false);
                 AddProjectBox.setVisible(true);
                 AddLectureBox.setVisible(false);
-
+                AddPLBox.setVisible(false);
                 firstEllipses.setVisible(false);
                 secondEllipses.setVisible(false);
                 thirdEllipses.setVisible(false);
+
                 BoxBlur blur = new BoxBlur();
                 blur.setWidth(10);
                 blur.setHeight(10);
@@ -510,7 +527,8 @@ public class MainController {
                 Label l2 = new Label(SatırsayısıtoString);
 
 
-                AddProjectGrid.addRow(0, l1, l2);
+                AddProjectGrid.add( l1,0,0 );
+               AddProjectGrid.add(l2,1,0);
 
                 Label ProjectTitleLabel = new Label("Project Title : ");
                 Label ProjectDescriptionLabel = new Label("Project Description : ");
@@ -522,16 +540,22 @@ public class MainController {
                 TextField selectedPL_ID=new TextField();
                 TextField selectedProjectTitle = new TextField();
                 TextField selectedProjectDescription=new TextField();
-                TextField selectedProjectL_ID = new TextField();
+                TextField selectedProjectL_ID = new TextField(Integer.toString(lec_id));
                 TextField selectedMain_File_Format=new TextField();
 
 
 
-                AddProjectGrid.addRow(1,ProjectTitleLabel,selectedProjectTitle);
-                AddProjectGrid.addRow(2,ProjectDescriptionLabel,selectedProjectDescription);
-                AddProjectGrid.addRow(3,ProjectLectureIDLabel,selectedProjectL_ID);
-                AddProjectGrid.addRow(4,ProjectPL_IDLabel,selectedPL_ID);
-                AddProjectGrid.addRow(5,Project_Main_File_Name_FormatLabel,selectedMain_File_Format);
+                AddProjectGrid.add(ProjectTitleLabel,0,1);
+                AddProjectGrid.add(ProjectDescriptionLabel,0,2);
+                AddProjectGrid.add(ProjectLectureIDLabel,0,3);
+                AddProjectGrid.add(ProjectPL_IDLabel,0,4);
+                AddProjectGrid.add(Project_Main_File_Name_FormatLabel,0,5);
+
+               AddProjectGrid.add(selectedProjectTitle,1,1);
+               AddProjectGrid.add(selectedProjectDescription,1,2);
+               AddProjectGrid.add(selectedProjectL_ID,1,3);
+               AddProjectGrid.add(selectedPL_ID,1,4);
+               AddProjectGrid.add(selectedMain_File_Format,1,5);
 
                 AddAttribute.setOnAction(event -> {
                         Label label = new Label("Arguments: ");
@@ -547,28 +571,13 @@ public class MainController {
                         int TempL_ID =Integer.parseInt(selectedProjectL_ID.getText());
                         String TempM_F_F=selectedMain_File_Format.getText();
 
-
                         ProjectConfig Project = new ProjectConfig(ProjectIDTEMP,Temp_PT,TempP_D,TempL_ID,TempPL_ID,TempM_F_F);
                         DBConnector.getInstance().addProject(Project);
 
-                        LecturesHBox.setEffect(null);
-                        AddLectureBox.setVisible(false);
-                        LecturesHBox.setVisible(true);
 
-                        for (Node node : AddProjectGrid.getChildren()) {
-                                if (node instanceof Label) {
-                                        Label label = (Label) node;
-                                        label.setText("");
-                                }
-                        }
+                        openProjectScreen(lec_id);
 
                 });
-
-
-
-
-
-
 
         }
 
