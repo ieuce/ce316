@@ -1,5 +1,6 @@
 package com.example.ce316_project;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javafx.collections.FXCollections;
@@ -101,6 +103,15 @@ public class MainController {
         private TableView LectureTableView;
         @FXML
         private TableView StudentTableView;
+
+        @FXML
+        private TableColumn StudentNameColumn;
+
+        @FXML
+        private TableColumn StudentTrashColumn;
+
+        @FXML
+        private TableColumn StudentGoColumn;
 
         @FXML
         private TableColumn LectureTrashColumn;
@@ -602,23 +613,23 @@ public class MainController {
         @FXML
         public void selectFromProjectTable() throws SQLException, IOException {
 
-                if (ProjectTableView.getSelectionModel().getSelectedCells() == null ||
-                        ProjectTableView.getSelectionModel().getSelectedIndex() == -1) {
+                if (StudentTableView.getSelectionModel().getSelectedCells() == null ||
+                        StudentTableView.getSelectionModel().getSelectedIndex() == -1) {
                         return;
                 }
 
-                int index = ProjectTableView.getSelectionModel().getSelectedIndex();
+                int index = StudentTableView.getSelectionModel().getSelectedIndex();
 
-                String ProjectName = (String) ProjectNameColumn.getCellData(index);
-                ObservableList<TablePosition> selectedCells = ProjectTableView.getSelectionModel().getSelectedCells();
+                String StudentName = (String) StudentNameColumn.getCellData(index);
+                ObservableList<TablePosition> selectedCells = StudentTableView.getSelectionModel().getSelectedCells();
 
 
 
-                if (selectedCells.get(0).getTableColumn().equals(ProjectTrashColumn)) {
+                if (selectedCells.get(0).getTableColumn().equals(StudentTrashColumn)) {
                         //DBConnection.getInstance().deleteTemplate(templateName);
-                        System.out.println(ProjectName);
+                        System.out.println(StudentName);
                         // fillTableViews();
-                } else if (selectedCells.get(0).getTableColumn().equals(ProjectGoColumn)) {
+                } else if (selectedCells.get(0).getTableColumn().equals(StudentGoColumn)) {
                         openStudentScreen();
 
                 } else {
@@ -935,16 +946,88 @@ public void openPLScreen() {
                 }
 
 
-                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
-                //LectureList.add(new TableShow("ce326",new ImageView(image),new ImageView(image2)));
-                //LectureList.add(new TableShow("ce316",new ImageView(image),new ImageView(image2)));
+            
                 LectureTableView.setItems(LectureList);
 
 
 
         }
-        @FXML
-        public void selectFromStudentTable(){}
+
+
+        public void selectFromStudentTable() throws SQLException, IOException {
+                if (StudentTableView.getSelectionModel().getSelectedCells() == null ||
+                        StudentTableView.getSelectionModel().getSelectedIndex() == -1) {
+                        return;
+                }
+
+                int index = StudentTableView.getSelectionModel().getSelectedIndex();
+
+                String ProgrammingLanguageName = (String) PLNameColumn.getCellData(index);
+
+
+                ObservableList<TablePosition> selectedCells = PLTableView.getSelectionModel().getSelectedCells();
+
+
+
+                if (selectedCells.get(0).getTableColumn().equals(PLTrashColumn)) {
+                        //DBConnection.getInstance().deleteTemplate(LectureName);
+                        System.out.println(ProgrammingLanguageName);
+                        //openLectureScreen();
+                } else if (selectedCells.get(0).getTableColumn().equals(PLGoColumn)) {
+
+                        // openProjectScreen();
+
+                } else {
+
+
+                        PLConfig ProgrammingLanguage = DBConnector.getInstance().getPL(ProgrammingLanguageName);
+                        ObservableList<Node> children = PLGrid.getChildren();
+                        children.clear();
+                        String TempID=Integer.toString(ProgrammingLanguage.getId());
+                        String TempName=ProgrammingLanguage.getName();
+                        String version=ProgrammingLanguage.getVersionString();
+                        String needcompiler=Boolean.toString(ProgrammingLanguage.isNeed_compiler());
+                        String compileIns = ProgrammingLanguage.getCompileInsString();
+                        String RunIns=ProgrammingLanguage.getRunInsString();
+                        String versionCheck=ProgrammingLanguage.getVersionCheckCommand();
+                        String pattern = ProgrammingLanguage.getVersionExtractPattern().toString();
+
+                        Label l1 = new Label("Programming Language ID :");
+
+                        Label l2 = new Label(TempID);
+
+                        PLGrid.addRow(0, l1, l2);
+
+                        Label ProgLangName = new Label("Programming Langugage Name  : ");
+                        Label ProgLangVersion = new Label("Programming Language Version  : ");
+                        Label ProgLangNeedCompiler = new Label("Need Compiler  : ");
+                        Label ProgLangCompileİns = new Label(" Compile İnstructions : ");
+                        Label ProgLangRunİns = new Label("Run İnstructions  : ");
+                        Label ProgLangVersionCheck = new Label("Version Check command  : ");
+                        Label ProgLangVersionExtractPattern = new Label("Version Extract Pattern  : ");
+
+                        Label selectedPL_Name=new Label(TempName);
+                        Label selectedPL_Version = new Label(version);
+                        Label selectedPL_Compiler=new Label(needcompiler);
+                        Label selectedPL_Compileİns = new Label(compileIns);
+                        Label selectedPL_Runİns=new Label(RunIns);
+                        Label selectedPL_VersionCheck=new Label(versionCheck);
+                        Label selectedPL_VersionExtractPattern=new Label(pattern);
+
+
+
+                        PLGrid.addRow(1,ProgLangName,selectedPL_Name );
+                        PLGrid.addRow(2,ProgLangVersion,selectedPL_Version);
+                        PLGrid.addRow(3,ProgLangNeedCompiler,selectedPL_Compiler);
+                        PLGrid.addRow(4,ProgLangCompileİns,selectedPL_Compileİns);
+                        PLGrid.addRow(5,ProgLangRunİns,selectedPL_Runİns);
+                        PLGrid.addRow(6,ProgLangVersionCheck,selectedPL_VersionCheck);
+                        PLGrid.addRow(7,ProgLangVersionExtractPattern,selectedPL_VersionExtractPattern);
+
+
+
+                }
+        }
 
 
 
@@ -968,5 +1051,16 @@ public void openPLScreen() {
                         longDrawer();
                 } else
                         shortDrawer();
+        }
+
+        @FXML
+        public void uploadAndRunZIP(){
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Resource File");
+                File file = fileChooser.showOpenDialog(new Stage());
+                if (file != null) {
+                        System.out.println(file.getAbsolutePath());
+                        //TODO : zip dosyasını açıp içindeki dosyaları klasöre çıkartıp run et
+                }
         }
 }
