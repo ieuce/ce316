@@ -60,11 +60,11 @@ public class Main2 {
 
         config = db.getPLConfigObject(0);
         ExecuteStatus output = null;
-        if(config != null){
+        /*if(config != null){
             output = config.executeProgram(new File("sample_files/example.py"), "1 2 3");
             System.out.println("Success: " + output.getSuccess());
             System.out.println("Output: " + output.getOutput());
-        }
+        }*/
 
         ArrayList<PLConfig> configs = db.getAllPLConfigObjects();
     }

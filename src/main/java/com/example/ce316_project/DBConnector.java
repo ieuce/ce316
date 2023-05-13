@@ -11,7 +11,7 @@ public class DBConnector {
     private final String fileName;
     private Connection connection;
 
-    private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation,
+    private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation, insertStudentTable,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
             getLectureConfig, getProjectConfig, getEvaluations,
             getLecture,getPL, deleteLecture, deleteLanguge, deleteProject;
@@ -64,6 +64,10 @@ public class DBConnector {
                         "P_INPUT TEXT," +
                         "P_OUTPUT TEXT)");
 
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Student_Table (" +
+                        "STUDENT_ID INTEGER PRIMARY KEY," +
+                        "STUDENT_NAME TEXT)");
+
 
                 System.out.println("Tables have Created!!");
             }
@@ -78,6 +82,8 @@ public class DBConnector {
             insertEvaluation = connection.prepareStatement("INSERT INTO Evaluation_Table (ID, PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?,?)");
 
             insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(ID, PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?,?)");
+
+            insertStudentTable = connection.prepareStatement("INSERT INTO Student_Table (STUDENT_ID,STUDENT_NAME) VALUES  (?,?)");
 
 
             getPLConfig = connection
@@ -140,6 +146,20 @@ public class DBConnector {
 
         } catch (Exception e) {
             System.err.println(e);
+        }
+    }
+
+    public void addStudent_Talbe(Student_Table st){
+        try {
+            int id = st.getId();
+            String name = st.getName();
+
+            insertStudentTable.setInt(1,id);
+            insertStudentTable.setString(2,name);
+            insertStudentTable.execute();
+
+        }catch (Exception e){
+            System.out.println(e);
         }
     }
 

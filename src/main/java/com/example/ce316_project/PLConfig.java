@@ -227,6 +227,10 @@ public class PLConfig{
         Evaluation sa = new Evaluation(123,321,"as","selamünaleykim");
         //db.addGrade(ouz);
         db.addEvaluation(sa);
+        Student_Table tabo = new Student_Table(223,"Oğuzha");
+        Student_Table kutsal = new Student_Table(202,"Kutsal");
+        db.addStudent_Talbe(tabo);
+        db.addStudent_Talbe(kutsal);
 
 
 
