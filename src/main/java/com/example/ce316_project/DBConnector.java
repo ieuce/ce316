@@ -11,7 +11,7 @@ public class DBConnector {
     private final String fileName;
     private Connection connection;
 
-    private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvolution,
+    private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
             getLectureConfig, getProjectConfig,
             getLecture,getPL, deleteLecture, deleteLanguge, deleteProject;;
@@ -75,7 +75,7 @@ public class DBConnector {
             insertProject = connection
                     .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
 
-            insertEvolution = connection.prepareStatement("INSERT INTO Evolution_Table (ID, PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?,?)");
+            insertEvaluation = connection.prepareStatement("INSERT INTO Evolution_Table (ID, PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?,?)");
 
             insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(ID, PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?,?)");
 
@@ -159,18 +159,18 @@ public class DBConnector {
 
     }
 
-    public void addEvolution(Evolution evo){
+    public void addEvaluation(Evalution evo){
         try {
             int id = evo.getId();
             int prjojectid = evo.getProject_id();
             String pinput = evo.getPinput();
             String pout = evo.getPoutput();
 
-            insertGrade.setInt(1,id);
-            insertGrade.setInt(2,prjojectid);
-            insertGrade.setString(3,pinput);
-            insertGrade.setString(4,pout);
-            insertGrade.execute();
+            insertEvaluation.setInt(1,id);
+            insertEvaluation.setInt(2,prjojectid);
+            insertEvaluation.setString(3,pinput);
+            insertEvaluation.setString(4,pout);
+            insertEvaluation.execute();
         }catch (Exception e){
             System.out.println(e);
         }
