@@ -34,9 +34,6 @@ public class PLConfig{
 
         this.versionCheck();
     }
-    public PLConfig() {
-
-    }
 
     private String extractVersion(String output) throws Exception{
         Matcher matcher = this.versionExtractPattern.matcher(output);
@@ -48,7 +45,7 @@ public class PLConfig{
     }
 
     private void versionCheck() throws Exception{
-        String output = this.runCommand(this.versionCheckCommand);
+        String output = this.runCommand(this.versionCheckCommand, true);
         output = this.extractVersion(output);
         System.out.println("Command output: " + output);
         if(this.versionString.equals(output)){
@@ -58,19 +55,23 @@ public class PLConfig{
         }
     }
 
-    public ExecuteStatus executeProgram(File file, String args){
+    public ExecuteStatus executeProgram(File file, String args, boolean debug){
         boolean success;
         String output = null;
         try{
             if(this.need_compiler){
                 String modifiedCompileString = this.compileInsString.replace("<PARENT_DIRECTORY>", file.getParentFile().getAbsolutePath()).replace("<FILENAME>", file.getName().split("\\.")[0]);
-                output = this.runCommand(modifiedCompileString);
-                System.out.println("Compile output: " + output);
+                output = this.runCommand(modifiedCompileString, debug);
+                if(debug){
+                    System.out.println("Compile output: " + output);
+                }
             }
             String modifiedRunString = this.runInsString.replace("<PARENT_DIRECTORY>", file.getParentFile().getAbsolutePath()).replace("<FILENAME>", file.getName().split("\\.")[0]);
             modifiedRunString = modifiedRunString.replace("<ARGS>", args);
-            output = this.runCommand(modifiedRunString);
-            System.out.println("Run output: " + output);
+            output = this.runCommand(modifiedRunString, debug);
+            if(debug){
+                System.out.println("Run output: " + output);
+            }
             success = true;
         }
         catch (Exception e) {
@@ -81,8 +82,10 @@ public class PLConfig{
         return new ExecuteStatus(this.id, this.name, output, success);
     }
 
-    private String runCommand(String command) throws Exception {
-        System.out.println("Running command: " + command);
+    private String runCommand(String command, boolean debug) throws Exception {
+        if(debug){
+            System.out.println("Running command: " + command);
+        }
         ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/C", command);
         Process process;
         try {
@@ -121,38 +124,7 @@ public class PLConfig{
         return this.name;
     }
 
-    public void inputData(int id, String name, String versionString, boolean need_compiler,
-                          String compileInsString, String runInsString, String versionCheckCommand,
-                          Pattern versionExtractPattern) throws Exception {
-        this.id = id;
-        this.name = name.trim();
-        this.versionString = versionString.trim();
-        this.need_compiler = need_compiler;
-        this.compileInsString = compileInsString;
-        this.runInsString = runInsString.trim();
-        this.versionCheckCommand = versionCheckCommand.trim();
-        this.versionExtractPattern = versionExtractPattern;
-
-        if (this.need_compiler && this.compileInsString == null) {
-            throw new Exception("Compiler instruction string cannot be null!");
-        }
-
-        this.versionCheck();
-    }
-
-    public void outputData() {
-        System.out.println("ID: " + this.id);
-        System.out.println("Name: " + this.name);
-        System.out.println("Version String: " + this.versionString);
-        System.out.println("Need Compiler: " + this.need_compiler);
-        System.out.println("Compile Instruction String: " + this.compileInsString);
-        System.out.println("Run Instruction String: " + this.runInsString);
-        System.out.println("Version Check Command: " + this.versionCheckCommand);
-        System.out.println("Version Extract Pattern: " + this.versionExtractPattern.pattern());
-    }
-
-
-    public double executeAndEvaluate(File file, ArrayList<String> inputs, ArrayList<String> expectedOutputs) {
+    public double executeAndEvaluate(File file, ArrayList<String> inputs, ArrayList<String> expectedOutputs, boolean debug) {
         int totalQuestions = inputs.size();
         int correctAnswers = 0;
 
@@ -160,15 +132,16 @@ public class PLConfig{
             String input = inputs.get(i);
             String expectedOutput = expectedOutputs.get(i);
 
-            ExecuteStatus output = executeProgram(file, input);
+            ExecuteStatus output = executeProgram(file, input, debug);
             String actualOutput = output.getOutput();
-
-            System.out.println("Input: " + input);
-            System.out.println("Expected Output: " + expectedOutput);
-            System.out.println("Actual Output: " + actualOutput);
-
             boolean success = actualOutput.trim().equals(expectedOutput.trim());
-            System.out.println("Success: " + success);
+            
+            if(debug){
+                System.out.println("Input: " + input);
+                System.out.println("Expected Output: " + expectedOutput);
+                System.out.println("Actual Output: " + actualOutput);
+                System.out.println("Success: " + success);
+            }
 
             if (success) {
                 correctAnswers++;
@@ -176,15 +149,15 @@ public class PLConfig{
         }
 
         double score = (double) correctAnswers / totalQuestions * 100;
-        System.out.println("Overall Score: " + score);
+
+        if(debug){
+            System.out.println("Correct Answers: " + correctAnswers);
+            System.out.println("Total Questions: " + totalQuestions);
+            System.out.println("Overall Score: " + score);
+        }
 
         return score;
     }
-
-
-
-
-
 
     public static void main(String[] args) {
         // Default variables.
@@ -192,58 +165,19 @@ public class PLConfig{
 
         ExecuteStatus output = null;
 
-        // JAVA
-        try {
-            config.inputData(0, "Java19", "19.0.2", true,
-                    "javac <PARENT_DIRECTORY>/<FILENAME>.java",
-                    "java -classpath <PARENT_DIRECTORY> <FILENAME> <ARGS>",
-                    "java --version",
-                    Pattern.compile("openjdk (\\d+\\.\\d+\\.\\d+\\+)"));
-            System.out.println("Config created: " + config.getName());
-        } catch (Exception e) {
-            System.out.println("Failed to create config: " + e.getMessage());
-        }
-
-        if (config != null) {
-            output = config.executeProgram(new File("sample_files/example.java"), "1 2 3");
-            System.out.println("Success: " + output.getSuccess());
-            System.out.println("Output: " + output.getOutput());
-        }
-
-
         // PYTHON
         try {
-            config = new PLConfig(1, "Python38", "3.11.3", false, null, "python <PARENT_DIRECTORY>/<FILENAME>.py <ARGS>", "python --version", Pattern.compile("Python (\\d+\\.\\d+\\.\\d+)"));
+            config = new PLConfig(1, "Python38", "3.8.5", false, null, "python <PARENT_DIRECTORY>/<FILENAME>.py <ARGS>", "python --version", Pattern.compile("Python (\\d+\\.\\d+\\.\\d+)"));
             System.out.println("Config created: " + config.getName());
         } catch (Exception e) {
             System.out.println("Failed to create config: " + e.getMessage());
         }
 
         if (config != null) {
-            output = config.executeProgram(new File("sample_files/example.py"), "1 2 3");
+            output = config.executeProgram(new File("sample_files/example.py"), "1 2 3", true);
             System.out.println("Success: " + output.getSuccess());
             System.out.println("Output: " + output.getOutput());
         }
-
-
-        try {
-            config.inputData(0, "Java19", "19.0.2", true,
-                    "javac <PARENT_DIRECTORY>/<FILENAME>.java",
-                    "java -classpath <PARENT_DIRECTORY> <FILENAME> <ARGS>",
-                    "java --version",
-                    Pattern.compile("openjdk (\\d+\\.\\d+\\.\\d+)"));
-            System.out.println("Config created: " + config.getName());
-        } catch (Exception e) {
-            System.out.println("Failed to create config: " + e.getMessage());
-        }
-
-        if (config != null) {
-            output = config.executeProgram(new File("sample_files/example.java"), "1 2 3");
-            System.out.println("Success: " + output.getSuccess());
-            System.out.println("Output: " + output.getOutput());
-        }
-
-        config.outputData();
 
 
         if (config != null) {
@@ -266,7 +200,7 @@ public class PLConfig{
             int correctAnswers = 0;
 
             for (int i = 0; i < inputs.size(); i++) {
-                ExecuteStatus status = config.executeProgram(file, inputs.get(i));
+                ExecuteStatus status = config.executeProgram(file, inputs.get(i), true);
                 String actualOutput = status.getOutput();
                 outputs.add(actualOutput);
 

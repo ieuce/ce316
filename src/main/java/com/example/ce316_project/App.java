@@ -10,6 +10,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.regex.Pattern;
@@ -34,7 +39,57 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        extractZipFile(new File("sample_files/PROJECTS.zip"), new File("src/main/resources/sample_files/projects"));
+        int projectID = 1;
+        String mainProgramFileName = "example.py";
+        ArrayList<String> inputs = new ArrayList<>();
+        inputs.add("0");
+        inputs.add("1 2 3");
+        inputs.add("5 6 7");
+        inputs.add("7 8 9");
+        ArrayList<String> expectedOutputs = new ArrayList<>();
+        expectedOutputs.add("0");
+        expectedOutputs.add("6");
+        expectedOutputs.add("18");
+        expectedOutputs.add("24");
+
+        DBConnector db = DBConnector.getInstance();
+        PLConfig config = db.getPLConfigObject(1);
+        String sourcePath = "sample_files/projects-2.zip";
+        String destinationPath = "src/main/resources/student_performances/project-"+String.valueOf(projectID);
+        extractZipFile(new File(sourcePath), new File(destinationPath));
+
+        File directory = new File(destinationPath+"/projects");
+        File[] folders = directory.listFiles(File::isDirectory);
+        
+        if (folders != null) {
+            for (File folder : folders) {
+                String folderName = folder.getName();
+                double score = config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+mainProgramFileName), inputs, expectedOutputs, false);
+                System.out.println("Score for "+folderName+" is "+score);
+            }
+        }
+
+        try {
+            Path folder = Path.of(destinationPath);
+            Files.walkFileTree(folder, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+    
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    Files.delete(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+            
+            System.out.println("Folder removed successfully.");
+        } catch (IOException e) {
+            System.out.println("Error removing folder: " + e.getMessage());
+        }
+        
         launch();
     }
 
