@@ -4,10 +4,10 @@ import javafx.scene.image.ImageView;
 
 public class TableShow {
 
-
-        private String name;
-        private ImageView image;
-        private ImageView image2;
+    private int id;
+    private String name;
+    private ImageView image;
+    private ImageView image2;
 
     public String getName() {
         return name;
@@ -33,9 +33,19 @@ public class TableShow {
         this.image2 = image2;
     }
 
-    public TableShow(String name, ImageView image, ImageView image2) {
+    public TableShow(int id, String name, ImageView image, ImageView image2) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.image2 = image2;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
 }

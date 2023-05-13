@@ -39,18 +39,17 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        int projectID = 1;
+        /*int projectID = 1;
         String mainProgramFileName = "example.py";
-        ArrayList<String> inputs = new ArrayList<>();
-        inputs.add("0");
-        inputs.add("1 2 3");
-        inputs.add("5 6 7");
-        inputs.add("7 8 9");
-        ArrayList<String> expectedOutputs = new ArrayList<>();
-        expectedOutputs.add("0");
-        expectedOutputs.add("6");
-        expectedOutputs.add("18");
-        expectedOutputs.add("24");
+        ArrayList<Evaluation> evaluations = new ArrayList<>();
+        Evaluation evaluation1 = new Evaluation(1, projectID, "0", "0");
+        Evaluation evaluation2 = new Evaluation(2, projectID, "1 2 3", "6");
+        Evaluation evaluation3 = new Evaluation(3, projectID, "5 6 7", "18");
+        Evaluation evaluation4 = new Evaluation(4, projectID, "7 8 9", "24");
+        evaluations.add(evaluation1);
+        evaluations.add(evaluation2);
+        evaluations.add(evaluation3);
+        evaluations.add(evaluation4);
 
         DBConnector db = DBConnector.getInstance();
         PLConfig config = db.getPLConfigObject(1);
@@ -64,7 +63,7 @@ public class App extends Application {
         if (folders != null) {
             for (File folder : folders) {
                 String folderName = folder.getName();
-                double score = config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+mainProgramFileName), inputs, expectedOutputs, false);
+                double score = config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+mainProgramFileName), evaluations, false);
                 System.out.println("Score for "+folderName+" is "+score);
             }
         }
@@ -88,7 +87,7 @@ public class App extends Application {
             System.out.println("Folder removed successfully.");
         } catch (IOException e) {
             System.out.println("Error removing folder: " + e.getMessage());
-        }
+        }*/
         
         launch();
     }
