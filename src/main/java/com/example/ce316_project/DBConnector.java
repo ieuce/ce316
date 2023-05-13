@@ -14,7 +14,7 @@ public class DBConnector {
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
             getLectureConfig, getProjectConfig,
-            deleteLecture, deleteLanguage, deleteProject,getLecture,getPL;
+            getLecture,getPL, deleteLecture, deleteLanguge, deleteProject;;
 
 
     DBConnector() {
@@ -84,6 +84,11 @@ public class DBConnector {
             getLecture=connection.prepareStatement("SELECT * FROM LECTURE WHERE LECTURE_NAME = ?");
 
             getPL=connection.prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_NAME = ?");
+
+
+            deleteLecture = connection.prepareStatement("DELETE FROM Lecture WHERE LECTURE_ID = ?");
+            deleteLanguge = connection.prepareStatement("DELETE FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
+            deleteProject = connection.prepareStatement("DELETE FROM Project WHERE PROJECT_ID = ?");
 
 
 
@@ -399,6 +404,52 @@ public class DBConnector {
         }
 
         return configList;
+    }
+
+    public void deleteLectureObject(int id) {
+        try {
+            deleteLecture.setInt(1, id);
+            deleteLecture.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deletePLanguageObject(int id){
+        try {
+            deleteLanguge.setInt(1, id);
+            deleteLanguge.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteProjectObject(int id){
+        try {
+            deleteProject.setInt(1, id);
+            deleteProject.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+
+
+    public void updateLecture(LectureConfig newLecture){
+        int id = newLecture.getLecture_id();
+        deleteLectureObject(id);
+        addLecture(newLecture);
+    }
+
+    public void updatePL(PLConfig newPL){
+        int id = newPL.getId();
+        deletePLanguageObject(id);
+        addPL(newPL);
+    }
+    public void updateProject(ProjectConfig newProject){
+        int id = newProject.getId();
+        deleteProjectObject(id);
+        addProject(newProject);
     }
 
 
