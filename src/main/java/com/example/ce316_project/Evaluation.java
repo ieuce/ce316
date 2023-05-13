@@ -14,6 +14,12 @@ public class Evaluation {
         this.poutput = poutput;
     }
 
+    public Evaluation(int project_id, String pinput, String poutput) {
+        this.project_id = project_id;
+        this.pinput = pinput;
+        this.poutput = poutput;
+    }
+
     public int getId() {
         return id;
     }

@@ -59,7 +59,7 @@ public class DBConnector {
                         "GRADE INTEGER)");
 
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Evaluation_Table (" +
-                        "ID INTEGER PRIMARY KEY," +
+                        "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "PROJECT_ID INTEGER," +
                         "P_INPUT TEXT," +
                         "P_OUTPUT TEXT)");
@@ -79,7 +79,7 @@ public class DBConnector {
             insertProject = connection
                     .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
 
-            insertEvaluation = connection.prepareStatement("INSERT INTO Evaluation_Table (ID, PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?,?)");
+            insertEvaluation = connection.prepareStatement("INSERT INTO Evaluation_Table (PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?)");
 
             insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(ID, PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?,?)");
 
@@ -183,15 +183,13 @@ public class DBConnector {
 
     public void addEvaluation(Evaluation evo){
         try {
-            int id = evo.getId();
             int prjojectid = evo.getProject_id();
             String pinput = evo.getPinput();
             String pout = evo.getPoutput();
 
-            insertEvaluation.setInt(1,id);
-            insertEvaluation.setInt(2,prjojectid);
-            insertEvaluation.setString(3,pinput);
-            insertEvaluation.setString(4,pout);
+            insertEvaluation.setInt(1,prjojectid);
+            insertEvaluation.setString(2,pinput);
+            insertEvaluation.setString(3,pout);
             insertEvaluation.execute();
         }catch (Exception e){
             System.out.println(e);

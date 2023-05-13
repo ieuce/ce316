@@ -221,16 +221,17 @@ public class PLConfig{
         }
 
         DBConnector db = new DBConnector();
-        ProjectConfig CE316 = new ProjectConfig(31,"Çakma IDE","Proje kodlarını çalıştıran bir uyg",316,31,"JAVA");
-        ProjectConfig CE317 = new ProjectConfig(433,"CV Database","CV depolayan uyg",302,32,"JAVA");
         Grade ouz = new Grade(3,32,201,100);
-        Evaluation sa = new Evaluation(123,321,"as","selamünaleykim");
-        //db.addGrade(ouz);
+        Evaluation sa = new Evaluation(321,"as","selamünaleykim");
+        Evaluation as = new Evaluation(123,"lütfen","adam ol");
+        Evaluation haha = new Evaluation(453,"ata bakim", "yavrum");
+        Evaluation ahaha = new Evaluation(897,"Şow", "Zamanı");
         db.addEvaluation(sa);
-        Student_Table tabo = new Student_Table(223,"Oğuzha");
-        Student_Table kutsal = new Student_Table(202,"Kutsal");
-        db.addStudent_Talbe(tabo);
-        db.addStudent_Talbe(kutsal);
+        db.addEvaluation(as);
+        db.addEvaluation(haha);
+        db.addEvaluation(ahaha);
+        //db.addGrade(ouz);
+
 
 
 
