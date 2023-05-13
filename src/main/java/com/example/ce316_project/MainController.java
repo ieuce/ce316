@@ -44,6 +44,9 @@ public class MainController {
         private HBox AddLectureBox;
 
         @FXML
+        private HBox StudentsHbox;
+
+        @FXML
         private Button AddLectureButton;
 
         @FXML
@@ -296,6 +299,8 @@ public class MainController {
                 LecturesHBox.setVisible(true);
                 ProjectsHBox.setVisible(false);
                 LecturesHBox.setEffect(null);
+                StudentsHbox.setVisible(false);
+
                 PL_HBox.setVisible(false);
                 AddProjectBox.setVisible(false);
                 AddLectureBox.setVisible(false);
@@ -471,6 +476,7 @@ public class MainController {
                 AddPLBox.setVisible(false);
                 AddLectureBox.setVisible(false);
                 ProjectsHBox.setEffect(null);
+                StudentsHbox.setVisible(false);
 
                 firstEllipses.setVisible(true);
                 secondEllipses.setVisible(false);
@@ -595,6 +601,7 @@ public class MainController {
 
         @FXML
         public void selectFromProjectTable() throws SQLException, IOException {
+
                 if (ProjectTableView.getSelectionModel().getSelectedCells() == null ||
                         ProjectTableView.getSelectionModel().getSelectedIndex() == -1) {
                         return;
@@ -603,7 +610,7 @@ public class MainController {
                 int index = ProjectTableView.getSelectionModel().getSelectedIndex();
 
                 String ProjectName = (String) ProjectNameColumn.getCellData(index);
-                ObservableList<TablePosition> selectedCells = LectureTableView.getSelectionModel().getSelectedCells();
+                ObservableList<TablePosition> selectedCells = ProjectTableView.getSelectionModel().getSelectedCells();
 
 
 
@@ -611,6 +618,9 @@ public class MainController {
                         //DBConnection.getInstance().deleteTemplate(templateName);
                         System.out.println(ProjectName);
                         // fillTableViews();
+                } else if (selectedCells.get(0).getTableColumn().equals(ProjectGoColumn)) {
+                        openStudentScreen();
+
                 } else {
 
 
@@ -642,12 +652,19 @@ public class MainController {
                         Label selectedProjectL_ID = new Label(TempProjectLectureID);
                         Label selectedMain_File_Format=new Label(TempMainFileFormat);
 
-                        ProjectGrid.addRow(0,ProjectIDLabel,selectedProjectID);
-                        ProjectGrid.addRow(1,ProjectTitleLabel,selectedProjectTitle);
-                        ProjectGrid.addRow(2,ProjectDescriptionLabel,selectedProjectDescription);
-                        ProjectGrid.addRow(3,ProjectLectureIDLabel,selectedProjectL_ID);
-                        ProjectGrid.addRow(4,ProjectPL_IDLabel,selectedPL_ID);
-                        ProjectGrid.addRow(5,Project_Main_File_Name_FormatLabel,selectedMain_File_Format);
+                        ProjectGrid.add(ProjectIDLabel,0,0);
+                        ProjectGrid.add(ProjectTitleLabel,0,1);
+                        ProjectGrid.add(ProjectDescriptionLabel,0,2);
+                        ProjectGrid.add(ProjectLectureIDLabel,0,3);
+                        ProjectGrid.add(ProjectPL_IDLabel,0,4);
+                        ProjectGrid.add(Project_Main_File_Name_FormatLabel,0,5);
+
+                        ProjectGrid.add(selectedProjectID,1,0);
+                        ProjectGrid.add(selectedProjectTitle,1,1);
+                        ProjectGrid.add(selectedProjectDescription,1,2);
+                        ProjectGrid.add(selectedProjectL_ID,1,3);
+                        ProjectGrid.add(selectedPL_ID,1,4);
+                        ProjectGrid.add(selectedMain_File_Format,1,5);
 
 
                 }
@@ -666,6 +683,7 @@ public void openPLScreen() {
         firstEllipses.setVisible(false);
         secondEllipses.setVisible(false);
         thirdEllipses.setVisible(true);
+        StudentsHbox.setVisible(false);
 
         String path = "images/trash.png";
         String path2="images/GO.png";
@@ -880,9 +898,10 @@ public void openPLScreen() {
         }
         @FXML
         public void openStudentScreen() {
-                LecturesHBox.setVisible(true);
+                LecturesHBox.setVisible(false);
                 ProjectsHBox.setVisible(false);
                 LecturesHBox.setEffect(null);
+                StudentsHbox.setVisible(true);
                 PL_HBox.setVisible(false);
                 AddProjectBox.setVisible(false);
                 AddLectureBox.setVisible(false);
@@ -923,6 +942,8 @@ public void openPLScreen() {
 
 
         }
+        @FXML
+        public void selectFromStudentTable(){}
 
 
 
