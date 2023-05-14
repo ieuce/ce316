@@ -296,7 +296,7 @@
                                                         </HBox>
                                           <TableView fx:id="LectureTableView" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectFromLectureTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
                                              <columns>
-                                                <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Column X" />
+                                                <TableColumn fx:id="LectureIDColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" />
                                                 <TableColumn fx:id="LectureNameColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
                                                 <TableColumn fx:id="LectureTrashColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="60.0" resizable="false" sortable="false" />
                                                 <TableColumn fx:id="LectureGoColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" />
@@ -406,7 +406,7 @@
                                           </HBox>
                                           <TableView fx:id="ProjectTableView" onMouseClicked="#selectFromProjectTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
                                              <columns>
-                                                <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Column X" />
+                                                <TableColumn fx:id="ProjectIDColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" />
                                                 <TableColumn fx:id="ProjectNameColumn" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
                                                 <TableColumn fx:id="ProjectTrashColumn" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
                                                 <TableColumn fx:id="ProjectGoColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
@@ -423,9 +423,9 @@
                                           <Insets top="100.0" />
                                        </padding>
                                     </VBox>
-                                    <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
+                                    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                          <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
                                              <padding>
                                                 <Insets right="10.0" />
                                              </padding>
@@ -433,19 +433,19 @@
                                                 <Insets top="5.0" />
                                              </VBox.margin>
                                           </HBox>
-                                          <VBox fx:id="generatedResumeVBox1" alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
+                                          <VBox fx:id="generatedResumeVBox1" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-background-radius: 20;" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                                <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
                                                    <children>
                                                       <ScrollPane fx:id="generatedResumeScrollPane1" fitToHeight="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="393.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                                                          <content>
-                                                            <GridPane fx:id="ProjectGrid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="66.0" prefWidth="393.0" stylesheets="@css/Gridpane.css" vgap="10.0">
+                                                            <GridPane fx:id="ProjectGrid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="393.0" stylesheets="@css/Gridpane.css" vgap="10.0">
                                                                <columnConstraints>
-                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="500.0" minWidth="10.0" prefWidth="1000.0" />
-                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="500.0" minWidth="10.0" prefWidth="1000.0" />
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
                                                                </columnConstraints>
                                                                <rowConstraints>
                                                                   <RowConstraints prefHeight="30.0" valignment="CENTER" />
@@ -504,10 +504,10 @@
                                           </HBox>
                                           <TableView fx:id="StudentTableView" onMouseClicked="#selectFromStudentTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
                                              <columns>
-                                                <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Column X" />
-                                                <TableColumn fx:id="PLNameColumn" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
-                                                <TableColumn fx:id="PLTrashColumn" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
-                                                <TableColumn fx:id="PLGoColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
+                                                <TableColumn fx:id="StudentIDColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" />
+                                                <TableColumn fx:id="StudentNameColumn" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
+                                                <TableColumn fx:id="StudentTrashColumn" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
+                                                <TableColumn fx:id="StudentGoColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
                                              </columns>
                                              <VBox.margin>
                                                 <Insets bottom="20.0" />
@@ -563,22 +563,6 @@
                                                 <Insets left="-10.0" />
                                              </padding>
                                           </HBox>
-                                          <HBox alignment="BOTTOM_LEFT" prefWidth="266.0">
-                                             <children>
-                                                <Button mnemonicParsing="false" prefWidth="48.0" style="-fx-background-color: transparent;">
-                                                   <graphic>
-                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@images/help.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                </Button>
-                                             </children>
-                                             <padding>
-                                                <Insets left="-10.0" />
-                                             </padding>
-                                          </HBox>
                                        </children>
                                        <padding>
                                           <Insets left="10.0" />
@@ -616,10 +600,10 @@
                                           </HBox>
                                           <TableView fx:id="PLTableView" onMouseClicked="#selectFromPLTable" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
                                              <columns>
-                                                <TableColumn editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" text="Column X" />
-                                                <TableColumn fx:id="PLNameColumn1" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
-                                                <TableColumn fx:id="PLTrashColumn1" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
-                                                <TableColumn fx:id="PLGoColumn1" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
+                                                <TableColumn fx:id="PLIDColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" />
+                                                <TableColumn fx:id="PLNameColumn" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
+                                                <TableColumn fx:id="PLTrashColumn" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
+                                                <TableColumn fx:id="PLGoColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
                                              </columns>
                                              <VBox.margin>
                                                 <Insets bottom="20.0" />
