@@ -13,7 +13,7 @@ public class DBConnector {
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation, insertStudentTable,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
-            getLectureConfig, getProjectConfig, getEvaluations,
+            getLectureConfig, getProjectConfig, getEvaluations, getAllGrades, getStudent,
             getLecture,getPL,getProject, deleteLecture, deleteLanguge, deleteProject, deleteGrade;
 
 
@@ -113,6 +113,9 @@ public class DBConnector {
 
             getEvaluations=connection.prepareStatement("SELECT * FROM Evaluation_Table WHERE PROJECT_ID = ?");
 
+            getAllGrades=connection.prepareStatement("SELECT * FROM Grade_Table WHERE PROJECT_ID = ?");
+
+            getStudent=connection.prepareStatement("SELECT * FROM Student_Table WHERE STUDENT_ID = ?");
 
             deleteLecture = connection.prepareStatement("DELETE FROM Lecture WHERE LECTURE_ID = ?");
             deleteLanguge = connection.prepareStatement("DELETE FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
@@ -495,6 +498,43 @@ public class DBConnector {
         return evaluations;
     }
 
+    public ArrayList<Grade> getGradesObject(int projectId) {
+        ArrayList<Grade> grades = new ArrayList<>();
+        try {
+            getAllGrades.setInt(1, projectId);
+            getAllGrades.execute();
+            ResultSet rs = getAllGrades.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String studentId = rs.getString(3);
+                int grade = rs.getInt(4);
+                Grade gradeObject = new Grade(id, projectId, studentId, grade);
+                grades.add(gradeObject);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return grades;
+    }
+
+    public Student_Table getStudentObject(String student_id){
+        try {
+            getStudent.setString(1, student_id);
+            getStudent.execute();
+            ResultSet rs = getStudent.executeQuery();
+            rs.next();
+
+            String name = rs.getString(2);
+            Student_Table student = new Student_Table(student_id, name);
+            return student;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
     public ArrayList<ProjectConfig> getAllPConfigObjects() {
         ArrayList<ProjectConfig> configList = new ArrayList<>();
         try {
@@ -559,8 +599,6 @@ public class DBConnector {
         }
     }
 
-
-
     public void updateLecture(LectureConfig newLecture){
         int id = newLecture.getLecture_id();
         deleteLectureObject(id);
@@ -577,10 +615,4 @@ public class DBConnector {
         deleteProjectObject(id);
         addProject(newProject);
     }
-
-
-
-
-
-
 }

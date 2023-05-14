@@ -105,8 +105,6 @@ public class MainController {
 
         @FXML
         private TableView LectureTableView;
-        @FXML
-        private TableView StudentTableView;
 
         @FXML
         private TableColumn LectureTrashColumn;
@@ -254,6 +252,17 @@ public class MainController {
 
         @FXML
         private HBox thirdEllipses;
+        
+        @FXML
+        private TableView StudentTableView;
+        @FXML
+        private TableColumn StudentIDColumn;
+        @FXML
+        private TableColumn StudentNameColumn;
+        @FXML
+        private TableColumn StudentGradeColumn;
+        @FXML
+        private TableColumn StudentGoColumn;
 
 
         int lec_id = -1;
@@ -940,34 +949,26 @@ public void openPLScreen() {
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
 
-                String path = "images/trash.png";
-                String path2="images/GO.png";
-
+                String path="images/GO.png";
                 Image image = new Image(getClass().getResource(path).toExternalForm());
-                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
 
-                ObservableList<TableShow> LectureList = FXCollections
+                StudentIDColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
+                StudentNameColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("name"));
+                StudentGradeColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("grade"));
+                StudentGoColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("image"));
+
+                ObservableList<GradeTableShow> student_grade_list = FXCollections
                         .observableArrayList();
 
-                LectureNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
-
-
-                LectureTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
-
-                LectureGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
-
-
-                // TODO : Database daha yazılmadı ben şimdiden koydum
-                ArrayList<LectureConfig> lecture_configs = DBConnector.getInstance().getAllLectureConfigObjects();
-                for (LectureConfig lecture_config : lecture_configs) {
-                        LectureList.add(new TableShow(lecture_config.getLecture_id(), lecture_config.getLecture_Name(),new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
+                ArrayList<Grade> grades = DBConnector.getInstance().getGradesObject(id);
+                for (Grade grade : grades) {
+                        Student_Table student = DBConnector.getInstance().getStudentObject(grade.getStudent_id());
+                        student_grade_list.add(new GradeTableShow(student.getId(), student.getName() ,grade.getGrade(), new ImageView(image)));
                 }
 
-                LectureTableView.setItems(LectureList);
-
-
-
+                StudentTableView.setItems(student_grade_list);
         }
+
         @FXML
         public void selectFromStudentTable(){}
 
@@ -1031,6 +1032,7 @@ public void openPLScreen() {
                         }
 
                         deleteFolderRecursive(destinationPath);
+                        openStudentScreen(project_config.getId());
                 }
         }
 
