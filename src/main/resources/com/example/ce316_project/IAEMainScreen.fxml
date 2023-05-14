@@ -483,7 +483,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox fx:id="StudentsHbox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0">
+                              <HBox fx:id="StudentsHbox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0" visible="false">
                                  <children>
                                     <VBox fx:id="originalResumeVBox2" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
@@ -927,6 +927,60 @@
                                  <padding>
                                     <Insets bottom="40.0" left="100.0" right="100.0" top="40.0" />
                                  </padding>
+                              </HBox>
+                              <HBox fx:id="modalHBox" alignment="CENTER" prefHeight="745.0" prefWidth="924.0">
+                                 <children>
+                                    <VBox alignment="CENTER" maxHeight="723.0" maxWidth="583.0" prefHeight="700.0" prefWidth="583.0" HBox.hgrow="NEVER">
+                                       <children>
+                                          <HBox prefHeight="547.0" prefWidth="583.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 20; -fx-border-width: 2; -fx-background-radius: 20;" VBox.vgrow="NEVER">
+                                             <children>
+                                                <VBox prefHeight="291.0" prefWidth="378.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <HBox alignment="TOP_RIGHT" minHeight="-Infinity" prefHeight="38.0" prefWidth="579.0">
+                                                         <children>
+                                                            <Label alignment="CENTER" prefHeight="30.0" prefWidth="217.0" text="Edit Operations">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets right="130.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                            <Button mnemonicParsing="false" onAction="#closeTags" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50;" text="X">
+                                                               <HBox.margin>
+                                                                  <Insets left="20.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox prefHeight="498.0" prefWidth="579.0" VBox.vgrow="ALWAYS">
+                                                         <children>
+                                                            <GridPane HBox.hgrow="ALWAYS">
+                                                              <columnConstraints>
+                                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                                              </columnConstraints>
+                                                              <rowConstraints>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" />
+                                                              </rowConstraints>
+                                                            </GridPane>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="48.0" prefWidth="579.0" spacing="100.0">
+                                                         <children>
+                                                            <Button mnemonicParsing="false" onAction="#deleteTag" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
                               </HBox>
                                     </children>
                                 </StackPane>
