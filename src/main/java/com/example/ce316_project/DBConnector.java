@@ -14,7 +14,7 @@ public class DBConnector {
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation, insertStudentTable,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
             getLectureConfig, getProjectConfig, getEvaluations, getAllGrades, getStudent,
-            getLecture,getPL,getProject, deleteLecture, deleteLanguge, deleteProject, deleteGrade;
+            getLecture,getPL,getProject, deleteLecture, deleteLanguge, deleteProject, deleteGrade, deleteEvaluation, getProjectIDfromLectureID, getProjectIDfromPL;
 
 
     DBConnector() {
@@ -121,6 +121,10 @@ public class DBConnector {
             deleteLanguge = connection.prepareStatement("DELETE FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
             deleteProject = connection.prepareStatement("DELETE FROM Project WHERE PROJECT_ID = ?");
             deleteGrade = connection.prepareStatement("DELETE FROM Grade_Table WHERE PROJECT_ID = ?");
+            deleteEvaluation = connection.prepareStatement("DELETE FROM Evaluation_Table WHERE PROJECT_ID = ?");
+            getProjectIDfromLectureID = connection.prepareStatement("SELECT PROJECT_ID FROM Project Where PROJECT_LECTURE_ID = ?");
+            getProjectIDfromPL = connection.prepareStatement("SELECT PROJECT_ID FROM Project WHERE PROJECT_PROGRAMMING_LANGUAGE_ID = ?");
+
             
 
 
@@ -566,7 +570,15 @@ public class DBConnector {
     public void deleteLectureObject(int id) {
         try {
             deleteLecture.setInt(1, id);
+            getProjectIDfromLectureID.setInt(1,id);
             deleteLecture.execute();
+            getProjectIDfromLectureID.execute();
+            ResultSet rs = getProjectIDfromLectureID.executeQuery();
+            while (rs.next()) {
+                int pid = rs.getInt(1);
+                deleteProjectObject(pid);
+            }
+
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -575,7 +587,14 @@ public class DBConnector {
     public void deletePLanguageObject(int id){
         try {
             deleteLanguge.setInt(1, id);
+            getProjectIDfromPL.setInt(1,id);
             deleteLanguge.execute();
+            getProjectIDfromPL.execute();;
+            ResultSet rs = getProjectIDfromPL.executeQuery();
+            while (rs.next()) {
+                int pid = rs.getInt(1);
+                deleteProjectObject(pid);
+            }
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -584,7 +603,12 @@ public class DBConnector {
     public void deleteProjectObject(int id){
         try {
             deleteProject.setInt(1, id);
+            deleteEvaluation.setInt(1,id);
+            deleteGrade.setInt(1,id);
             deleteProject.execute();
+            deleteEvaluation.execute();
+            deleteGrade.execute();
+
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -615,4 +639,6 @@ public class DBConnector {
         deleteProjectObject(id);
         addProject(newProject);
     }
+
+
 }
