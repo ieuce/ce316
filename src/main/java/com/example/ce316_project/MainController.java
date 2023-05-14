@@ -381,6 +381,7 @@ public class MainController {
 
 
                 Label LectureIDtext = new Label();
+                int lecture_id;
 // Son elemanın nameColumnundan names değerini al
                 if (dataList.size() > 0) { // veriler varsa
                         int lastIndex = dataList.size() - 1;
@@ -388,12 +389,15 @@ public class MainController {
                         String   lastNamesValue = nameColumn.getCellData(lastIndex); // son elemanın names değeri
                         LectureConfig  lecture = DBConnector.getInstance().getLecture(lastNamesValue);
                         System.out.println(lecture.getLecture_id());
-
+                        lecture_id=(lecture.getLecture_id())+1;
 
                         LectureIDtext.setText("");
                         LectureIDtext.setText(Integer.toString((lecture.getLecture_id())+1));
 
                 }
+                else{
+                        lecture_id=LectureIDTEMP;
+                        LectureIDtext.setText(SatırsayısıtoString);}
 
 
                 //LectureIDtext.setText(SatırsayısıtoString);
@@ -411,7 +415,7 @@ public class MainController {
                 AddLectureButton.setOnAction(event -> {
                         String TempName = LectureNameText.getText();
                         String TempLName=LecturersNameText.getText();
-                        LectureConfig Lecture = new LectureConfig(LectureIDTEMP,TempName,TempLName);
+                        LectureConfig Lecture = new LectureConfig(lecture_id,TempName,TempLName);
                         DBConnector.getInstance().addLecture(Lecture);
 
                         LecturesHBox.setEffect(null);
