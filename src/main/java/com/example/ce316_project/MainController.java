@@ -390,7 +390,9 @@ public class MainController {
                 ObservableList<TableShow> dataList = LectureTableView.getItems();
 
 
-                Label LectureIDtext = new Label();
+                TextField LectureIDtext = new TextField();
+                LectureIDtext.setEditable(false);
+
                 int lecture_id;
 // Son elemanın nameColumnundan names değerini al
                 if (dataList.size() > 0) { // veriler varsa
@@ -431,7 +433,9 @@ public class MainController {
                         LecturesHBox.setEffect(null);
                         AddLectureBox.setVisible(false);
                         LecturesHBox.setVisible(true);
+
                         openLectureScreen();
+
 
                 });
 
@@ -546,7 +550,7 @@ public class MainController {
 
 
        @FXML
-        public void openAddProjectScreen() {
+        public void openAddProjectScreen() throws SQLException {
                 LecturesHBox.setVisible(false);
                 ProjectsHBox.setVisible(true);
                 PL_HBox.setVisible(false);
@@ -565,12 +569,34 @@ public class MainController {
 
                 int ProjectIDTEMP = (ProjectTableView.getItems().size())+1;
                 String SatırsayısıtoString=Integer.toString(ProjectIDTEMP);
+               ObservableList<TableShow> dataList = ProjectTableView.getItems();
 
 
                 Label l1 = new Label("Project ID :");
 
-                Label l2 = new Label(SatırsayısıtoString);
-                l2.setText(SatırsayısıtoString);
+                TextField l2 = new TextField();
+                l2.setEditable(false);
+
+
+
+               int project_id;
+// Son elemanın nameColumnundan names değerini al
+               if (dataList.size() > 0) { // veriler varsa
+                       int lastIndex = dataList.size() - 1;
+                       TableColumn<TableShow, String> nameColumn = (TableColumn<TableShow, String>) ProjectTableView.getColumns().get(1); // nameColumn sütunu
+                       String   lastNamesValue = nameColumn.getCellData(lastIndex); // son elemanın names değeri
+                       ProjectConfig  project = DBConnector.getInstance().getProject(lastNamesValue);
+                       System.out.println(project.getId());
+                       project_id=(project.getId())+1;
+
+                       l2.setText("");
+                       l2.setText(Integer.toString((project.getId())+1));
+
+               }
+               else{
+                       project_id=ProjectIDTEMP;
+                       l2.setText(SatırsayısıtoString);}
+
 
 
 
@@ -627,7 +653,7 @@ public class MainController {
                         evaluations.add(evaluation3);
                         evaluations.add(evaluation4);
 
-                        ProjectConfig Project = new ProjectConfig(ProjectIDTEMP,Temp_PT,TempP_D,TempL_ID,TempPL_ID,TempM_F_F,evaluations);
+                        ProjectConfig Project = new ProjectConfig(project_id,Temp_PT,TempP_D,TempL_ID,TempPL_ID,TempM_F_F,evaluations);
                         DBConnector.getInstance().addProject(Project);
                         openProjectScreen(lec_id);
                 });
@@ -750,7 +776,7 @@ public void openPLScreen() {
 
 }
         @FXML
-        public void openAddProgLangScreen() {
+        public void openAddProgLangScreen() throws SQLException {
 
                 LecturesHBox.setVisible(false);
                 ProjectsHBox.setVisible(false);
@@ -770,13 +796,31 @@ public void openPLScreen() {
 
                 int ProgLangIDTEMP = (PLTableView.getItems().size())+1;
                 String SatırsayısıtoString=Integer.toString(ProgLangIDTEMP);
+                ObservableList<TableShow> dataList = PLTableView.getItems();
 
 
                 Label l1 = new Label("Programming Language ID :");
 
-                Label l2 = new Label(SatırsayısıtoString);
+                TextField l2 = new TextField();
+                l2.setEditable(false);
 
+                int PL_id;
+// Son elemanın nameColumnundan names değerini al
+                if (dataList.size() > 0) { // veriler varsa
+                        int lastIndex = dataList.size() - 1;
+                        TableColumn<TableShow, String> nameColumn = (TableColumn<TableShow, String>) PLTableView.getColumns().get(1); // nameColumn sütunu
+                        String   lastNamesValue = nameColumn.getCellData(lastIndex); // son elemanın names değeri
+                        PLConfig  programminglanguage = DBConnector.getInstance().getPL(lastNamesValue);
+                        System.out.println(programminglanguage.getId());
+                        PL_id=(programminglanguage.getId())+1;
 
+                        l2.setText("");
+                        l2.setText(Integer.toString((programminglanguage.getId())+1));
+
+                }
+                else{
+                        PL_id=ProgLangIDTEMP;
+                        l2.setText(SatırsayısıtoString);}
 
                 Label ProgLangName = new Label("Programming Langugage Name  : ");
                 Label ProgLangVersion = new Label("Programming Language Version  : ");
@@ -844,7 +888,7 @@ public void openPLScreen() {
                         Pattern pattern = Pattern.compile(TempPL_VersionExtractPattern);
 
                       try {
-                               PLConfig ProgrammingLanguageConf = new PLConfig(ProgLangIDTEMP,TempPL_Name,TempPL_Version,TempPL_NeedCompiler,TempPL_Compilerİns,TempPL_Runİns,TempPL_VersionCheck,pattern);
+                               PLConfig ProgrammingLanguageConf = new PLConfig(PL_id,TempPL_Name,TempPL_Version,TempPL_NeedCompiler,TempPL_Compilerİns,TempPL_Runİns,TempPL_VersionCheck,pattern);
                                DBConnector.getInstance().addPL(ProgrammingLanguageConf);
                      } catch (Exception e) {
                                throw new RuntimeException(e);
@@ -876,8 +920,11 @@ public void openPLScreen() {
 
 
                 if (selectedCells.get(0).getTableColumn().equals(PLTrashColumn)) {
-                        //DBConnection.getInstance().deleteTemplate(LectureName);
-                        System.out.println(ProgrammingLanguageName);
+                        ObservableList<TableShow> ts_list = PLTableView.getSelectionModel().getSelectedItems();
+                        TableShow ts = ts_list.get(0);
+                       int temp_id = ts.getId();
+                       DBConnector.getInstance().deletePLanguageObject(temp_id);
+                        openPLScreen();
                         //openLectureScreen();
                 } else if (selectedCells.get(0).getTableColumn().equals(PLGoColumn)) {
 
@@ -885,8 +932,10 @@ public void openPLScreen() {
 
                 } else {
 
-
-                        PLConfig ProgrammingLanguage = DBConnector.getInstance().getPL(ProgrammingLanguageName);
+                        ObservableList<TableShow> ts_list = PLTableView.getSelectionModel().getSelectedItems();
+                        TableShow ts = ts_list.get(0);
+                        int temp_id = ts.getId();
+                        PLConfig ProgrammingLanguage = DBConnector.getInstance().getPLConfigObject(temp_id);
                         ObservableList<Node> children = PLGrid.getChildren();
                         children.clear();
                         String TempID=Integer.toString(ProgrammingLanguage.getId());
@@ -948,7 +997,8 @@ public void openPLScreen() {
                 firstEllipses.setVisible(false);
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
-
+          
+                project_id=id;
                 String path="images/GO.png";
                 Image image = new Image(getClass().getResource(path).toExternalForm());
 
