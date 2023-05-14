@@ -1,15 +1,15 @@
 package com.example.ce316_project;
 
 public class Student_Table {
-    private int id;
+    private String id;
     private String name;
 
-    public Student_Table(int id, String name) {
+    public Student_Table(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

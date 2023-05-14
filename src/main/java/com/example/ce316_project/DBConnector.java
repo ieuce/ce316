@@ -14,7 +14,7 @@ public class DBConnector {
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation, insertStudentTable,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
             getLectureConfig, getProjectConfig, getEvaluations,
-            getLecture,getPL,getProject, deleteLecture, deleteLanguge, deleteProject;
+            getLecture,getPL,getProject, deleteLecture, deleteLanguge, deleteProject, deleteGrade;
 
 
     DBConnector() {
@@ -53,9 +53,9 @@ public class DBConnector {
                         "PROJECT_MAIN_FILE_FORMAT TEXT)");
 
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Grade_Table (" +
-                        "ID INTEGER PRIMARY KEY," +
+                        "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "PROJECT_ID INTEGER," +
-                        "STUDENT_ID INTEGER," +
+                        "STUDENT_ID TEXT," +
                         "GRADE INTEGER)");
 
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Evaluation_Table (" +
@@ -65,7 +65,7 @@ public class DBConnector {
                         "P_OUTPUT TEXT)");
 
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Student_Table (" +
-                        "STUDENT_ID INTEGER PRIMARY KEY," +
+                        "STUDENT_ID TEXT PRIMARY KEY," +
                         "STUDENT_NAME TEXT)");
 
 
@@ -81,7 +81,7 @@ public class DBConnector {
 
             insertEvaluation = connection.prepareStatement("INSERT INTO Evaluation_Table (PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?)");
 
-            insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(ID, PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?,?)");
+            insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?)");
 
             insertStudentTable = connection.prepareStatement("INSERT INTO Student_Table (STUDENT_ID,STUDENT_NAME) VALUES  (?,?)");
 
@@ -117,6 +117,8 @@ public class DBConnector {
             deleteLecture = connection.prepareStatement("DELETE FROM Lecture WHERE LECTURE_ID = ?");
             deleteLanguge = connection.prepareStatement("DELETE FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
             deleteProject = connection.prepareStatement("DELETE FROM Project WHERE PROJECT_ID = ?");
+            deleteGrade = connection.prepareStatement("DELETE FROM Grade_Table WHERE PROJECT_ID = ?");
+            
 
 
 
@@ -153,10 +155,10 @@ public class DBConnector {
 
     public void addStudent_Table(Student_Table st){
         try {
-            int id = st.getId();
+            String id = st.getId();
             String name = st.getName();
 
-            insertStudentTable.setInt(1,id);
+            insertStudentTable.setString(1,id);
             insertStudentTable.setString(2,name);
             insertStudentTable.execute();
 
@@ -167,15 +169,13 @@ public class DBConnector {
 
     public void addGrade(Grade grade){
         try {
-            int id = grade.getId();
             int prjojectid = grade.getProject_id();
-            int studentid = grade.getStudent_id();
+            String studentid = grade.getStudent_id();
             int gradeint = grade.getGrade();
 
-            insertGrade.setInt(1,id);
-            insertGrade.setInt(2,prjojectid);
-            insertGrade.setInt(3,studentid);
-            insertGrade.setInt(4,gradeint);
+            insertGrade.setInt(1,prjojectid);
+            insertGrade.setString(2,studentid);
+            insertGrade.setInt(3,gradeint);
             insertGrade.execute();
         }catch (Exception e){
             System.out.println(e);
@@ -545,6 +545,15 @@ public class DBConnector {
         try {
             deleteProject.setInt(1, id);
             deleteProject.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteGradeObject(int project_id){
+        try {
+            deleteGrade.setInt(1, project_id);
+            deleteGrade.execute();
         } catch (SQLException e) {
             System.out.println(e);
         }
