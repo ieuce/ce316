@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -104,8 +105,6 @@ public class MainController {
 
         @FXML
         private TableView LectureTableView;
-        @FXML
-        private TableView StudentTableView;
 
         @FXML
         private TableColumn LectureTrashColumn;
@@ -253,6 +252,17 @@ public class MainController {
 
         @FXML
         private HBox thirdEllipses;
+        
+        @FXML
+        private TableView StudentTableView;
+        @FXML
+        private TableColumn StudentIDColumn;
+        @FXML
+        private TableColumn StudentNameColumn;
+        @FXML
+        private TableColumn StudentGradeColumn;
+        @FXML
+        private TableColumn StudentGoColumn;
 
 
         int lec_id = -1;
@@ -987,37 +997,28 @@ public void openPLScreen() {
                 firstEllipses.setVisible(false);
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
-
+          
                 project_id=id;
-
-                String path = "images/trash.png";
-                String path2="images/GO.png";
-
+                String path="images/GO.png";
                 Image image = new Image(getClass().getResource(path).toExternalForm());
-                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
 
-                ObservableList<TableShow> LectureList = FXCollections
+                StudentIDColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
+                StudentNameColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("name"));
+                StudentGradeColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("grade"));
+                StudentGoColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("image"));
+
+                ObservableList<GradeTableShow> student_grade_list = FXCollections
                         .observableArrayList();
 
-                LectureNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
-
-
-                LectureTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
-
-                LectureGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
-
-
-
-                ArrayList<LectureConfig> lecture_configs = DBConnector.getInstance().getAllLectureConfigObjects();
-                for (LectureConfig lecture_config : lecture_configs) {
-                        LectureList.add(new TableShow(lecture_config.getLecture_id(), lecture_config.getLecture_Name(),new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
+                ArrayList<Grade> grades = DBConnector.getInstance().getGradesObject(id);
+                for (Grade grade : grades) {
+                        Student_Table student = DBConnector.getInstance().getStudentObject(grade.getStudent_id());
+                        student_grade_list.add(new GradeTableShow(student.getId(), student.getName() ,grade.getGrade(), new ImageView(image)));
                 }
 
-                LectureTableView.setItems(LectureList);
-
-
-
+                StudentTableView.setItems(student_grade_list);
         }
+
         @FXML
         public void selectFromStudentTable(){}
 
@@ -1050,6 +1051,7 @@ public void openPLScreen() {
                 ProjectConfig project_config = DBConnector.getInstance().getPConfigObject(project_id);
                 int pl_config_id = project_config.getProgramming_language_id();
                 PLConfig pl_config = DBConnector.getInstance().getPLConfigObject(pl_config_id);
+                DBConnector.getInstance().deleteGradeObject(project_config.getId());
 
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Open Projects' ZIP File (projects.zip)");
@@ -1061,7 +1063,6 @@ public void openPLScreen() {
 
                         File directory = new File(destinationPath+"/projects");
                         File[] folders = directory.listFiles(File::isDirectory);
-                        
                         if (folders != null) {
                                 for (File folder : folders) {
                                         String folderName = folder.getName();
@@ -1070,29 +1071,48 @@ public void openPLScreen() {
                                                 score=0;
                                         }
                                         System.out.println("Score for "+folderName+" is "+score);
+                                        String[] student_info = folderName.split("_");
+                                        String student_name = splitCamelCase(student_info[1]);
+                                        Student_Table student = new Student_Table(student_info[0], student_name);
+                                        DBConnector.getInstance().addStudent_Table(student);
+                                        
+                                        Grade grade = new Grade(-1, project_config.getId(), student.getId(), (int) score);
+                                        DBConnector.getInstance().addGrade(grade);
                                 }
                         }
 
-                        try {
-                                Path folder = Path.of(destinationPath);
-                                Files.walkFileTree(folder, new SimpleFileVisitor<>() {
-                                        @Override
-                                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                                                Files.delete(file);
-                                                return FileVisitResult.CONTINUE;
-                                        }
+                        deleteFolderRecursive(destinationPath);
+                        openStudentScreen(project_config.getId());
+                }
+        }
+
+        private String splitCamelCase(String input) {
+                Pattern pattern = Pattern.compile("(?<=[a-z])(?=[A-Z])");
+                Matcher matcher = pattern.matcher(input);
+                String result = matcher.replaceAll(" ");
+                return result;
+        }
+
+        private void deleteFolderRecursive(String destinationPath){
+                try {
+                        Path folder = Path.of(destinationPath);
+                        Files.walkFileTree(folder, new SimpleFileVisitor<>() {
+                                @Override
+                                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                                        Files.delete(file);
+                                        return FileVisitResult.CONTINUE;
+                                }
+                
+                                @Override
+                                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                                        Files.delete(dir);
+                                        return FileVisitResult.CONTINUE;
+                                }
+                        });
                         
-                                        @Override
-                                        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                                                Files.delete(dir);
-                                                return FileVisitResult.CONTINUE;
-                                        }
-                                });
-                                
-                                System.out.println("Folder removed successfully.");
-                        } catch (IOException e) {
-                                System.out.println("Error removing folder: " + e.getMessage());
-                        }
+                        System.out.println("Folder removed successfully.");
+                } catch (IOException e) {
+                        System.out.println("Error removing folder: " + e.getMessage());
                 }
         }
 
