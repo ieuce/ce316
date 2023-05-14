@@ -347,7 +347,7 @@ public class MainController {
 
 
         @FXML
-        public void openAddLectureScreen() {
+        public void openAddLectureScreen() throws SQLException {
                 LecturesHBox.setVisible(true);
                 LecturesHBox.setEffect(null);
                 ProjectsHBox.setVisible(false);
@@ -377,9 +377,31 @@ public class MainController {
                 Label lecturerNameLabel = new Label("Lecturer's Name:");
                 AddLectureGrid.add(lecturerNameLabel, 0, 2);
 
+                ObservableList<TableShow> dataList = LectureTableView.getItems();
 
 
-                Label LectureIDtext = new Label(SatırsayısıtoString);
+                Label LectureIDtext = new Label();
+                int lecture_id;
+// Son elemanın nameColumnundan names değerini al
+                if (dataList.size() > 0) { // veriler varsa
+                        int lastIndex = dataList.size() - 1;
+                        TableColumn<TableShow, String> nameColumn = (TableColumn<TableShow, String>) LectureTableView.getColumns().get(1); // nameColumn sütunu
+                        String   lastNamesValue = nameColumn.getCellData(lastIndex); // son elemanın names değeri
+                        LectureConfig  lecture = DBConnector.getInstance().getLecture(lastNamesValue);
+                        System.out.println(lecture.getLecture_id());
+                        lecture_id=(lecture.getLecture_id())+1;
+
+                        LectureIDtext.setText("");
+                        LectureIDtext.setText(Integer.toString((lecture.getLecture_id())+1));
+
+                }
+                else{
+                        lecture_id=LectureIDTEMP;
+                        LectureIDtext.setText(SatırsayısıtoString);}
+
+
+                //LectureIDtext.setText(SatırsayısıtoString);
+
                 AddLectureGrid.add(LectureIDtext, 1, 0);
 
                 TextField LectureNameText = new TextField();
@@ -393,7 +415,7 @@ public class MainController {
                 AddLectureButton.setOnAction(event -> {
                         String TempName = LectureNameText.getText();
                         String TempLName=LecturersNameText.getText();
-                        LectureConfig Lecture = new LectureConfig(LectureIDTEMP,TempName,TempLName);
+                        LectureConfig Lecture = new LectureConfig(lecture_id,TempName,TempLName);
                         DBConnector.getInstance().addLecture(Lecture);
 
                         LecturesHBox.setEffect(null);
@@ -424,6 +446,8 @@ public class MainController {
                 if (selectedCells.get(0).getTableColumn().equals(LectureTrashColumn)) {
                         //DBConnection.getInstance().deleteTemplate(LectureName);
                         System.out.println(LectureName);
+                        LectureConfig Lecture = DBConnector.getInstance().getLecture(LectureName);
+                        DBConnector.getInstance().deleteLectureObject(Lecture.getLecture_id());
                         openLectureScreen();
                 } else if (selectedCells.get(0).getTableColumn().equals(LectureGoColumn)) {
                         LectureConfig Lecture = DBConnector.getInstance().getLecture(LectureName);
@@ -446,6 +470,9 @@ public class MainController {
 
                         Label lecturerNameLabel = new Label("Lecturer's Name:");
                         LectureGrid.add(lecturerNameLabel, 0, 2);
+
+
+
 
 
 
@@ -533,10 +560,10 @@ public class MainController {
                 Label l1 = new Label("Project ID :");
 
                 Label l2 = new Label(SatırsayısıtoString);
+                l2.setText(SatırsayısıtoString);
 
 
-                AddProjectGrid.add( l1,0,0 );
-               AddProjectGrid.add(l2,1,0);
+
 
                 Label ProjectTitleLabel = new Label("Project Title : ");
                 Label ProjectDescriptionLabel = new Label("Project Description : ");
@@ -552,7 +579,8 @@ public class MainController {
                 TextField selectedMain_File_Format=new TextField();
 
 
-
+               AddProjectGrid.add( l1,0,0 );
+               AddProjectGrid.add(l2,1,0);
                 AddProjectGrid.add(ProjectTitleLabel,0,1);
                 AddProjectGrid.add(ProjectDescriptionLabel,0,2);
                 AddProjectGrid.add(ProjectLectureIDLabel,0,3);
@@ -610,9 +638,10 @@ public class MainController {
                 ObservableList<TablePosition> selectedCells = ProjectTableView.getSelectionModel().getSelectedCells();
 
                 if (selectedCells.get(0).getTableColumn().equals(ProjectTrashColumn)) {
-                        //DBConnection.getInstance().deleteTemplate(templateName);
+                        ProjectConfig Project = DBConnector.getInstance().getProject(ProjectName);
+                        DBConnector.getInstance().deleteProjectObject(Project.getId());
                         System.out.println(ProjectName);
-                        // fillTableViews();
+                        openProjectScreen(lec_id);
                 } else if (selectedCells.get(0).getTableColumn().equals(ProjectGoColumn)) {
                         ObservableList<TableShow> ts_list = ProjectTableView.getSelectionModel().getSelectedItems();
                         TableShow ts = ts_list.get(0);
@@ -622,7 +651,7 @@ public class MainController {
                 } else {
 
 
-                        ProjectConfig Project = DBConnector.getInstance().getPConfigObject(index);
+                        ProjectConfig Project = DBConnector.getInstance().getProject(ProjectName);
 
 
 
