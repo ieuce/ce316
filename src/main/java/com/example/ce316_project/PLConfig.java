@@ -220,25 +220,7 @@ public class PLConfig{
             System.out.println("Overall Score: " + score);
         }
 
-        /*
-        DBConnector db = new DBConnector();
-        Grade ouz = new Grade(3,32,201,100);
-        Evaluation sa = new Evaluation(321,"as","selamünaleykim");
-        Evaluation as = new Evaluation(123,"lütfen","adam ol");
-        Evaluation haha = new Evaluation(453,"ata bakim", "yavrum");
-        Evaluation ahaha = new Evaluation(897,"Şow", "Zamanı");
-        db.addEvaluation(sa);
-        db.addEvaluation(as);
-        db.addEvaluation(haha);
-        db.addEvaluation(ahaha);
-        //db.addGrade(ouz);
-         */
-
-
-
-
-
-
+       
 
     }
 
