@@ -506,8 +506,8 @@
                                              <columns>
                                                 <TableColumn fx:id="StudentIDColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" resizable="false" sortable="false" />
                                                 <TableColumn fx:id="StudentNameColumn" editable="false" minWidth="-Infinity" prefWidth="230.0" sortable="false" />
-                                                <TableColumn fx:id="StudentTrashColumn" editable="false" minWidth="-Infinity" prefWidth="60.0" sortable="false" />
-                                                <TableColumn fx:id="StudentGoColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" sortable="false" />
+                                                <TableColumn fx:id="StudentGradeColumn" editable="false" minWidth="-Infinity" prefWidth="90.0" sortable="false" />
+                                                <TableColumn fx:id="StudentGoColumn" editable="false" minWidth="-Infinity" sortable="false" />
                                              </columns>
                                              <VBox.margin>
                                                 <Insets bottom="20.0" />
