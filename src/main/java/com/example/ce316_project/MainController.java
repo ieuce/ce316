@@ -800,8 +800,8 @@ public class MainController {
                 AddProjectGrid.add(selectedPL_ID,1,4);
                 AddProjectGrid.add(selectedMain_File_Format,1,5);
 
-               ArrayList<TextField> inputs = new ArrayList<>();
-               ArrayList<TextField> outputs = new ArrayList<>();
+                ArrayList<TextField> inputs = new ArrayList<>();
+                ArrayList<TextField> outputs = new ArrayList<>();
 
                 AddAttribute.setOnAction(event -> {
                         Label label = new Label("Arguments: ");
@@ -824,11 +824,11 @@ public class MainController {
                                 String input_arg = inputs.get(i).getText().trim();
                                 String output_arg = outputs.get(i).getText().trim();
                                 if(!input_arg.equals("") || !output_arg.equals("")){
-                                        Evaluation evaluation = new Evaluation(-1,ProjectIDTEMP, input_arg, output_arg);
+                                        Evaluation evaluation = new Evaluation(-1,validProjectID, input_arg, output_arg);
                                         evaluations.add(evaluation);
                                 }
                         }
-                        ProjectConfig Project = new ProjectConfig(project_id, Temp_PT, TempP_D, TempL_ID, TempPL_ID, TempM_F_F, evaluations);
+                        ProjectConfig Project = new ProjectConfig(validProjectID, Temp_PT, TempP_D, TempL_ID, TempPL_ID, TempM_F_F, evaluations);
                         DBConnector.getInstance().addProject(Project);
                         openProjectScreen(lec_id);
                         });
