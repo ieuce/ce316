@@ -835,23 +835,15 @@ public class MainController {
 
                 String ProjectName = (String) ProjectNameColumn.getCellData(index);
                 ObservableList<TablePosition> selectedCells = ProjectTableView.getSelectionModel().getSelectedCells();
+                TableShow ts = (TableShow) ProjectTableView.getSelectionModel().getSelectedItems().get(0);
+                ProjectConfig Project = DBConnector.getInstance().getPConfigObject(ts.getId());
 
                 if (selectedCells.get(0).getTableColumn().equals(ProjectTrashColumn)) {
-                        ProjectConfig Project = DBConnector.getInstance().getProject(ProjectName);
                         DBConnector.getInstance().deleteProjectObject(Project.getId());
-                        System.out.println(ProjectName);
                         openProjectScreen(lec_id);
                 } else if (selectedCells.get(0).getTableColumn().equals(ProjectGoColumn)) {
-                        ObservableList<TableShow> ts_list = ProjectTableView.getSelectionModel().getSelectedItems();
-                        TableShow ts = ts_list.get(0);
-                        openStudentScreen(ts.getId());
+                        openStudentScreen(Project.getId());
                 } else {
-
-
-                        ProjectConfig Project = DBConnector.getInstance().getProject(ProjectName);
-
-
-
                         ObservableList<Node> children = ProjectGrid.getChildren();
                         children.clear();
 

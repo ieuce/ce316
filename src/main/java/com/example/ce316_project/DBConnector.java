@@ -14,7 +14,7 @@ public class DBConnector {
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation, insertStudentTable,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds, getMaxProjectID,
             getLectureConfig, getProjectConfig, getEvaluations, getAllGrades, getStudent,
-            getLecture,getPL,getProject, deleteLecture, deleteLanguge, deleteProject, deleteGrade, deleteEvaluation, getProjectIDfromLectureID, getProjectIDfromPL;
+            getLecture,getPL, deleteLecture, deleteLanguge, deleteProject, deleteGrade, deleteEvaluation, getProjectIDfromLectureID, getProjectIDfromPL;
 
 
     DBConnector() {
@@ -85,7 +85,6 @@ public class DBConnector {
             getProjectConfig = connection.prepareStatement("SELECT * FROM Project WHERE PROJECT_ID = ?");
             getLectureConfig = connection.prepareStatement("SELECT * FROM Lecture WHERE LECTURE_ID = ?");
             getLecture = connection.prepareStatement("SELECT * FROM LECTURE WHERE LECTURE_NAME = ?");
-            getProject = connection.prepareStatement("SELECT * FROM Project WHERE PROJECT_TITLE = ?");
             getPL = connection.prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_NAME = ?");
             getEvaluations = connection.prepareStatement("SELECT * FROM Evaluation_Table WHERE PROJECT_ID = ?");
             getAllGrades = connection.prepareStatement("SELECT * FROM Grade_Table WHERE PROJECT_ID = ?");
@@ -339,31 +338,7 @@ public class DBConnector {
 
 
     }
-    public ProjectConfig getProject(String Name) throws SQLException {
-        try {
-            getProject.setString(1, Name);
-            getProject.execute();
-            ResultSet rs = getProject.executeQuery();
-            rs.next();
-
-            int id = rs.getInt(1);
-            String description = rs.getString(3);
-            int lectureId = rs.getInt(4);
-            int PlId = rs.getInt(5);
-            String mainFileFormat = rs.getString(6);
-
-            ArrayList<Evaluation> evaluations = getEvaluationsObject(id);
-            ProjectConfig config = new ProjectConfig(id, Name, description, lectureId, PlId, mainFileFormat, evaluations);
-            return config;
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        return null;
-
-
-    }
+    
     public PLConfig getPL(String Name) throws SQLException {
         try { getPL.setString(1, Name);
             getPL.execute();
