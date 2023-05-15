@@ -12,7 +12,7 @@ public class DBConnector {
     private Connection connection;
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation, insertStudentTable,
-            getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds,
+            getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds, getMaxProjectID,
             getLectureConfig, getProjectConfig, getEvaluations, getAllGrades, getStudent,
             getLecture,getPL,getProject, deleteLecture, deleteLanguge, deleteProject, deleteGrade, deleteEvaluation, getProjectIDfromLectureID, getProjectIDfromPL;
 
@@ -45,7 +45,7 @@ public class DBConnector {
                         "PLANGUAGE_VERSIONEXTRACTPATTERN TEXT)");
 
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Project (" +
-                        "PROJECT_ID INTEGER PRIMARY KEY," +
+                        "PROJECT_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "PROJECT_TITLE TEXT," +
                         "PROJECT_DESCRIPTION TEXT," +
                         "PROJECT_LECTURE_ID INTEGER," +
@@ -72,51 +72,24 @@ public class DBConnector {
                 System.out.println("Tables have Created!!");
             }
 
-            insertLecture = connection
-                    .prepareStatement("INSERT INTO Lecture (LECTURE_ID, LECTURE_NAME, LECTURER) VALUES (?,?,?)");
-            insertProgrammingLanguage = connection
-                    .prepareStatement("INSERT INTO ProgrammingLanguage (PLANGUAGE_ID, PLANGUAGE_NAME, PLANGUAGE_VERSIONSTRING, PLANGUAGE_NEEDCOMPILER, PLANGUAGE_COMPILEINSSTRING, PLANGUAGE_RUNINSSTRING, PLANGUAGE_VERSIONCHECKCOMMAND, PLANGUAGE_VERSIONEXTRACTPATTERN) VALUES (?,?,?,?,?,?,?,?)");
-            insertProject = connection
-                    .prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
-
+            insertLecture = connection.prepareStatement("INSERT INTO Lecture (LECTURE_ID, LECTURE_NAME, LECTURER) VALUES (?,?,?)");
+            insertProgrammingLanguage = connection.prepareStatement("INSERT INTO ProgrammingLanguage (PLANGUAGE_ID, PLANGUAGE_NAME, PLANGUAGE_VERSIONSTRING, PLANGUAGE_NEEDCOMPILER, PLANGUAGE_COMPILEINSSTRING, PLANGUAGE_RUNINSSTRING, PLANGUAGE_VERSIONCHECKCOMMAND, PLANGUAGE_VERSIONEXTRACTPATTERN) VALUES (?,?,?,?,?,?,?,?)");
+            insertProject = connection.prepareStatement("INSERT INTO Project (PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?)");
             insertEvaluation = connection.prepareStatement("INSERT INTO Evaluation_Table (PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?)");
-
             insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?)");
-
             insertStudentTable = connection.prepareStatement("INSERT INTO Student_Table (STUDENT_ID,STUDENT_NAME) VALUES  (?,?)");
-
-
-            getPLConfig = connection
-                    .prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
-
-            getAllPLConfigIds = connection
-                    .prepareStatement("SELECT PLANGUAGE_ID FROM ProgrammingLanguage");
-
-            getAllLectureIds=connection
-                    .prepareStatement("SELECT LECTURE_ID FROM Lecture");
-
-            getAllProjectIds=connection
-                    .prepareStatement("SELECT PROJECT_ID FROM Project");
-
-
-            getProjectConfig=connection
-                    .prepareStatement("SELECT * FROM Project WHERE PROJECT_ID = ?");
-
-            getLectureConfig=connection
-                    .prepareStatement("SELECT * FROM Lecture WHERE LECTURE_ID = ?");
-
-            getLecture=connection.prepareStatement("SELECT * FROM LECTURE WHERE LECTURE_NAME = ?");
-
-            getProject=connection.prepareStatement("SELECT * FROM Project WHERE PROJECT_TITLE = ?");
-
-            getPL=connection.prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_NAME = ?");
-
-            getEvaluations=connection.prepareStatement("SELECT * FROM Evaluation_Table WHERE PROJECT_ID = ?");
-
-            getAllGrades=connection.prepareStatement("SELECT * FROM Grade_Table WHERE PROJECT_ID = ?");
-
-            getStudent=connection.prepareStatement("SELECT * FROM Student_Table WHERE STUDENT_ID = ?");
-
+            getPLConfig = connection.prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
+            getAllPLConfigIds = connection.prepareStatement("SELECT PLANGUAGE_ID FROM ProgrammingLanguage");
+            getAllLectureIds = connection.prepareStatement("SELECT LECTURE_ID FROM Lecture");
+            getAllProjectIds = connection.prepareStatement("SELECT PROJECT_ID FROM Project");
+            getProjectConfig = connection.prepareStatement("SELECT * FROM Project WHERE PROJECT_ID = ?");
+            getLectureConfig = connection.prepareStatement("SELECT * FROM Lecture WHERE LECTURE_ID = ?");
+            getLecture = connection.prepareStatement("SELECT * FROM LECTURE WHERE LECTURE_NAME = ?");
+            getProject = connection.prepareStatement("SELECT * FROM Project WHERE PROJECT_TITLE = ?");
+            getPL = connection.prepareStatement("SELECT * FROM ProgrammingLanguage WHERE PLANGUAGE_NAME = ?");
+            getEvaluations = connection.prepareStatement("SELECT * FROM Evaluation_Table WHERE PROJECT_ID = ?");
+            getAllGrades = connection.prepareStatement("SELECT * FROM Grade_Table WHERE PROJECT_ID = ?");
+            getStudent = connection.prepareStatement("SELECT * FROM Student_Table WHERE STUDENT_ID = ?");
             deleteLecture = connection.prepareStatement("DELETE FROM Lecture WHERE LECTURE_ID = ?");
             deleteLanguge = connection.prepareStatement("DELETE FROM ProgrammingLanguage WHERE PLANGUAGE_ID = ?");
             deleteProject = connection.prepareStatement("DELETE FROM Project WHERE PROJECT_ID = ?");
@@ -124,11 +97,7 @@ public class DBConnector {
             deleteEvaluation = connection.prepareStatement("DELETE FROM Evaluation_Table WHERE PROJECT_ID = ?");
             getProjectIDfromLectureID = connection.prepareStatement("SELECT PROJECT_ID FROM Project Where PROJECT_LECTURE_ID = ?");
             getProjectIDfromPL = connection.prepareStatement("SELECT PROJECT_ID FROM Project WHERE PROJECT_PROGRAMMING_LANGUAGE_ID = ?");
-
-            
-
-
-
+            getMaxProjectID = connection.prepareStatement("SELECT MAX(PROJECT_ID) FROM Project");
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -239,19 +208,17 @@ public class DBConnector {
 
     public void addProject(ProjectConfig project) {
         try {
-            int project_id=project.getId();
             String title=project.getTitle();
             String description=project.getDescription();
             int lecture_id = project.getLecture_id();
             int programming_language_id=project.getProgramming_language_id();
             String mainFileFormat=project.getMain_file_format();
 
-            insertProject.setInt(1,project_id);
-            insertProject.setString(2, title);
-            insertProject.setString(3, description);
-            insertProject.setInt(4,lecture_id);
-            insertProject.setInt(5,programming_language_id);
-            insertProject.setString(6,mainFileFormat);
+            insertProject.setString(1, title);
+            insertProject.setString(2, description);
+            insertProject.setInt(3,lecture_id);
+            insertProject.setInt(4,programming_language_id);
+            insertProject.setString(5,mainFileFormat);
             insertProject.execute();
 
             ArrayList<Evaluation> evaluations = project.getEvaluations();
@@ -640,5 +607,15 @@ public class DBConnector {
         addProject(newProject);
     }
 
-
+    public int getMaxProjectIDDB(){
+        try {
+            ResultSet rs = getMaxProjectID.executeQuery();
+            rs.next();
+            int id = rs.getInt(1);
+            return id;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 }
