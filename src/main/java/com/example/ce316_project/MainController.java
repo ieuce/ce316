@@ -1,5 +1,9 @@
 package com.example.ce316_project;
 
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +52,18 @@ public class MainController {
 
         @FXML
         private HBox AddLectureBox;
+        @FXML
+        private HBox EditLectureHBox;
+        @FXML
+        private GridPane EditLectureGrid;
+
+        @FXML
+        private HBox EditProjectHBox;
+
+        @FXML
+        private HBox EditProgLangHBox;
+
+
 
         @FXML
         private HBox StudentsHbox;
@@ -74,6 +90,10 @@ public class MainController {
         private Button AddProjectButton;
 
         @FXML
+        private Button EditProgLangButton;
+
+
+        @FXML
         private GridPane AddProjectGrid;
 
         @FXML
@@ -93,12 +113,32 @@ public class MainController {
         private Button LectureButton;
 
         @FXML
+        private Button EditLectureConfirm;
+
+        @FXML
+        private Button EditLectureButton;
+
+        @FXML
+        private Button CloseEditLecture;
+
+        @FXML
+        private Button CloseEditProgLang;
+        @FXML
+        private Button EditProgLangConfirm;
+
+
+
+        @FXML
         private TableColumn LectureGoColumn;
 
         @FXML
         private GridPane LectureGrid;
         @FXML
         private GridPane StudentGrid;
+        @FXML
+        private GridPane EditLectureoldvalue;
+        @FXML
+        private GridPane EditLecturenewvalue;
 
         @FXML
         private TableColumn LectureNameColumn;
@@ -138,6 +178,15 @@ public class MainController {
 
         @FXML
         private GridPane ProjectGrid;
+
+
+        @FXML
+        private GridPane EditProgLangnewvalue;
+
+
+        @FXML
+        private GridPane EditProgLangoldvalue;
+
 
         @FXML
         private TableColumn ProjectNameColumn;
@@ -321,6 +370,8 @@ public class MainController {
                 ProjectsHBox.setVisible(false);
                 LecturesHBox.setEffect(null);
                 StudentsHbox.setVisible(false);
+                EditProgLangHBox.setVisible(false);
+                EditLectureHBox.setVisible(false);
 
                 PL_HBox.setVisible(false);
                 AddProjectBox.setVisible(false);
@@ -468,8 +519,10 @@ public class MainController {
                         openProjectScreen(Lecture.getLecture_id());
                 } else {
 
-
-                        LectureConfig Lecture = DBConnector.getInstance().getLecture(LectureName);
+                        ObservableList<TableShow> ts_list = LectureTableView.getSelectionModel().getSelectedItems();
+                        TableShow ts = ts_list.get(0);
+                        lec_id = ts.getId();
+                        LectureConfig Lecture = DBConnector.getInstance().getLectureConfigObject(lec_id);
                         ObservableList<Node> children = LectureGrid.getChildren();
                         children.clear();
                         String TempID=Integer.toString(Lecture.getLecture_id());
@@ -502,6 +555,144 @@ public class MainController {
 
 
                 }
+        }
+        @FXML
+        public void openEditLecture() throws  UnsupportedSelectionException{
+                ObservableList<TableShow> ts_list = LectureTableView.getSelectionModel().getSelectedItems();
+
+
+                try{
+                        TableShow ts = ts_list.get(0);}
+                catch (Exception e) {
+                        AlertUtil.showUnsupportedSelectionLectureAlert();
+                        openLectureScreen();
+                        throw new UnsupportedSelectionException("Unsupported Selection");
+
+
+
+
+                }
+
+                TableShow ts = ts_list.get(0);
+                lec_id = ts.getId();
+
+                LecturesHBox.setVisible(true);
+                ProjectsHBox.setVisible(false);
+                EditLectureHBox.setVisible(true);
+                PL_HBox.setVisible(false);
+                AddProjectBox.setVisible(false);
+                AddPLBox.setVisible(false);
+                AddLectureBox.setVisible(false);
+                ProjectsHBox.setEffect(null);
+                StudentsHbox.setVisible(false);
+
+                BoxBlur blur = new BoxBlur();
+                blur.setWidth(10);
+                blur.setHeight(10);
+                blur.setIterations(3);
+                LecturesHBox.setEffect(blur);
+
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(false);
+                thirdEllipses.setVisible(false);
+
+
+
+
+
+
+
+
+                LectureConfig Lecture = DBConnector.getInstance().getLectureConfigObject(lec_id);
+                String TempID=Integer.toString(Lecture.getLecture_id());
+                String TempLectureName=Lecture.getLecture_Name();
+                String TempLecturerName=Lecture.getLecturer_Name();
+
+                Label LectureID = new Label("Lecture ID :");
+                EditLectureoldvalue.add(LectureID, 0, 0);
+
+                Label lectureNameLabel = new Label("Lecture Name:");
+                EditLectureoldvalue.add(lectureNameLabel, 0, 1);
+
+                Label lecturerNameLabel = new Label("Lecturer's Name:");
+                EditLectureoldvalue.add(lecturerNameLabel, 0, 2);
+
+
+
+
+                Label LectureIDtext = new Label(TempID);
+                EditLectureoldvalue.add(LectureIDtext, 1, 0);
+
+                Label LectureNameText = new Label(TempLectureName);
+                EditLectureoldvalue.add(LectureNameText, 1, 1);
+
+                Label LecturersNameText = new Label(TempLecturerName);
+                EditLectureoldvalue.add(LecturersNameText, 1, 2);
+
+
+
+                Label NewLectureID = new Label("Lecture ID :");
+                EditLecturenewvalue.add(NewLectureID, 0, 0);
+
+                Label NewlectureNameLabel = new Label("Lecture Name:");
+                EditLecturenewvalue.add(NewlectureNameLabel, 0, 1);
+
+                Label NewlecturerNameLabel = new Label("Lecturer's Name:");
+                EditLecturenewvalue.add(NewlecturerNameLabel, 0, 2);
+
+
+
+
+                TextField NewLectureIDtext = new TextField(TempID);
+                NewLectureIDtext.setEditable(false);
+                EditLecturenewvalue.add(NewLectureIDtext, 1, 0);
+
+                TextField NewLectureNameText = new TextField();
+                EditLecturenewvalue.add(NewLectureNameText, 1, 1);
+
+                TextField NewLecturersNameText = new TextField();
+                EditLecturenewvalue.add(NewLecturersNameText, 1, 2);
+
+
+                EditLectureConfirm.setOnAction(event -> {
+                        LectureConfig LectureNew = new LectureConfig(lec_id,NewLectureNameText.getText(),NewLecturersNameText.getText());
+                        DBConnector.getInstance().updateLecture(LectureNew);
+
+                        EditLectureHBox.setVisible(false);
+                        LecturesHBox.setVisible(true);
+                        LecturesHBox.setEffect(null);
+                        ProjectsHBox.setVisible(false);
+                        PL_HBox.setVisible(false);
+                        AddProjectBox.setVisible(false);
+                        AddPLBox.setVisible(false);
+                        AddLectureBox.setVisible(false);
+                        ProjectsHBox.setEffect(null);
+                        StudentsHbox.setVisible(false);
+                        firstEllipses.setVisible(false);
+                        secondEllipses.setVisible(true);
+                        thirdEllipses.setVisible(false);
+                        openLectureScreen();
+                });
+
+                CloseEditLecture.setOnAction(event -> {
+                        EditLectureHBox.setVisible(false);
+                        LecturesHBox.setVisible(true);
+                        LecturesHBox.setEffect(null);
+                        ProjectsHBox.setVisible(false);
+                        PL_HBox.setVisible(false);
+                        AddProjectBox.setVisible(false);
+                        AddPLBox.setVisible(false);
+                        AddLectureBox.setVisible(false);
+                        ProjectsHBox.setEffect(null);
+                        StudentsHbox.setVisible(false);
+                        firstEllipses.setVisible(false);
+                        secondEllipses.setVisible(true);
+                        thirdEllipses.setVisible(false);
+                        openLectureScreen();
+                });
+
+
+
         }
 
        @FXML
@@ -934,8 +1125,9 @@ public void openPLScreen() {
 
                         ObservableList<TableShow> ts_list = PLTableView.getSelectionModel().getSelectedItems();
                         TableShow ts = ts_list.get(0);
-                        int temp_id = ts.getId();
-                        PLConfig ProgrammingLanguage = DBConnector.getInstance().getPLConfigObject(temp_id);
+                        pl_id = ts.getId();
+
+                        PLConfig ProgrammingLanguage = DBConnector.getInstance().getPLConfigObject(pl_id);
                         ObservableList<Node> children = PLGrid.getChildren();
                         children.clear();
                         String TempID=Integer.toString(ProgrammingLanguage.getId());
@@ -982,6 +1174,274 @@ public void openPLScreen() {
 
 
                 }
+        }
+
+
+
+
+        @FXML
+        public void openEditProgLang() throws UnsupportedSelectionException {
+                ObservableList<TableShow> ts_list = PLTableView.getSelectionModel().getSelectedItems();
+                try{
+                TableShow ts = ts_list.get(0);}
+                catch (Exception e) {
+                        AlertUtil.showUnsupportedSelectionAlert();
+                        openPLScreen();
+                        throw new UnsupportedSelectionException("Unsupported Selection");
+
+
+
+
+                }
+
+
+                TableShow ts = ts_list.get(0);
+                pl_id = ts.getId();
+
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(false);
+                EditLectureHBox.setVisible(false);
+                EditProgLangHBox.setVisible(true);
+                PL_HBox.setVisible(true);
+                AddProjectBox.setVisible(false);
+                AddPLBox.setVisible(false);
+                AddLectureBox.setVisible(false);
+                ProjectsHBox.setEffect(null);
+                StudentsHbox.setVisible(false);
+
+                BoxBlur blur = new BoxBlur();
+                blur.setWidth(10);
+                blur.setHeight(10);
+                blur.setIterations(3);
+                PL_HBox.setEffect(blur);
+
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(false);
+                thirdEllipses.setVisible(false);
+
+
+
+                PLConfig ProgrammingLanguage = DBConnector.getInstance().getPLConfigObject(pl_id);
+
+                String TempID=Integer.toString(ProgrammingLanguage.getId());
+                String TempName=ProgrammingLanguage.getName();
+                String version=ProgrammingLanguage.getVersionString();
+                String needcompiler=Boolean.toString(ProgrammingLanguage.isNeed_compiler());
+                String compileIns = ProgrammingLanguage.getCompileInsString();
+                String RunIns=ProgrammingLanguage.getRunInsString();
+                String versionCheck=ProgrammingLanguage.getVersionCheckCommand();
+                String pattern = ProgrammingLanguage.getVersionExtractPattern().toString();
+
+                Label ProgLangID = new Label("Programming Language ID :");
+                EditProgLangoldvalue.add(ProgLangID, 0, 0);
+
+                Label ProgLangName= new Label("Programming Langugage Name  : ");
+                EditProgLangoldvalue.add(ProgLangName, 0, 1);
+
+                Label ProgLangVersion = new Label("Programming Language Version  : ");
+                EditProgLangoldvalue.add(ProgLangVersion, 0, 2);
+
+                Label ProgLangNeedCompiler = new Label("Need Compiler  : ");
+                EditProgLangoldvalue.add(ProgLangNeedCompiler, 0, 3);
+
+
+                Label ProgLangCompileInstructions = new Label(" Compile İnstructions : ");
+                EditProgLangoldvalue.add(ProgLangCompileInstructions, 0, 4);
+
+
+                Label ProgLangRunInstructions = new Label("Run İnstructions  : ");
+                EditProgLangoldvalue.add(ProgLangRunInstructions, 0, 5);
+
+
+                Label ProgLangVersionCheckCommand = new Label("Version Check command  : ");
+                EditProgLangoldvalue.add(ProgLangVersionCheckCommand, 0, 6);
+
+                Label ProgLangVersionExtractPattern = new Label("Version Extract Pattern  : ");
+                EditProgLangoldvalue.add(ProgLangVersionExtractPattern, 0, 7);
+
+
+
+
+
+                TextField ProgLangIDText = new TextField(TempID);
+                ProgLangIDText.setEditable(false);
+                EditProgLangoldvalue.add(ProgLangIDText, 1, 0);
+
+                TextField ProgLangNameText = new TextField(TempName);
+                ProgLangNameText.setEditable(false);
+                EditProgLangoldvalue.add(ProgLangNameText, 1, 1);
+
+                TextField ProgLangVersionText = new TextField(version);
+                ProgLangVersionText.setEditable(false);
+                EditProgLangoldvalue.add(ProgLangVersionText, 1, 2);
+
+                TextField ProgLangNeedCompilerText = new TextField(needcompiler);
+                ProgLangNeedCompilerText.setEditable(false);
+                EditProgLangoldvalue.add(ProgLangNeedCompilerText, 1, 3);
+
+                TextField ProgLangCompileInstructionsText = new TextField(compileIns);
+                ProgLangCompileInstructionsText.setEditable(false);
+                EditProgLangoldvalue.add(ProgLangCompileInstructionsText, 1, 4);
+
+                TextField ProgLangRunInstructionsText = new TextField(RunIns);
+                ProgLangRunInstructionsText.setEditable(false);
+                EditProgLangoldvalue.add(ProgLangRunInstructionsText, 1, 5);
+
+                TextField ProgLangVersionCheckCommandText = new TextField(versionCheck);
+                ProgLangVersionCheckCommandText.setEditable(false);
+                EditProgLangoldvalue.add(ProgLangVersionCheckCommandText, 1, 6);
+
+                TextField ProgLangVersionExtractPatternText = new TextField(pattern);
+                ProgLangVersionExtractPatternText.setEditable(false);
+                EditProgLangoldvalue.add(ProgLangVersionExtractPatternText, 1, 7);
+
+
+
+
+             /*
+                Label l1 = new Label("Programming Language ID :");
+
+                Label l2 = new Label(TempID);
+
+                EditProgLangoldvalue.add(0, l1, l2);
+                EditProgLangoldvalue.add(0, l1, l2);
+
+                Label ProgLangName = new Label("Programming Langugage Name  : ");
+                Label ProgLangVersion = new Label("Programming Language Version  : ");
+                Label ProgLangNeedCompiler = new Label("Need Compiler  : ");
+                Label ProgLangCompileİns = new Label(" Compile İnstructions : ");
+                Label ProgLangRunİns = new Label("Run İnstructions  : ");
+                Label ProgLangVersionCheck = new Label("Version Check command  : ");
+                Label ProgLangVersionExtractPattern = new Label("Version Extract Pattern  : ");
+
+                Label selectedPL_Name=new Label(TempName);
+                Label selectedPL_Version = new Label(version);
+                Label selectedPL_Compiler=new Label(needcompiler);
+                Label selectedPL_Compileİns = new Label(compileIns);
+                Label selectedPL_Runİns=new Label(RunIns);
+                Label selectedPL_VersionCheck=new Label(versionCheck);
+                Label selectedPL_VersionExtractPattern=new Label(pattern);
+
+
+
+                EditProgLangoldvalue.add(ProgLangName,selectedPL_Name );
+                EditProgLangoldvalue.add(ProgLangVersion,selectedPL_Version);
+                EditProgLangoldvalue.add(ProgLangNeedCompiler,selectedPL_Compiler);
+                EditProgLangoldvalue.add(ProgLangCompileİns,selectedPL_Compileİns);
+                EditProgLangoldvalue.add(ProgLangRunİns,selectedPL_Runİns);
+                EditProgLangoldvalue.add(ProgLangVersionCheck,selectedPL_VersionCheck);
+                EditProgLangoldvalue.add(ProgLangVersionExtractPattern,selectedPL_VersionExtractPattern);
+                EditProgLangoldvalue.add(ProgLangVersion,selectedPL_Version);
+                EditProgLangoldvalue.add(ProgLangNeedCompiler,selectedPL_Compiler);
+                EditProgLangoldvalue.add(ProgLangCompileİns,selectedPL_Compileİns);
+                EditProgLangoldvalue.add(ProgLangRunİns,selectedPL_Runİns);
+                EditProgLangoldvalue.add(ProgLangVersionCheck,selectedPL_VersionCheck);
+                EditProgLangoldvalue.add(ProgLangVersionExtractPattern,selectedPL_VersionExtractPattern);
+
+
+              */
+
+
+                Label NewProgLangID = new Label("Programming Language ID :");
+                EditProgLangnewvalue.add(NewProgLangID, 0, 0);
+
+                Label NewProgLangName= new Label("Programming Langugage Name  : ");
+                EditProgLangnewvalue.add(NewProgLangName, 0, 1);
+
+                Label NewProgLangVersion = new Label("Programming Language Version  : ");
+                EditProgLangnewvalue.add(NewProgLangVersion, 0, 2);
+
+                Label NewProgLangNeedCompiler = new Label("Need Compiler  : ");
+                EditProgLangnewvalue.add(NewProgLangNeedCompiler, 0, 3);
+
+
+                Label NewProgLangCompileInstructions = new Label(" Compile İnstructions : ");
+                EditProgLangnewvalue.add(NewProgLangCompileInstructions, 0, 4);
+
+
+                Label NewProgLangRunInstructions = new Label("Run İnstructions  : ");
+                EditProgLangnewvalue.add(NewProgLangRunInstructions, 0, 5);
+
+
+                Label NewProgLangVersionCheckCommand = new Label("Version Check command  : ");
+                EditProgLangnewvalue.add(NewProgLangVersionCheckCommand, 0, 6);
+
+                Label NewProgLangVersionExtractPattern = new Label("Version Extract Pattern  : ");
+                EditProgLangnewvalue.add(NewProgLangVersionExtractPattern, 0, 7);
+
+
+
+                TextField NewProgLangIDText = new TextField(TempID);
+                NewProgLangIDText.setEditable(false);
+                EditProgLangnewvalue.add(NewProgLangIDText, 1, 0);
+
+                TextField NewProgLangNameText = new TextField();
+                EditProgLangnewvalue.add(NewProgLangNameText, 1, 1);
+
+                TextField NewProgLangVersionText = new TextField();
+                EditProgLangnewvalue.add(NewProgLangVersionText, 1, 2);
+
+                TextField NewProgLangNeedCompilerText = new TextField();
+                EditProgLangnewvalue.add(NewProgLangNeedCompilerText, 1, 3);
+
+                TextField NewProgLangCompileInstructionsText = new TextField();
+                EditProgLangnewvalue.add(NewProgLangCompileInstructionsText, 1, 4);
+
+                TextField NewProgLangRunInstructionsText = new TextField();
+                EditProgLangnewvalue.add(NewProgLangRunInstructionsText, 1, 5);
+
+                TextField NewProgLangVersionCheckCommandText = new TextField();
+                EditProgLangnewvalue.add(NewProgLangVersionCheckCommandText, 1, 6);
+
+                TextField NewProgLangVersionExtractPatternText = new TextField(pattern);
+                EditProgLangnewvalue.add(NewProgLangVersionExtractPatternText, 1, 7);
+
+
+                EditProgLangConfirm.setOnAction(event -> {
+                        PLConfig PLNew = null;
+                        try {
+                                PLNew = new PLConfig(pl_id,NewProgLangNameText.getText(),NewProgLangVersionText.getText(),Boolean.parseBoolean(NewProgLangNeedCompilerText.getText()),NewProgLangCompileInstructionsText.getText(),NewProgLangRunInstructionsText.getText(),NewProgLangVersionCheckCommandText.getText(),Pattern.compile(NewProgLangVersionExtractPatternText.getText()));
+                        } catch (Exception e) {
+                                throw new RuntimeException(e);
+                        }
+                        DBConnector.getInstance().updatePL(PLNew);
+
+                        EditLectureHBox.setVisible(false);
+                        EditProgLangHBox.setVisible(false);
+                        LecturesHBox.setVisible(false);
+                        LecturesHBox.setEffect(null);
+                        ProjectsHBox.setVisible(false);
+                        PL_HBox.setVisible(true);
+                        AddProjectBox.setVisible(false);
+                        AddPLBox.setVisible(false);
+                        AddLectureBox.setVisible(false);
+                        ProjectsHBox.setEffect(null);
+                        StudentsHbox.setVisible(false);
+                        firstEllipses.setVisible(false);
+                        secondEllipses.setVisible(true);
+                        thirdEllipses.setVisible(false);
+                        openPLScreen();
+                });
+
+                CloseEditProgLang.setOnAction(event -> {
+                        EditLectureHBox.setVisible(false);
+                        EditProgLangHBox.setVisible(false);
+                        LecturesHBox.setVisible(false);
+                        LecturesHBox.setEffect(null);
+                        ProjectsHBox.setVisible(false);
+                        PL_HBox.setVisible(true);
+                        AddProjectBox.setVisible(false);
+                        AddPLBox.setVisible(false);
+                        AddLectureBox.setVisible(false);
+                        ProjectsHBox.setEffect(null);
+                        StudentsHbox.setVisible(false);
+                        firstEllipses.setVisible(false);
+                        secondEllipses.setVisible(true);
+                        thirdEllipses.setVisible(false);
+                        openPLScreen();
+                });
+
+
         }
         @FXML
         public void openStudentScreen(int id) {
