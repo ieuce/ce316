@@ -350,12 +350,11 @@
                                                                 </VBox>
                                                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="394.0" spacing="20.0">
                                                    <children>
-                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
+                                                      <Button fx:id="EditLectureButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#openEditLecture" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Save" />
                                                    </children>
                                                 </HBox>
                                                             </children>
@@ -654,12 +653,11 @@
                                                 </VBox>
                                                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="394.0" spacing="20.0">
                                                    <children>
-                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
+                                                      <Button fx:id="EditProgLangButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#openEditProgLang" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Save" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -928,25 +926,25 @@
                                     <Insets bottom="40.0" left="100.0" right="100.0" top="40.0" />
                                  </padding>
                               </HBox>
-                              <HBox fx:id="modalHBox" alignment="CENTER" prefHeight="745.0" prefWidth="924.0">
+                              <HBox fx:id="EditLectureHBox" alignment="CENTER" prefHeight="745.0" prefWidth="924.0" visible="false" StackPane.alignment="CENTER">
                                  <children>
-                                    <VBox alignment="CENTER" maxHeight="723.0" maxWidth="583.0" prefHeight="700.0" prefWidth="583.0" HBox.hgrow="NEVER">
+                                    <VBox alignment="CENTER" maxHeight="723.0" maxWidth="843.0" prefHeight="700.0" prefWidth="843.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <HBox prefHeight="547.0" prefWidth="583.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 20; -fx-border-width: 2; -fx-background-radius: 20;" VBox.vgrow="NEVER">
+                                          <HBox prefHeight="548.0" prefWidth="843.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 20; -fx-border-width: 2; -fx-background-radius: 20;" VBox.vgrow="NEVER">
                                              <children>
-                                                <VBox prefHeight="291.0" prefWidth="378.0" HBox.hgrow="ALWAYS">
+                                                <VBox prefHeight="543.0" prefWidth="606.0" HBox.hgrow="ALWAYS">
                                                    <children>
                                                       <HBox alignment="TOP_RIGHT" minHeight="-Infinity" prefHeight="38.0" prefWidth="579.0">
                                                          <children>
-                                                            <Label alignment="CENTER" prefHeight="30.0" prefWidth="217.0" text="Edit Operations">
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="217.0" text="Edit Operations">
                                                                <font>
                                                                   <Font size="20.0" />
                                                                </font>
                                                                <HBox.margin>
-                                                                  <Insets right="130.0" />
+                                                                  <Insets right="260.0" />
                                                                </HBox.margin>
                                                             </Label>
-                                                            <Button mnemonicParsing="false" onAction="#closeTags" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50;" text="X">
+                                                            <Button fx:id="CloseEditLecture" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50;" text="X">
                                                                <HBox.margin>
                                                                   <Insets left="20.0" />
                                                                </HBox.margin>
@@ -956,22 +954,144 @@
                                                             <Insets top="5.0" />
                                                          </VBox.margin>
                                                       </HBox>
-                                                      <HBox prefHeight="498.0" prefWidth="579.0" VBox.vgrow="ALWAYS">
+                                                      <HBox alignment="BASELINE_LEFT" fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="31.0" prefWidth="839.0">
                                                          <children>
-                                                            <GridPane HBox.hgrow="ALWAYS">
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="217.0" text="Old Values :">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="201.0" prefWidth="839.0">
+                                                         <children>
+                                                            <GridPane fx:id="EditLectureoldvalue" prefHeight="456.0" prefWidth="839.0" HBox.hgrow="SOMETIMES">
                                                               <columnConstraints>
                                                                 <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
                                                                 <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
                                                               </columnConstraints>
                                                               <rowConstraints>
-                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
                                                               </rowConstraints>
                                                             </GridPane>
                                                          </children>
                                                       </HBox>
-                                                      <HBox alignment="CENTER" minHeight="-Infinity" prefHeight="48.0" prefWidth="579.0" spacing="100.0">
+                                                      <HBox alignment="BASELINE_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="31.0" prefWidth="839.0">
                                                          <children>
-                                                            <Button mnemonicParsing="false" onAction="#deleteTag" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit" />
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="217.0" text="New Values :">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="201.0" prefWidth="839.0">
+                                                         <children>
+                                                            <GridPane fx:id="EditLecturenewvalue" prefHeight="456.0" prefWidth="839.0" HBox.hgrow="ALWAYS">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
+                                                               </rowConstraints>
+                                                            </GridPane>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="48.0" prefWidth="579.0" spacing="100.0" VBox.vgrow="NEVER">
+                                                         <children>
+                                                            <Button fx:id="EditLectureConfirm" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="EditProgLangHBox" alignment="CENTER" prefHeight="745.0" prefWidth="924.0">
+                                 <children>
+                                    <VBox alignment="CENTER" maxHeight="723.0" maxWidth="843.0" prefHeight="700.0" prefWidth="843.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <HBox prefHeight="548.0" prefWidth="843.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 20; -fx-border-width: 2; -fx-background-radius: 20;" VBox.vgrow="NEVER">
+                                             <children>
+                                                <VBox prefHeight="543.0" prefWidth="606.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <HBox alignment="TOP_RIGHT" minHeight="-Infinity" prefHeight="38.0" prefWidth="579.0">
+                                                         <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="217.0" text="Edit Operations">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                               <HBox.margin>
+                                                                  <Insets right="260.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                            <Button fx:id="CloseEditProgLang" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50;" text="X">
+                                                               <HBox.margin>
+                                                                  <Insets left="20.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets top="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox alignment="BASELINE_LEFT" fillHeight="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="31.0" prefWidth="839.0">
+                                                         <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="217.0" text="Old Values :">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="201.0" prefWidth="839.0">
+                                                         <children>
+                                                            <GridPane fx:id="EditProgLangoldvalue" prefHeight="456.0" prefWidth="839.0" HBox.hgrow="SOMETIMES">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
+                                                               </rowConstraints>
+                                                               <padding>
+                                                                  <Insets right="20.0" />
+                                                               </padding>
+                                                            </GridPane>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="BASELINE_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="31.0" prefWidth="839.0">
+                                                         <children>
+                                                            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="217.0" text="New Values :">
+                                                               <font>
+                                                                  <Font size="20.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox prefHeight="201.0" prefWidth="839.0">
+                                                         <children>
+                                                            <GridPane fx:id="EditProgLangnewvalue" prefHeight="456.0" prefWidth="839.0" HBox.hgrow="ALWAYS">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
+                                                               </rowConstraints>
+                                                               <padding>
+                                                                  <Insets right="20.0" />
+                                                               </padding>
+                                                            </GridPane>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="42.0" prefWidth="839.0" spacing="100.0" VBox.vgrow="NEVER">
+                                                         <children>
+                                                            <Button fx:id="EditProgLangConfirm" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit" />
                                                          </children>
                                                       </HBox>
                                                    </children>

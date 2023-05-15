@@ -556,7 +556,7 @@ public class DBConnector {
         int id = newLecture.getLecture_id();
         deleteLectureObject(id);
         addLecture(newLecture);
-    }
+}
 
     public void updatePL(PLConfig newPL){
         int id = newPL.getId();
