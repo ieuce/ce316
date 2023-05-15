@@ -766,46 +766,19 @@ public class MainController {
                 blur.setIterations(3);
                 ProjectsHBox.setEffect(blur);
 
-                int ProjectIDTEMP = (ProjectTableView.getItems().size())+1;
-                String SatırsayısıtoString=Integer.toString(ProjectIDTEMP);
-               ObservableList<TableShow> dataList = ProjectTableView.getItems();
-
-
+                int maxProjectID = DBConnector.getInstance().getMaxProjectIDDB();
+                int validProjectID = maxProjectID + 1;
+                
                 Label l1 = new Label("Project ID :");
-
                 TextField l2 = new TextField();
                 l2.setEditable(false);
-
-
-
-               int project_id;
-// Son elemanın nameColumnundan names değerini al
-               if (dataList.size() > 0) { // veriler varsa
-                       int lastIndex = dataList.size() - 1;
-                       TableColumn<TableShow, String> nameColumn = (TableColumn<TableShow, String>) ProjectTableView.getColumns().get(1); // nameColumn sütunu
-                       String   lastNamesValue = nameColumn.getCellData(lastIndex); // son elemanın names değeri
-                       ProjectConfig  project = DBConnector.getInstance().getProject(lastNamesValue);
-                       System.out.println(project.getId());
-                       project_id=(project.getId())+1;
-
-                       l2.setText("");
-                       l2.setText(Integer.toString((project.getId())+1));
-
-               }
-               else{
-                       project_id=ProjectIDTEMP;
-                       l2.setText(SatırsayısıtoString);}
-
-
-
-
-
+                l2.setText(Integer.toString(validProjectID));
+                       
                 Label ProjectTitleLabel = new Label("Project Title : ");
                 Label ProjectDescriptionLabel = new Label("Project Description : ");
                 Label ProjectLectureIDLabel = new Label("Project Lecture ID : ");
                 Label ProjectPL_IDLabel = new Label("Programming Language ID: ");
                 Label Project_Main_File_Name_FormatLabel = new Label("Main File Name Format : ");
-
 
                 TextField selectedPL_ID=new TextField();
                 TextField selectedProjectTitle = new TextField();
@@ -813,20 +786,19 @@ public class MainController {
                 TextField selectedProjectL_ID = new TextField(Integer.toString(lec_id));
                 TextField selectedMain_File_Format=new TextField();
 
-
-               AddProjectGrid.add( l1,0,0 );
-               AddProjectGrid.add(l2,1,0);
+                AddProjectGrid.add(l1,0,0);
+                AddProjectGrid.add(l2,1,0);
                 AddProjectGrid.add(ProjectTitleLabel,0,1);
                 AddProjectGrid.add(ProjectDescriptionLabel,0,2);
                 AddProjectGrid.add(ProjectLectureIDLabel,0,3);
                 AddProjectGrid.add(ProjectPL_IDLabel,0,4);
                 AddProjectGrid.add(Project_Main_File_Name_FormatLabel,0,5);
 
-               AddProjectGrid.add(selectedProjectTitle,1,1);
-               AddProjectGrid.add(selectedProjectDescription,1,2);
-               AddProjectGrid.add(selectedProjectL_ID,1,3);
-               AddProjectGrid.add(selectedPL_ID,1,4);
-               AddProjectGrid.add(selectedMain_File_Format,1,5);
+                AddProjectGrid.add(selectedProjectTitle,1,1);
+                AddProjectGrid.add(selectedProjectDescription,1,2);
+                AddProjectGrid.add(selectedProjectL_ID,1,3);
+                AddProjectGrid.add(selectedPL_ID,1,4);
+                AddProjectGrid.add(selectedMain_File_Format,1,5);
 
                ArrayList<TextField> inputs = new ArrayList<>();
                ArrayList<TextField> outputs = new ArrayList<>();
@@ -874,25 +846,15 @@ public class MainController {
 
                 String ProjectName = (String) ProjectNameColumn.getCellData(index);
                 ObservableList<TablePosition> selectedCells = ProjectTableView.getSelectionModel().getSelectedCells();
+                TableShow ts = (TableShow) ProjectTableView.getSelectionModel().getSelectedItems().get(0);
+                ProjectConfig Project = DBConnector.getInstance().getPConfigObject(ts.getId());
 
                 if (selectedCells.get(0).getTableColumn().equals(ProjectTrashColumn)) {
-                        ProjectConfig Project = DBConnector.getInstance().getProject(ProjectName);
                         DBConnector.getInstance().deleteProjectObject(Project.getId());
-                        System.out.println(ProjectName);
                         openProjectScreen(lec_id);
                 } else if (selectedCells.get(0).getTableColumn().equals(ProjectGoColumn)) {
-                        ObservableList<TableShow> ts_list = ProjectTableView.getSelectionModel().getSelectedItems();
-                        TableShow ts = ts_list.get(0);
-                        project_id = ts.getId();
-                        openStudentScreen(project_id);
-
+                        openStudentScreen(Project.getId());
                 } else {
-
-
-                        ProjectConfig Project = DBConnector.getInstance().getProject(ProjectName);
-
-
-
                         ObservableList<Node> children = ProjectGrid.getChildren();
                         children.clear();
 
@@ -1456,6 +1418,8 @@ public void openPLScreen() {
         }
         @FXML
         public void openStudentScreen(int id) {
+                project_id = id;
+
                 LecturesHBox.setVisible(false);
                 ProjectsHBox.setVisible(false);
                 LecturesHBox.setEffect(null);
@@ -1469,7 +1433,6 @@ public void openPLScreen() {
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
           
-                project_id=id;
                 String path="images/GO.png";
                 Image image = new Image(getClass().getResource(path).toExternalForm());
 
