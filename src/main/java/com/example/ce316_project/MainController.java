@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -24,6 +25,7 @@ import java.util.zip.ZipFile;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import javafx.collections.FXCollections;
@@ -56,6 +58,11 @@ public class MainController {
         private HBox EditLectureHBox;
         @FXML
         private GridPane EditLectureGrid;
+
+        @FXML
+        private GridPane ArgumentsProjectGrid;
+
+
 
         @FXML
         private HBox EditProjectHBox;
@@ -694,6 +701,7 @@ public class MainController {
 
 
         }
+        int row=0;
 
        @FXML
         public void openProjectScreen(int id) {
@@ -820,35 +828,38 @@ public class MainController {
                AddProjectGrid.add(selectedPL_ID,1,4);
                AddProjectGrid.add(selectedMain_File_Format,1,5);
 
+               ArrayList<TextField> inputs = new ArrayList<>();
+               ArrayList<TextField> outputs = new ArrayList<>();
+
                 AddAttribute.setOnAction(event -> {
                         Label label = new Label("Arguments: ");
-                        TextField textField = new TextField();
-                        AddProjectGrid.addRow(AddProjectGrid.getRowCount() + 1, label, textField);
+                        Label label2=new Label("Expected Output");
+                        TextField input_text_field = new TextField();
+                        TextField output_text_field= new TextField();
+                        inputs.add(input_text_field);
+                        outputs.add(output_text_field);
+                        ArgumentsProjectGrid.addRow(ArgumentsProjectGrid.getRowCount() + 1, label, input_text_field,label2,output_text_field);
                 });
 
                 AddProjectButton.setOnAction(event -> {
-
                         int TempPL_ID=Integer.parseInt(selectedPL_ID.getText());
                         String Temp_PT =selectedProjectTitle.getText();
                         String TempP_D=selectedProjectDescription.getText();
                         int TempL_ID =Integer.parseInt(selectedProjectL_ID.getText());
                         String TempM_F_F=selectedMain_File_Format.getText();
-                        
                         ArrayList<Evaluation> evaluations = new ArrayList<>();
-                        Evaluation evaluation1 = new Evaluation(1, ProjectIDTEMP, "0", "0");
-                        Evaluation evaluation2 = new Evaluation(2, ProjectIDTEMP, "1 2 3", "6");
-                        Evaluation evaluation3 = new Evaluation(3, ProjectIDTEMP, "5 6 7", "18");
-                        Evaluation evaluation4 = new Evaluation(4, ProjectIDTEMP, "7 8 9", "24");
-                        evaluations.add(evaluation1);
-                        evaluations.add(evaluation2);
-                        evaluations.add(evaluation3);
-                        evaluations.add(evaluation4);
-
-                        ProjectConfig Project = new ProjectConfig(project_id,Temp_PT,TempP_D,TempL_ID,TempPL_ID,TempM_F_F,evaluations);
+                        for(int i=0; i<inputs.size(); i++) {
+                                String input_arg = inputs.get(i).getText().trim();
+                                String output_arg = outputs.get(i).getText().trim();
+                                if(!input_arg.equals("") || !output_arg.equals("")){
+                                        Evaluation evaluation = new Evaluation(-1,ProjectIDTEMP, input_arg, output_arg);
+                                        evaluations.add(evaluation);
+                                }
+                        }
+                        ProjectConfig Project = new ProjectConfig(project_id, Temp_PT, TempP_D, TempL_ID, TempPL_ID, TempM_F_F, evaluations);
                         DBConnector.getInstance().addProject(Project);
                         openProjectScreen(lec_id);
-                });
-
+                        });
         }
 
         @FXML
@@ -1526,7 +1537,7 @@ public void openPLScreen() {
                         if (folders != null) {
                                 for (File folder : folders) {
                                         String folderName = folder.getName();
-                                        double score = pl_config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+project_config.getMain_file_format()), project_config.getEvaluations(), false);
+                                        double score = pl_config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+project_config.getMain_file_format()), project_config.getEvaluations(), true);
                                         if(Double.isNaN(score)){
                                                 score=0;
                                         }
