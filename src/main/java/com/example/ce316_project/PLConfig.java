@@ -124,6 +124,48 @@ public class PLConfig{
         return this.name;
     }
 
+   /*
+   Updated code as you shown below but in MainController Class 1503. sentence we have  error accordiing to
+   undefined DetailedEvaluation datas. So, I have been added updated code with // command.
+    public ArrayList<DetailedEvaluation> executeAndEvaluate(File file, ArrayList<DetailedEvaluation> evaluations, boolean debug) {
+        int totalQuestions = evaluations.size();
+        ArrayList<DetailedEvaluation> updatedEvaluations = new ArrayList<>();
+
+        for (int i = 0; i < totalQuestions; i++) {
+            DetailedEvaluation evaluation = evaluations.get(i);
+            String studentId = evaluation.getStudent_id();
+            String input = evaluation.getOutput();
+            String expectedOutput = evaluation.getOutput(); // output değerini expectedOutput olarak kullandım baranke.
+
+            ExecuteStatus output = executeProgram(file, input, debug);
+            String actualOutput = output.getOutput();
+            boolean success = actualOutput.trim().equals(expectedOutput.trim());
+
+            if (debug) {
+                System.out.println("Student ID: " + studentId);
+                System.out.println("Input: " + input);
+                System.out.println("Expected Output: " + expectedOutput);
+                System.out.println("Actual Output: " + actualOutput);
+                System.out.println("Success: " + success);
+            }
+
+            if (success) {
+                evaluation.setSuccess_code(1);
+            } else {
+                evaluation.setSuccess_code(0);
+            }
+
+            evaluation.setOutput(actualOutput);
+
+            updatedEvaluations.add(evaluation);
+        }
+
+        return updatedEvaluations;
+    }
+
+    */
+
+
     public double executeAndEvaluate(File file, ArrayList<Evaluation> evaluations, boolean debug) {
         int totalQuestions = evaluations.size();
         int correctAnswers = 0;
@@ -136,7 +178,7 @@ public class PLConfig{
             ExecuteStatus output = executeProgram(file, input, debug);
             String actualOutput = output.getOutput();
             boolean success = actualOutput.trim().equals(expectedOutput.trim());
-            
+
             if(debug){
                 System.out.println("Input: " + input);
                 System.out.println("Expected Output: " + expectedOutput);
@@ -159,6 +201,7 @@ public class PLConfig{
 
         return score;
     }
+
 
     public String getVersionString() {
         return versionString;
