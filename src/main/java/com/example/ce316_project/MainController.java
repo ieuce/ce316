@@ -1,9 +1,5 @@
 package com.example.ce316_project;
 
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -25,7 +20,6 @@ import java.util.zip.ZipFile;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import javafx.collections.FXCollections;
