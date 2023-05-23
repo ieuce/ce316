@@ -1,9 +1,5 @@
 package com.example.ce316_project;
 
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -25,8 +20,7 @@ import java.util.zip.ZipFile;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
+import javafx.stage.DirectoryChooser;
 
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -1486,21 +1480,22 @@ public void openPLScreen() {
                 int pl_config_id = project_config.getProgramming_language_id();
                 PLConfig pl_config = DBConnector.getInstance().getPLConfigObject(pl_config_id);
                 DBConnector.getInstance().deleteGradeObject(project_config.getId());
+                
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Open Projects' Folder");
+                File directory = directoryChooser.showDialog(null);
+                if (directory != null) {
+                        File[] zipFiles = directory.listFiles((dir, name) -> name.endsWith(".zip"));
+                        if(zipFiles != null){
+                                for(File zipFile : zipFiles){
+                                        String filename = zipFile.getName().replace(".zip", "");
+                                        String destinationPath = "src/main/resources/submissions/project-"+String.valueOf(project_config.getId())+"/"+filename;
+                                        File folder = new File(destinationPath);
 
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("Open Projects' ZIP File (projects.zip)");
-                File file = fileChooser.showOpenDialog(null);
-                if (file != null) {
-                        System.out.println(file.getAbsolutePath());
-                        String destinationPath = "src/main/resources/student_performances/project-"+String.valueOf(project_config.getId());
-                        extractZipFile(file, new File(destinationPath));
+                                        extractZipFile(zipFile, folder);
 
-                        File directory = new File(destinationPath+"/projects");
-                        File[] folders = directory.listFiles(File::isDirectory);
-                        if (folders != null) {
-                                for (File folder : folders) {
                                         String folderName = folder.getName();
-                                        double score = pl_config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+project_config.getMain_file_format()), project_config.getEvaluations(), true);
+                                        double score = pl_config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+filename+"/"+project_config.getMain_file_format()), project_config.getEvaluations(), true);
                                         if(Double.isNaN(score)){
                                                 score=0;
                                         }
@@ -1512,12 +1507,12 @@ public void openPLScreen() {
                                         
                                         Grade grade = new Grade(-1, project_config.getId(), student.getId(), (int) score);
                                         DBConnector.getInstance().addGrade(grade);
+
+                                        deleteFolderRecursive(destinationPath);
                                 }
                         }
-
-                        deleteFolderRecursive(destinationPath);
-                        openStudentScreen(project_config.getId());
                 }
+                openStudentScreen(project_config.getId());
         }
 
         private String splitCamelCase(String input) {
