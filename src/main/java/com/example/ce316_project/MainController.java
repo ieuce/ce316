@@ -1,8 +1,9 @@
 package com.example.ce316_project;
 
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -25,7 +25,6 @@ import java.util.zip.ZipFile;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import javafx.collections.FXCollections;
@@ -39,38 +38,73 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
+
+
+import javafx.scene.media.*;
 
 
 public class MainController {
+
+
+        @FXML
+        private MediaView mediaView;
+
+        @FXML
+        private HBox mediaHbox;
+
 
         @FXML
         private Button AddAttribute;
         @FXML
         private Button SmallLectureButton;
-
         @FXML
         private Button SmallPLButton;
-
-
         @FXML
         private HBox AddLectureBox;
         @FXML
         private HBox EditLectureHBox;
         @FXML
         private GridPane EditLectureGrid;
-
         @FXML
         private GridPane ArgumentsProjectGrid;
-
-
 
         @FXML
         private HBox EditProjectHBox;
 
         @FXML
+        private HBox DetailedEvaluationHbox;
+
+        @FXML
+        private TableView DetailedEvaluationTable;
+
+        @FXML
+        private TableColumn EvaluationId;
+
+
+        @FXML
+        private TableColumn EvaluationProjectId;
+
+
+        @FXML
+        private TableColumn EvaluationRunStatus;
+
+
+        @FXML
+        private TableColumn EvaluationRunOutput;
+
+
+        @FXML
+        private TableColumn EvaluationStudentId;
+
+
+
+
+
+
+        @FXML
         private HBox EditProgLangHBox;
-
-
 
         @FXML
         private HBox StudentsHbox;
@@ -326,7 +360,54 @@ public class MainController {
         int project_id = -1;
         int student_id = -1;
 
+        private File file;
+        private Media media;
+        private MediaPlayer mediaPlayer;
+
         public void initialize() throws SQLException, IOException {
+
+
+                try {
+                        mediaHbox.setVisible(true);
+                        allHbox.setVisible(false);
+
+
+                        file = new File("src\\main\\resources\\com\\example\\ce316_project\\images\\team3.mp4");
+                        media = new Media(file.toURI().toString());
+                        mediaPlayer=new MediaPlayer(media);
+
+                        MediaPlayer.Status status = mediaPlayer.getStatus();
+                 if (status == MediaPlayer.Status.UNKNOWN) {
+                         System.out.println("Media Player trying to play");
+
+                        }
+
+                        mediaView.setMediaPlayer(mediaPlayer);
+
+                        mediaPlayer.play();
+
+
+                        mediaPlayer.setOnEndOfMedia(() -> {
+                                System.out.println("finished successfully");
+
+                                mediaHbox.setVisible(false);
+                                allHbox.setVisible(true);
+
+                                openLectureScreen();
+                        });
+
+                }
+                catch (Exception e){
+                        System.out.println("naneyi yedi");
+                        e.printStackTrace();
+                }
+
+
+
+                
+
+
+
                 firstEllipses.widthProperty().addListener((obs, oldVal, newVal) -> {
                         if (firstEllipses.getWidth() < 1400)
                                 shortDrawer();
@@ -344,16 +425,14 @@ public class MainController {
                         ellipse2.setFitWidth(generatedResumeBox.getWidth() / 2);
                 });
 
-                /*originalResumeVBox.widthProperty().addListener((obs, oldVal, newVal) -> {
-                        scrollVBox.minWidth(originalResumeVBox.getWidth());
-                });*/
+
 
                 allHbox.heightProperty().addListener((obs, oldVal, newVal) -> {
                         generatedResumeScrollPane.setPrefWidth(generatedResumeVBox.getWidth());
                         generatedResumeScrollPane.setPrefHeight(allHbox.getHeight() - 200);
                 });
 
-              /*  LectureTableView.getSelectionModel().selectedItemProperty().addListener((observable,oldvalue,newValue) ->{
+                LectureTableView.getSelectionModel().selectedItemProperty().addListener((observable,oldvalue,newValue) ->{
                         try {
                                 selectFromLectureTable();
                         } catch (SQLException e) {
@@ -361,9 +440,10 @@ public class MainController {
                         } catch (IOException e) {
                                 throw new RuntimeException(e);
                         }
-                });*/
+                });
 
-              openLectureScreen();
+
+
 
 
 
@@ -388,6 +468,9 @@ public class MainController {
                 firstEllipses.setVisible(false);
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
+                mediaHbox.setVisible(false);
+                DetailedEvaluationHbox.setVisible(false);
+
 
                 String path = "images/trash.png";
                 String path2="images/GO.png";
@@ -720,7 +803,7 @@ public class MainController {
                 lec_id = id;
 
                 String path = "images/trash.png";
-                String path2="images/GO.png";
+                String path2="images/Go.png";
 
 
                 Image image = new Image(getClass().getResource(path).toExternalForm());
@@ -1067,6 +1150,121 @@ public void openPLScreen() {
 
                 });
         }
+
+
+
+
+        @FXML
+        public void openImportScreen() {
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(false);
+                PL_HBox.setVisible(false);
+                PL_HBox.setEffect(null);
+                AddProjectBox.setVisible(false);
+                DetailedEvaluationHbox.setVisible(false);
+
+                AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(false);
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(false);
+                thirdEllipses.setVisible(true);
+                StudentsHbox.setVisible(false);
+
+                String path = "images/trash.png";
+                String path2="images/GO.png";
+
+                Image image = new Image(getClass().getResource(path).toExternalForm());
+                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
+
+                ObservableList<TableShow> ProgrammingLanguageList = FXCollections
+                        .observableArrayList();
+
+                PLNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
+
+
+                PLTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
+
+                PLGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
+
+                // TODO : Database daha yazılmadı ben şimdiden koydum
+                ArrayList<PLConfig> plconfigs = DBConnector.getInstance().getAllPLConfigObjects();
+                for (PLConfig plconfig : plconfigs) {
+                        ProgrammingLanguageList.add(new TableShow(plconfig.getId(), plconfig.getName(),
+                                new ImageView(image),new ImageView(image2)));
+                }
+
+
+                PLTableView.setItems(ProgrammingLanguageList);
+
+        }
+
+
+        @FXML
+        public void openExportScreen() {
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(false);
+                PL_HBox.setVisible(false);
+                PL_HBox.setEffect(null);
+                AddProjectBox.setVisible(false);
+                DetailedEvaluationHbox.setVisible(false);
+
+                AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(false);
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(false);
+                thirdEllipses.setVisible(true);
+                StudentsHbox.setVisible(false);
+
+                String path = "images/trash.png";
+                String path2="images/GO.png";
+
+                Image image = new Image(getClass().getResource(path).toExternalForm());
+                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
+
+                ObservableList<TableShow> ProgrammingLanguageList = FXCollections
+                        .observableArrayList();
+
+                PLNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
+
+
+                PLTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
+
+                PLGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
+
+                // TODO : Database daha yazılmadı ben şimdiden koydum
+                ArrayList<PLConfig> plconfigs = DBConnector.getInstance().getAllPLConfigObjects();
+                for (PLConfig plconfig : plconfigs) {
+                        ProgrammingLanguageList.add(new TableShow(plconfig.getId(), plconfig.getName(),
+                                new ImageView(image),new ImageView(image2)));
+                }
+
+
+                PLTableView.setItems(ProgrammingLanguageList);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public void selectFromPLTable() throws SQLException, IOException {
                 if (PLTableView.getSelectionModel().getSelectedCells() == null ||
@@ -1454,7 +1652,50 @@ public void openPLScreen() {
         }
 
         @FXML
-        public void selectFromStudentTable(){}
+        public void selectFromStudentTable(){
+                if (StudentTableView.getSelectionModel().getSelectedCells() == null ||
+                        StudentTableView.getSelectionModel().getSelectedIndex() == -1) {
+                        return;
+                }
+
+                int index = StudentTableView.getSelectionModel().getSelectedIndex();
+
+                String StudentID = (String) StudentIDColumn.getCellData(index);
+
+
+                ObservableList<TablePosition> selectedCells = StudentTableView.getSelectionModel().getSelectedCells();
+
+
+
+
+                  if (selectedCells.get(0).getTableColumn().equals(StudentGoColumn)) {
+
+                          Student_Table student = DBConnector.getInstance().getStudentObject(StudentID);
+                          openDetailedEvaluation(student.getId());
+
+                }
+
+        }
+
+        @FXML
+        public void openDetailedEvaluation(String id){
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(false);
+                LecturesHBox.setEffect(null);
+                StudentsHbox.setVisible(false);
+                PL_HBox.setVisible(false);
+                AddProjectBox.setVisible(false);
+                AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(false);
+
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(true);
+                thirdEllipses.setVisible(false);
+                DetailedEvaluationHbox.setVisible(true);
+
+                System.out.println("id budur  "+id);
+
+        }
 
 
 
@@ -1580,5 +1821,17 @@ public void openPLScreen() {
                 } catch (IOException e) {
                         System.out.println("Error extracting zip file: " + e.getMessage());
                 }
+        }
+
+        @FXML
+        private void GoHelp() throws IOException {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpScreen.fxml"));
+                Parent root = fxmlLoader.load();
+                Scene scene = new Scene(root, 800, 600);
+                stage.setTitle("Help");
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.showAndWait();
         }
 }
