@@ -1637,7 +1637,7 @@ public void openPLScreen() {
                 StudentIDColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
                 StudentNameColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("name"));
                 StudentGradeColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("grade"));
-                StudentGoColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("image"));
+                StudentGoColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image"));
 
                 ObservableList<GradeTableShow> student_grade_list = FXCollections
                         .observableArrayList();
@@ -1695,6 +1695,45 @@ public void openPLScreen() {
 
                 System.out.println("id budur  "+id);
 
+
+                EvaluationId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
+                EvaluationProjectId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("project_id"));
+
+
+             /*   switch(runstatus){
+
+
+                        case1:{String path1="images/success.png";
+                        Image image = new Image(getClass().getResource(path1).toExternalForm());
+                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image"));
+                        break;}
+
+                        case2:{String path2="images/cross.png";
+                        Image image2 = new Image(getClass().getResource(path2).toExternalForm());
+                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image2"));
+                        break;}
+
+                        case3:{String path3="images/error.png";
+                        Image image3 = new Image(getClass().getResource(path3).toExternalForm());
+                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image3"));
+                        break;}
+
+
+                }*/
+
+                EvaluationRunOutput.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("RunOutput"));
+                EvaluationStudentId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("student_id"));
+
+                ObservableList<GradeTableShow> student_grade_list = FXCollections
+                        .observableArrayList();
+
+                ArrayList<Grade> grades = DBConnector.getInstance().getGradesObject(Integer.parseInt(id)); //Integer.parseInt() soru işaretli olmalı mı?
+             /*   for (Grade grade : grades) {
+                        Student_Table student = DBConnector.getInstance().getStudentObject(grade.getStudent_id());
+                        student_grade_list.add(new GradeTableShow(student.getId(), student.getName() ,grade.getGrade(), new ImageView(image)));
+                }
+
+                StudentTableView.setItems(student_grade_list);*/
         }
 
 
