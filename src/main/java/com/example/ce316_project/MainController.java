@@ -380,11 +380,10 @@ public class MainController {
                 thirdEllipses.setVisible(false);
 
                 String path = "images/trash.png";
-                String path2="images/go.png";
-                Image image = new Image(getClass().getResourceAsStream(path));
-                Image image2 = new Image(getClass().getResourceAsStream(path2));
+                String path2="images/Go.png";
+                Image image = new Image(getClass().getResource(path).toExternalForm());
+                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
                 
-
                 ObservableList<TableShow> LectureList = FXCollections
                         .observableArrayList();
 
@@ -706,7 +705,7 @@ public class MainController {
                 lec_id = id;
 
                 String path = "images/trash.png";
-                String path2="images/go.png";
+                String path2="images/Go.png";
 
 
                 Image image = new Image(getClass().getResource(path).toExternalForm());
@@ -899,7 +898,7 @@ public void openPLScreen() {
         StudentsHbox.setVisible(false);
 
         String path = "images/trash.png";
-        String path2="images/go.png";
+        String path2="images/Go.png";
 
         Image image = new Image(getClass().getResource(path).toExternalForm());
         Image image2 = new Image(getClass().getResource(path2).toExternalForm());
@@ -1419,7 +1418,7 @@ public void openPLScreen() {
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
           
-                String path="images/go.png";
+                String path="images/Go.png";
                 Image image = new Image(getClass().getResource(path).toExternalForm());
 
                 StudentIDColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
