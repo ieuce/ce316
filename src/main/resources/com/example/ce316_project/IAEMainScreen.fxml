@@ -15,11 +15,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
 <StackPane alignment="TOP_LEFT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ce316_project.MainController">
     <children>
-        <HBox fx:id="firstEllipses" prefHeight="100.0" prefWidth="200.0">
+        <HBox fx:id="firstEllipses" prefHeight="100.0" prefWidth="200.0" visible="false">
             <children>
                 <VBox alignment="TOP_RIGHT" minHeight="-Infinity" prefHeight="700.0" prefWidth="225.0" HBox.hgrow="ALWAYS">
                     <children>
@@ -153,7 +154,37 @@
                               </Button>
                            </children>
                                 </HBox>
-                                <HBox alignment="BOTTOM_LEFT" prefWidth="266.0" VBox.vgrow="ALWAYS">
+                        <Button alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#openPLScreen" prefHeight="85.0" prefWidth="276.0" styleClass="button" stylesheets="@css/Button.css" text="Import Configuration" textFill="#000fff">
+                           <graphic>
+                              <ImageView fitHeight="52.0" fitWidth="54.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons8-import-64.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#openPLScreen" prefHeight="85.0" prefWidth="276.0" styleClass="button" stylesheets="@css/Button.css" text="Export Configuration" textFill="#000fff">
+                           <graphic>
+                              <ImageView fitHeight="52.0" fitWidth="54.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/icons8-export-64.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </Button>
+                                <HBox alignment="BOTTOM_LEFT" prefHeight="95.0" prefWidth="266.0" VBox.vgrow="ALWAYS">
                                     <VBox.margin>
                                         <Insets bottom="10.0" />
                                     </VBox.margin>
@@ -163,9 +194,9 @@
                                 </HBox>
                         <HBox alignment="BOTTOM_LEFT" prefWidth="266.0">
                            <children>
-                              <Button mnemonicParsing="false" prefWidth="48.0" style="-fx-background-color: transparent;">
+                              <Button mnemonicParsing="false" onAction="#GoHelp" prefWidth="48.0" style="-fx-background-color: transparent;">
                                  <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/help.png" />
                                        </image>
@@ -218,7 +249,7 @@
                                         </Button>
                            </children>
                                 </HBox>
-                                <HBox alignment="BASELINE_LEFT" prefHeight="56.0" prefWidth="278.0" spacing="40.0">
+                                <HBox alignment="BASELINE_LEFT" prefHeight="56.0" prefWidth="278.0">
                                     <children>
                                         <Button fx:id="SmallPLButton" mnemonicParsing="false" onAction="#openPLScreen" prefHeight="26.0" prefWidth="37.0" stylesheets="@css/Button.css" HBox.hgrow="ALWAYS">
                                             <graphic>
@@ -234,12 +265,40 @@
                               <Insets top="20.0" />
                            </VBox.margin>
                                 </HBox>
-                                <HBox alignment="CENTER_LEFT" spacing="40.0" />
-                                <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+                                <HBox alignment="CENTER_LEFT" spacing="40.0">
+                           <children>
+                              <HBox alignment="BASELINE_LEFT" prefHeight="56.0" prefWidth="278.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#openPLScreen" prefHeight="58.0" prefWidth="41.0" stylesheets="@css/Button.css" HBox.hgrow="ALWAYS">
+                                       <graphic>
+                                          <ImageView fitHeight="53.0" fitWidth="49.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@images/icons8-import-64.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children></HBox>
+                        <HBox alignment="BASELINE_LEFT" prefHeight="56.0" prefWidth="278.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#openPLScreen" prefHeight="60.0" prefWidth="50.0" stylesheets="@css/Button.css" HBox.hgrow="ALWAYS">
+                                 <graphic>
+                                    <ImageView fitHeight="53.0" fitWidth="49.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/icons8-export-64.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                                <HBox alignment="BOTTOM_LEFT" prefHeight="53.0" prefWidth="276.0" VBox.vgrow="ALWAYS">
                                     <children>
-                                        <Button mnemonicParsing="false" prefWidth="48.0" style="-fx-background-color: transparent;">
+                                        <Button mnemonicParsing="false" onAction="#GoHelp" prefWidth="48.0" style="-fx-background-color: transparent;">
                                             <graphic>
-                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="30.0" fitWidth="30.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@images/help.png" />
                                                     </image>
@@ -761,7 +820,7 @@
                                                 <Insets bottom="40.0" left="100.0" right="100.0" top="40.0" />
                                             </padding>
                                         </HBox>
-                              <HBox fx:id="AddProjectBox" alignment="CENTER" minHeight="-Infinity" prefHeight="561.0" prefWidth="810.0">
+                              <HBox fx:id="AddProjectBox" alignment="CENTER" minHeight="-Infinity" prefHeight="561.0" prefWidth="810.0" visible="false">
                                  <children>
                                     <VBox alignment="CENTER" prefHeight="620.0" prefWidth="624.0">
                                        <HBox.margin>
@@ -1120,6 +1179,50 @@
                                     </VBox>
                                  </children>
                               </HBox>
+                              <HBox fx:id="DetailedEvaluationHbox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0">
+                                 <children>
+                                    <VBox fx:id="originalResumeVBox3" alignment="TOP_CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="919.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="26.0" prefWidth="500.0" spacing="40.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="35.0" prefWidth="375.0" style="-fx-font-size: 24;" text=" Detailed Evaluation Table" textFill="#070707">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                   <padding>
+                                                      <Insets right="50.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <TableView fx:id="DetailedEvaluationTable" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectFromLectureTable" prefHeight="525.0" prefWidth="905.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
+                                             <columns>
+                                                <TableColumn fx:id="EvaluationId" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="70.0" resizable="false" sortable="false" />
+                                                <TableColumn fx:id="EvaluationProjectId" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="70.0" sortable="false" />
+                                                <TableColumn fx:id="EvaluationRunStatus" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" sortable="false" />
+                                                <TableColumn fx:id="EvaluationRunOutput" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" sortable="false" />
+                                                <TableColumn fx:id="EvaluationStudentId" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="370.0" resizable="false" sortable="false" />
+                                             </columns>
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                          </TableView>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <padding>
+                                          <Insets top="100.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </HBox>
                                     </children>
                                 </StackPane>
                             </children>
@@ -1128,5 +1231,10 @@
                 </VBox>
             </children>
         </HBox>
+      <HBox fx:id="mediaHbox" prefHeight="100.0" prefWidth="200.0" visible="false">
+         <children>
+            <MediaView fx:id="mediaView" fitHeight="800.0" fitWidth="1400.0" onError="#initialize" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
     </children>
 </StackPane>
