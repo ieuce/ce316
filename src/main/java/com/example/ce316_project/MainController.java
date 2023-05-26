@@ -261,36 +261,6 @@ public class MainController {
         private HBox firstEllipses;
 
         @FXML
-        private VBox generatedResumeBox;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane1;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane2;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane21;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane22;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane3;
-
-        @FXML
-        private VBox generatedResumeVBox;
-
-        @FXML
-        private VBox generatedResumeVBox1;
-
-        @FXML
-        private VBox generatedResumeVBox2;
-
-        @FXML
         private Button leftBarButton;
 
         @FXML
@@ -371,19 +341,17 @@ public class MainController {
                         mediaPlayer=new MediaPlayer(media);
 
                         MediaPlayer.Status status = mediaPlayer.getStatus();
-                 if (status == MediaPlayer.Status.UNKNOWN) {
+                        if (status == MediaPlayer.Status.UNKNOWN) {
                          System.out.println("Media Player trying to play");
 
                         }
 
                         mediaView.setMediaPlayer(mediaPlayer);
-
                         mediaPlayer.play();
-
 
                         mediaPlayer.setOnEndOfMedia(() -> {
                                 System.out.println("finished successfully");
-
+                                
                                 mediaHbox.setVisible(false);
                                 allHbox.setVisible(true);
 
@@ -396,34 +364,11 @@ public class MainController {
                         e.printStackTrace();
                 }
 
-
-
-                
-
-
-
                 firstEllipses.widthProperty().addListener((obs, oldVal, newVal) -> {
                         if (firstEllipses.getWidth() < 1400)
                                 shortDrawer();
                         else
                                 longDrawer();
-                });
-
-                generatedResumeBox.heightProperty().addListener((obs, oldVal, newVal) -> {
-                        ellipse2.setFitHeight(generatedResumeBox.getHeight());
-                        ellipse2.setFitWidth(generatedResumeBox.getWidth() / 2);
-                });
-
-                generatedResumeBox.widthProperty().addListener((obs, oldVal, newVal) -> {
-                        ellipse2.setFitHeight(generatedResumeBox.getHeight());
-                        ellipse2.setFitWidth(generatedResumeBox.getWidth() / 2);
-                });
-
-
-
-                allHbox.heightProperty().addListener((obs, oldVal, newVal) -> {
-                        generatedResumeScrollPane.setPrefWidth(generatedResumeVBox.getWidth());
-                        generatedResumeScrollPane.setPrefHeight(allHbox.getHeight() - 200);
                 });
 
                 LectureTableView.getSelectionModel().selectedItemProperty().addListener((observable,oldvalue,newValue) ->{
@@ -435,8 +380,6 @@ public class MainController {
                                 throw new RuntimeException(e);
                         }
                 });
-
-              openLectureScreen();
         }
 
 
