@@ -5,6 +5,7 @@ module com.example.ce316_project {
 
     requires java.desktop;
     requires org.controlsfx.controls;
+    requires javafx.media;
 
     opens com.example.ce316_project to javafx.fxml;
 
