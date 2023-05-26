@@ -358,10 +358,6 @@ public class MainController {
                 });*/
 
               openLectureScreen();
-
-
-
-
         }
 
 
@@ -384,22 +380,18 @@ public class MainController {
                 thirdEllipses.setVisible(false);
 
                 String path = "images/trash.png";
-                String path2="images/GO.png";
-
-                Image image = new Image(getClass().getResource(path).toExternalForm());
-                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
+                String path2="images/go.png";
+                Image image = new Image(getClass().getResourceAsStream(path));
+                Image image2 = new Image(getClass().getResourceAsStream(path2));
+                
 
                 ObservableList<TableShow> LectureList = FXCollections
                         .observableArrayList();
 
                 LectureNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
-
-
                 LectureTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
-
                 LectureGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
 
-                
                 for(LectureConfig lecture_config: DBConnector.getInstance().getAllLectureConfigObjects()){
                         LectureList.add(new TableShow(lecture_config.getLecture_id(), lecture_config.getLecture_Name(), new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
                 }
@@ -714,7 +706,7 @@ public class MainController {
                 lec_id = id;
 
                 String path = "images/trash.png";
-                String path2="images/GO.png";
+                String path2="images/go.png";
 
 
                 Image image = new Image(getClass().getResource(path).toExternalForm());
@@ -907,7 +899,7 @@ public void openPLScreen() {
         StudentsHbox.setVisible(false);
 
         String path = "images/trash.png";
-        String path2="images/GO.png";
+        String path2="images/go.png";
 
         Image image = new Image(getClass().getResource(path).toExternalForm());
         Image image2 = new Image(getClass().getResource(path2).toExternalForm());
@@ -1427,7 +1419,7 @@ public void openPLScreen() {
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
           
-                String path="images/GO.png";
+                String path="images/go.png";
                 Image image = new Image(getClass().getResource(path).toExternalForm());
 
                 StudentIDColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
