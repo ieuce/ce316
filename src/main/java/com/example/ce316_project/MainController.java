@@ -360,20 +360,16 @@ public class MainController {
         int project_id = -1;
         int student_id = -1;
 
-        private File file;
         private Media media;
         private MediaPlayer mediaPlayer;
 
         public void initialize() throws SQLException, IOException {
-
-
                 try {
                         mediaHbox.setVisible(true);
                         allHbox.setVisible(false);
 
-
-                        file = new File("src\\main\\resources\\com\\example\\ce316_project\\images\\team3.mp4");
-                        media = new Media(file.toURI().toString());
+                        String file_path = "images/team3.mp4";
+                        media = new Media(getClass().getResource(file_path).toExternalForm());
                         mediaPlayer=new MediaPlayer(media);
 
                         MediaPlayer.Status status = mediaPlayer.getStatus();
