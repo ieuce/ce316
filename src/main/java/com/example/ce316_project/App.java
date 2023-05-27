@@ -28,10 +28,6 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
-        DetailedEvaluation za = new DetailedEvaluation(546,"salam",45,"sosis");
-        DetailedEvaluation as = new DetailedEvaluation(213,"ko",123,"ok");
-        DetailedEvaluation av = new DetailedEvaluation(513,"as",123,"ok");
-        DBConnector db = new DBConnector();
+        launch();
     }
 }
