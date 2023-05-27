@@ -269,7 +269,7 @@
                            <children>
                               <HBox alignment="BASELINE_LEFT" prefHeight="56.0" prefWidth="278.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#openPLScreen" prefHeight="58.0" prefWidth="41.0" stylesheets="@css/Button.css" HBox.hgrow="ALWAYS">
+                                    <Button mnemonicParsing="false" onAction="#openExportScreen" prefHeight="58.0" prefWidth="41.0" stylesheets="@css/Button.css" HBox.hgrow="ALWAYS">
                                        <graphic>
                                           <ImageView fitHeight="53.0" fitWidth="49.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -283,7 +283,7 @@
                            </children></HBox>
                         <HBox alignment="BASELINE_LEFT" prefHeight="56.0" prefWidth="278.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#openPLScreen" prefHeight="60.0" prefWidth="50.0" stylesheets="@css/Button.css" HBox.hgrow="ALWAYS">
+                              <Button mnemonicParsing="false" onAction="#openImportScreen" prefHeight="60.0" prefWidth="50.0" stylesheets="@css/Button.css" HBox.hgrow="ALWAYS">
                                  <graphic>
                                     <ImageView fitHeight="53.0" fitWidth="49.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                        <image>

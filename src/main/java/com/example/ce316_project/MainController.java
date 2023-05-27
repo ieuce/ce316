@@ -5,8 +5,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,16 +18,24 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-
+import javafx.stage.FileChooser;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -43,6 +54,24 @@ import javafx.stage.Stage;
 import javafx.scene.media.*;
 
 
+class Config {
+        private String type;
+        private String config;
+
+        public Config(String type, String config) {
+                this.type = type;
+                this.config = config;
+        }
+
+        public String getType() {
+                return type;
+        }
+
+        public String getConfig() {
+                return config;
+        }
+}
+    
 public class MainController {
 
 
@@ -332,36 +361,40 @@ public class MainController {
         private MediaPlayer mediaPlayer;
 
         public void initialize() throws SQLException, IOException {
-                try {
-                        mediaHbox.setVisible(true);
-                        allHbox.setVisible(false);
+                if(!new File("info.db").exists()){
+                        try {
+                                mediaHbox.setVisible(true);
+                                allHbox.setVisible(false);
 
-                        String file_path = "images/team3.mp4";
-                        media = new Media(getClass().getResource(file_path).toExternalForm());
-                        mediaPlayer=new MediaPlayer(media);
+                                String file_path = "images/team3.mp4";
+                                media = new Media(getClass().getResource(file_path).toExternalForm());
+                                mediaPlayer=new MediaPlayer(media);
 
-                        MediaPlayer.Status status = mediaPlayer.getStatus();
-                        if (status == MediaPlayer.Status.UNKNOWN) {
-                         System.out.println("Media Player trying to play");
+                                MediaPlayer.Status status = mediaPlayer.getStatus();
+                                if (status == MediaPlayer.Status.UNKNOWN) {
+                                System.out.println("Media Player trying to play");
+
+                                }
+
+                                mediaView.setMediaPlayer(mediaPlayer);
+                                mediaPlayer.play();
+
+                                mediaPlayer.setOnEndOfMedia(() -> {
+                                        System.out.println("finished successfully");
+                                        
+                                        mediaHbox.setVisible(false);
+                                        allHbox.setVisible(true);
+
+                                        openLectureScreen();
+                                });
 
                         }
-
-                        mediaView.setMediaPlayer(mediaPlayer);
-                        mediaPlayer.play();
-
-                        mediaPlayer.setOnEndOfMedia(() -> {
-                                System.out.println("finished successfully");
-                                
-                                mediaHbox.setVisible(false);
-                                allHbox.setVisible(true);
-
-                                openLectureScreen();
-                        });
-
-                }
-                catch (Exception e){
-                        System.out.println("naneyi yedi");
-                        e.printStackTrace();
+                        catch (Exception e){
+                                System.out.println("naneyi yedi");
+                                e.printStackTrace();
+                        }       
+                } else {
+                        openLectureScreen();
                 }
 
                 firstEllipses.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -1059,7 +1092,7 @@ public void openPLScreen() {
                         
                         
                         String TempPL_VersionExtractPattern=selectedPL_VersionExtractPattern.getText();
-                        Pattern pattern = Pattern.compile(TempPL_VersionExtractPattern);
+                        String pattern = TempPL_VersionExtractPattern;
 
                       try {
                                PLConfig ProgrammingLanguageConf = new PLConfig(PL_id,TempPL_Name,TempPL_Version,TempPL_NeedCompiler,TempPL_Compilerİns,TempPL_Runİns,TempPL_VersionCheck,pattern);
@@ -1078,9 +1111,6 @@ public void openPLScreen() {
                 });
         }
 
-
-
-
         @FXML
         public void openImportScreen() {
                 LecturesHBox.setVisible(false);
@@ -1097,32 +1127,39 @@ public void openPLScreen() {
                 thirdEllipses.setVisible(true);
                 StudentsHbox.setVisible(false);
 
-                String path = "images/trash.png";
-                String path2="images/GO.png";
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Configuration File");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+                File file = fileChooser.showSaveDialog(null);
+                if (file != null) {
+                        String filePath = file.getAbsolutePath();
 
-                Image image = new Image(getClass().getResource(path).toExternalForm());
-                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
+                        try (FileReader reader = new FileReader(filePath)) {
+                                Gson gson = new Gson();
+                                Type listType = new TypeToken<List<Config>>() {}.getType();
+                                List<Config> objectList = gson.fromJson(reader, listType);
+                    
+                                for (Config obj : objectList) {
+                                        switch(obj.getType()){
+                                                case "lecture":
+                                                        DBConnector.getInstance().addLecture(gson.fromJson(obj.getConfig(), LectureConfig.class));
+                                                        break;
+                                                case "project":
+                                                        DBConnector.getInstance().addProjectwithId(gson.fromJson(obj.getConfig(), ProjectConfig.class));
+                                                        break;
+                                                case "pl":
+                                                        DBConnector.getInstance().addPL(gson.fromJson(obj.getConfig(), PLConfig.class));
+                                                        break;
+                                        }
+                                }
 
-                ObservableList<TableShow> ProgrammingLanguageList = FXCollections
-                        .observableArrayList();
-
-                PLNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
-
-
-                PLTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
-
-                PLGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
-
-                // TODO : Database daha yazılmadı ben şimdiden koydum
-                ArrayList<PLConfig> plconfigs = DBConnector.getInstance().getAllPLConfigObjects();
-                for (PLConfig plconfig : plconfigs) {
-                        ProgrammingLanguageList.add(new TableShow(plconfig.getId(), plconfig.getName(),
-                                new ImageView(image),new ImageView(image2)));
+                                System.out.println("Data imported successfully!");
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
                 }
 
-
-                PLTableView.setItems(ProgrammingLanguageList);
-
+                openLectureScreen();
         }
 
 
@@ -1141,57 +1178,53 @@ public void openPLScreen() {
                 secondEllipses.setVisible(false);
                 thirdEllipses.setVisible(true);
                 StudentsHbox.setVisible(false);
+                
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                JsonArray jsonArray = new JsonArray();
 
-                String path = "images/trash.png";
-                String path2="images/GO.png";
-
-                Image image = new Image(getClass().getResource(path).toExternalForm());
-                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
-
-                ObservableList<TableShow> ProgrammingLanguageList = FXCollections
-                        .observableArrayList();
-
-                PLNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
-
-
-                PLTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
-
-                PLGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
-
-                // TODO : Database daha yazılmadı ben şimdiden koydum
-                ArrayList<PLConfig> plconfigs = DBConnector.getInstance().getAllPLConfigObjects();
-                for (PLConfig plconfig : plconfigs) {
-                        ProgrammingLanguageList.add(new TableShow(plconfig.getId(), plconfig.getName(),
-                                new ImageView(image),new ImageView(image2)));
+                ArrayList<LectureConfig> lectures = DBConnector.getInstance().getAllLectureConfigObjects();
+                for(LectureConfig lecture : lectures) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("type", "lecture");
+                        jsonObject.addProperty("config", gson.toJson(lecture));
+                        jsonArray.add(jsonObject);
                 }
 
+                ArrayList<ProjectConfig> projects = DBConnector.getInstance().getAllPConfigObjects();
+                for(ProjectConfig project : projects) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("type", "project");
+                        jsonObject.addProperty("config", gson.toJson(project));
+                        jsonArray.add(jsonObject);
+                }
+                
+                ArrayList<PLConfig> programmingLanguages = DBConnector.getInstance().getAllPLConfigObjects();
+                for(PLConfig plConfig : programmingLanguages) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("type", "pl");
+                        jsonObject.addProperty("config", gson.toJson(plConfig));
+                        jsonArray.add(jsonObject);
+                }
 
-                PLTableView.setItems(ProgrammingLanguageList);
+                String json = gson.toJson(jsonArray);
 
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save Configuration File");
+                fileChooser.setInitialFileName("data.json");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+                File file = fileChooser.showSaveDialog(null);
+                if (file != null) {
+                        String filePath = file.getAbsolutePath();
+                        try (FileWriter writer = new FileWriter(filePath)) {
+                                writer.write(json);
+                                System.out.println("JSON data has been written to the file.");
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
+
+                openLectureScreen();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public void selectFromPLTable() throws SQLException, IOException {
                 if (PLTableView.getSelectionModel().getSelectedCells() == null ||
@@ -1235,7 +1268,7 @@ public void openPLScreen() {
                         String compileIns = ProgrammingLanguage.getCompileInsString();
                         String RunIns=ProgrammingLanguage.getRunInsString();
                         String versionCheck=ProgrammingLanguage.getVersionCheckCommand();
-                        String pattern = ProgrammingLanguage.getVersionExtractPattern().toString();
+                        String pattern = ProgrammingLanguage.getVersionExtractPattern();
 
                         Label l1 = new Label("Programming Language ID :");
 
@@ -1328,7 +1361,7 @@ public void openPLScreen() {
                 String compileIns = ProgrammingLanguage.getCompileInsString();
                 String RunIns=ProgrammingLanguage.getRunInsString();
                 String versionCheck=ProgrammingLanguage.getVersionCheckCommand();
-                String pattern = ProgrammingLanguage.getVersionExtractPattern().toString();
+                String pattern = ProgrammingLanguage.getVersionExtractPattern();
 
                 Label ProgLangID = new Label("Programming Language ID :");
                 EditProgLangoldvalue.add(ProgLangID, 0, 0);
@@ -1498,7 +1531,7 @@ public void openPLScreen() {
                 EditProgLangConfirm.setOnAction(event -> {
                         PLConfig PLNew = null;
                         try {
-                                PLNew = new PLConfig(pl_id,NewProgLangNameText.getText(),NewProgLangVersionText.getText(),Boolean.parseBoolean(NewProgLangNeedCompilerText.getText()),NewProgLangCompileInstructionsText.getText(),NewProgLangRunInstructionsText.getText(),NewProgLangVersionCheckCommandText.getText(),Pattern.compile(NewProgLangVersionExtractPatternText.getText()));
+                                PLNew = new PLConfig(pl_id,NewProgLangNameText.getText(),NewProgLangVersionText.getText(),Boolean.parseBoolean(NewProgLangNeedCompilerText.getText()),NewProgLangCompileInstructionsText.getText(),NewProgLangRunInstructionsText.getText(),NewProgLangVersionCheckCommandText.getText(),NewProgLangVersionExtractPatternText.getText());
                         } catch (Exception e) {
                                 throw new RuntimeException(e);
                         }
