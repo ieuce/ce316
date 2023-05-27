@@ -16,7 +16,7 @@ public class PLConfig{
     private String compileInsString;
     private String runInsString;
     private String versionCheckCommand;
-    private Pattern versionExtractPattern;
+    private transient Pattern versionExtractPattern;
     private String versionExtractPatternString;
 
     public PLConfig(int id, String name, String versionString, boolean need_compiler, String compileInsString, String runInsString, String versionCheckCommand, String versionExtractPattern) throws Exception{
