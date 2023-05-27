@@ -11,7 +11,7 @@ public class DBConnector {
     private Connection connection;
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation, insertStudentTable, insertDetailedEvaluation, getDetailedEvaluation2p,
-            getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds, getMaxProjectID,
+            getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds, getMaxProjectID, getEvalIdFromProjectId,
             getLectureConfig, getProjectConfig, getEvaluations, getAllGrades, getStudent, insertProjectwithID,
             getLecture,getPL, deleteLecture, deleteLanguge, deleteProject, deleteGrade, deleteEvaluation,deleteDetailedEvaluation,getAllDetailedEvaluationids, getProjectIDfromLectureID, getProjectIDfromPL;
 
@@ -106,7 +106,7 @@ public class DBConnector {
             deleteProject = connection.prepareStatement("DELETE FROM Project WHERE PROJECT_ID = ?");
             deleteGrade = connection.prepareStatement("DELETE FROM Grade_Table WHERE PROJECT_ID = ?");
             deleteEvaluation = connection.prepareStatement("DELETE FROM Evaluation_Table WHERE PROJECT_ID = ?");
-            deleteDetailedEvaluation = connection.prepareStatement("DELETE FROM  Detailed_Evaluation_Table where EVALUATION_ID"); ////// NEYE GÖRE SİLİNMESİ GEREK BAKILMASI GEREKİYOR
+            deleteDetailedEvaluation = connection.prepareStatement("DELETE FROM  Detailed_Evaluation_Table where EVALUATION_ID=?"); ////// NEYE GÖRE SİLİNMESİ GEREK BAKILMASI GEREKİYOR
 
             getDetailedEvaluation2p = connection.prepareStatement("SELECT * FROM Detailed_Evaluation_Table WHERE EVALUATION_ID =? AND STUDENT_ID =?");
 
@@ -115,6 +115,8 @@ public class DBConnector {
             getProjectIDfromLectureID = connection.prepareStatement("SELECT PROJECT_ID FROM Project Where PROJECT_LECTURE_ID = ?");
             getProjectIDfromPL = connection.prepareStatement("SELECT PROJECT_ID FROM Project WHERE PROJECT_PROGRAMMING_LANGUAGE_ID = ?");
             getMaxProjectID = connection.prepareStatement("SELECT MAX(PROJECT_ID) FROM Project");
+
+            getEvalIdFromProjectId = connection.prepareStatement("SELECT ID FROM Evaluation_Table WHERE PROJECT_ID = ?");
 
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
@@ -696,5 +698,41 @@ public class DBConnector {
             System.out.println(e);
         }
         return 0;
+    }
+
+    public ArrayList<Integer> getEvalIdsFromProjectId(int project_id){
+        try{
+            getEvalIdFromProjectId.setInt(1,project_id);
+            getEvalIdFromProjectId.execute();
+            ResultSet rs = getEvalIdFromProjectId.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+            ArrayList<Integer> evalIds = new ArrayList<>();
+            try {
+                while (rs.next()) {
+                    int i = 1;
+                    while (i <= columnCount) {
+                        int id = rs.getInt(i++);
+                        evalIds.add(id);
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+            return evalIds;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public void deleteDetailedEvaluationObject(int id){
+        try {
+            deleteDetailedEvaluation.setInt(1, id);
+            deleteDetailedEvaluation.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 }

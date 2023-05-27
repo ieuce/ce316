@@ -1726,6 +1726,12 @@ public void openPLScreen() {
                 ProjectConfig project_config = DBConnector.getInstance().getPConfigObject(project_id);
                 int pl_config_id = project_config.getProgramming_language_id();
                 PLConfig pl_config = DBConnector.getInstance().getPLConfigObject(pl_config_id);
+                ArrayList<Integer> evaluation_ids = DBConnector.getInstance().getEvalIdsFromProjectId(project_config.getId());
+                if(evaluation_ids!=null){
+                        for(Integer evaluation_id : evaluation_ids){
+                                DBConnector.getInstance().deleteDetailedEvaluationObject(evaluation_id);
+                        }
+                }
                 DBConnector.getInstance().deleteGradeObject(project_config.getId());
 
                 DirectoryChooser directoryChooser = new DirectoryChooser();
