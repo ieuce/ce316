@@ -8,43 +8,75 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ce316_project.HelpController">
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ce316_project.HelpController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fitHeight="601.0" fitWidth="800.0" pickOnBounds="true" visible="false">
          <image>
-            <Image url="@images/help/GİGATEAM.png" />
+            <Image url="@images/help/MainPageLecturesScreen.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
          <image>
-            <Image url="@images/help/giga.png" />
+            <Image url="@images/help/LectureAddPage.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
          <image>
-            <Image url="@images/help/GİGATEAM.png" />
+            <Image url="@images/help/LectureEditPage.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
          <image>
-            <Image url="@images/help/giga.png" />
+            <Image url="@images/help/ProgrammingLanguagesScreen.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
          <image>
-            <Image url="@images/help/GİGATEAM.png" />
+            <Image url="@images/help/ProgrammingLanguageAdd.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
          <image>
-            <Image url="@images/help/giga.png" />
+            <Image url="@images/help/ProgrammingLanguageEdit.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
          <image>
-            <Image url="@images/help/GİGATEAM.png" />
+            <Image url="@images/help/ProjectsScreen.png" />
          </image>
       </ImageView>
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
+         <image>
+            <Image url="@images/help/ProjectAddScreen.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
+         <image>
+            <Image url="@images/help/StudentGrades.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" visible="false">
+         <image>
+            <Image url="@images/help/DetailedEvaluation.png" />
+         </image>
+      </ImageView>
+      <HBox alignment="BOTTOM_CENTER" prefHeight="76.0" prefWidth="837.0" spacing="10.0">
+         <children>
+            <Button fx:id="button1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
+            <Button fx:id="button2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+            <Button fx:id="button3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+            <Button fx:id="button4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+            <Button fx:id="button5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+            <Button fx:id="button6" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+            <Button fx:id="button7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+            <Button fx:id="button8" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+            <Button fx:id="button9" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+            <Button fx:id="button10" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+         </children>
+         <padding>
+            <Insets bottom="25.0" />
+         </padding>
+      </HBox>
       <VBox alignment="CENTER">
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="516.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
@@ -72,20 +104,6 @@
                      </graphic>
                   </Button>
                </children>
-            </HBox>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="76.0" prefWidth="837.0" spacing="10.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Button fx:id="button1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
-                  <Button fx:id="button2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button6" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-               </children>
-               <padding>
-                  <Insets bottom="25.0" />
-               </padding>
             </HBox>
          </children>
       </VBox>
