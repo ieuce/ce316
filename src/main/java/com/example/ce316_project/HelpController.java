@@ -9,9 +9,9 @@ public class HelpController {
     @FXML
     private StackPane stackPane;
     @FXML
-    private Button button1, button2, button3, button4, button5, button6, button7;
+    private Button button1, button2, button3, button4, button5, button6, button7,button8,button9,button10;
 
-    private Button[] buttons = new Button[7];
+    private Button[] buttons = new Button[10];
     private int index = 0;
     private Button prevButton;
 
@@ -24,6 +24,9 @@ public class HelpController {
         stackPane.getChildren().get(4).setVisible(false);
         stackPane.getChildren().get(5).setVisible(false);
         stackPane.getChildren().get(6).setVisible(false);
+        stackPane.getChildren().get(7).setVisible(false);
+        stackPane.getChildren().get(8).setVisible(false);
+        stackPane.getChildren().get(9).setVisible(false);
         
         button1.setOnAction(event -> swap(button1, 0));
         button2.setOnAction(event -> swap(button2, 1));
@@ -32,6 +35,9 @@ public class HelpController {
         button5.setOnAction(event -> swap(button5, 4));
         button6.setOnAction(event -> swap(button6, 5));
         button7.setOnAction(event -> swap(button7, 6));
+        button7.setOnAction(event -> swap(button8, 7));
+        button7.setOnAction(event -> swap(button9, 8));
+        button7.setOnAction(event -> swap(button10, 9));
 
         prevButton = button1;
         buttons[0] = button1;
@@ -41,12 +47,15 @@ public class HelpController {
         buttons[4] = button5;
         buttons[5] = button6;
         buttons[6] = button7;
+        buttons[7] = button8;
+        buttons[8] = button9;
+        buttons[9] = button10;
 
     }
 
     @FXML
     private void nextPage() {
-        if (index < 6) {
+        if (index < 9) {
             stackPane.getChildren().get(index++).setVisible(false);
             stackPane.getChildren().get(index).setVisible(true);
             buttonStyleSwap(prevButton, buttons[index]);
