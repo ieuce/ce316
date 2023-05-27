@@ -542,13 +542,9 @@ public class MainController {
                 }
 
                 int index = LectureTableView.getSelectionModel().getSelectedIndex();
-
                 String LectureName = (String) LectureNameColumn.getCellData(index);
 
-
                 ObservableList<TablePosition> selectedCells = LectureTableView.getSelectionModel().getSelectedCells();
-
-
 
                 if (selectedCells.get(0).getTableColumn().equals(LectureTrashColumn)) {
                         //DBConnection.getInstance().deleteTemplate(LectureName);
@@ -560,7 +556,6 @@ public class MainController {
                         LectureConfig Lecture = DBConnector.getInstance().getLecture(LectureName);
                         openProjectScreen(Lecture.getLecture_id());
                 } else {
-
                         ObservableList<TableShow> ts_list = LectureTableView.getSelectionModel().getSelectedItems();
                         TableShow ts = ts_list.get(0);
                         lec_id = ts.getId();
@@ -580,11 +575,6 @@ public class MainController {
                         Label lecturerNameLabel = new Label("Lecturer's Name:");
                         LectureGrid.add(lecturerNameLabel, 0, 2);
 
-
-
-
-
-
                         Label LectureIDtext = new Label(TempID);
                         LectureGrid.add(LectureIDtext, 1, 0);
 
@@ -593,11 +583,9 @@ public class MainController {
 
                         Label LecturersNameText = new Label(TempLecturerName);
                         LectureGrid.add(LecturersNameText, 1, 2);
-
-
-
                 }
         }
+
         @FXML
         public void openEditLecture() throws  UnsupportedSelectionException{
                 ObservableList<TableShow> ts_list = LectureTableView.getSelectionModel().getSelectedItems();
