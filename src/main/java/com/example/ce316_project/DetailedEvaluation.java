@@ -2,6 +2,7 @@ package com.example.ce316_project;
 
 public class DetailedEvaluation {
 
+
     private int evaluation_id;
 
     private String student_id;

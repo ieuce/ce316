@@ -107,11 +107,11 @@ public class MainController {
         private TableView DetailedEvaluationTable;
 
         @FXML
-        private TableColumn EvaluationId;
+        private TableColumn inputColumn;
 
 
         @FXML
-        private TableColumn EvaluationProjectId;
+        private TableColumn poutputColumn;
 
 
         @FXML
@@ -120,15 +120,6 @@ public class MainController {
 
         @FXML
         private TableColumn EvaluationRunOutput;
-
-
-        @FXML
-        private TableColumn EvaluationStudentId;
-
-
-
-
-
 
         @FXML
         private HBox EditProgLangHBox;
@@ -194,7 +185,8 @@ public class MainController {
         @FXML
         private Button EditProgLangConfirm;
 
-
+        @FXML
+        private Label StudentIDLabel;
 
         @FXML
         private TableColumn LectureGoColumn;
@@ -969,7 +961,7 @@ public void openPLScreen() {
 
         PLTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
 
-        PLGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
+
 
         // TODO : Database daha yazılmadı ben şimdiden koydum
         ArrayList<PLConfig> plconfigs = DBConnector.getInstance().getAllPLConfigObjects();
@@ -1638,7 +1630,8 @@ public void openPLScreen() {
         }
 
         @FXML
-        public void openDetailedEvaluation(String id){
+        public void openDetailedEvaluation(String student_id){
+                int detailedprojectid=project_id;
                 LecturesHBox.setVisible(false);
                 ProjectsHBox.setVisible(false);
                 LecturesHBox.setEffect(null);
@@ -1652,48 +1645,57 @@ public void openPLScreen() {
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
                 DetailedEvaluationHbox.setVisible(true);
+                String path="images/success.png";
+                Image image = new Image(getClass().getResource(path).toExternalForm());
 
-                System.out.println("id budur  "+id);
+                String path2="images/cross.png";
+                Image image2 = new Image(getClass().getResource(path2).toExternalForm());
 
+                String path3="images/error.png";
+                Image image3 = new Image(getClass().getResource(path3).toExternalForm());
 
-                EvaluationId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
-                EvaluationProjectId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("project_id"));
-
-
-             /*   switch(runstatus){
-
-
-                        case1:{String path1="images/success.png";
-                        Image image = new Image(getClass().getResource(path1).toExternalForm());
-                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image"));
-                        break;}
-
-                        case2:{String path2="images/cross.png";
-                        Image image2 = new Image(getClass().getResource(path2).toExternalForm());
-                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image2"));
-                        break;}
-
-                        case3:{String path3="images/error.png";
-                        Image image3 = new Image(getClass().getResource(path3).toExternalForm());
-                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image3"));
-                        break;}
+                Image image4=null;
 
 
-                }*/
+               ArrayList<Evaluation> a = DBConnector.getInstance().getEvaluationsObject(detailedprojectid);
+               Evaluation FoundEvaluation = null;
+               ArrayList<DetailedEvaluation> allDevaluations =DBConnector.getInstance().getAllDevaluation();
 
-                EvaluationRunOutput.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("RunOutput"));
-                EvaluationStudentId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("student_id"));
+                EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<DetailedEvaluationTableShow, ImageView>("image"));
+                inputColumn.setCellValueFactory(new PropertyValueFactory<DetailedEvaluationTableShow, String>("pinput"));
+                poutputColumn.setCellValueFactory(new PropertyValueFactory<DetailedEvaluationTableShow, String>("poutput"));
 
-                ObservableList<GradeTableShow> student_grade_list = FXCollections
-                        .observableArrayList();
+                EvaluationRunOutput.setCellValueFactory(new PropertyValueFactory<DetailedEvaluationTableShow, String>("output"));
 
-                ArrayList<Grade> grades = DBConnector.getInstance().getGradesObject(Integer.parseInt(id)); //Integer.parseInt() soru işaretli olmalı mı?
-             /*   for (Grade grade : grades) {
-                        Student_Table student = DBConnector.getInstance().getStudentObject(grade.getStudent_id());
-                        student_grade_list.add(new GradeTableShow(student.getId(), student.getName() ,grade.getGrade(), new ImageView(image)));
+                StudentIDLabel.setText("Student ID: "+student_id);
+                ObservableList<DetailedEvaluationTableShow> DetailedEvaluation_list = FXCollections.observableArrayList();
+                for(DetailedEvaluation detailed: allDevaluations){
+                        if(detailed.getStudent_id().equals(student_id)){
+                                for(Evaluation eva : a){
+                                 if(detailed.getEvaluation_id()==eva.getId()){
+                                         FoundEvaluation = eva;
+                                 }
+                                }
+                                switch (detailed.getSuccess_code()){
+                                        case 0:image4=image;
+                                        break;
+                                        case 1:image4=image2;
+                                        break;
+                                        case 2:image4=image3;
+                                        break;
+                                }
+
+                                DetailedEvaluation_list.add(new DetailedEvaluationTableShow(
+                                        detailed.getStudent_id()
+                                        ,FoundEvaluation.getPinput()
+                                        ,FoundEvaluation.getPoutput()
+                                        , new ImageView(image4)
+                                        ,detailed.getOutput()
+                                        ));
+                        }
                 }
 
-                StudentTableView.setItems(student_grade_list);*/
+                DetailedEvaluationTable.setItems(DetailedEvaluation_list);
         }
 
 
@@ -1726,7 +1728,7 @@ public void openPLScreen() {
                 int pl_config_id = project_config.getProgramming_language_id();
                 PLConfig pl_config = DBConnector.getInstance().getPLConfigObject(pl_config_id);
                 DBConnector.getInstance().deleteGradeObject(project_config.getId());
-                
+
                 DirectoryChooser directoryChooser = new DirectoryChooser();
                 directoryChooser.setTitle("Open Projects' Folder");
                 File directory = directoryChooser.showDialog(null);
@@ -1741,16 +1743,35 @@ public void openPLScreen() {
                                         extractZipFile(zipFile, folder);
 
                                         String folderName = folder.getName();
-                                        double score = pl_config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+filename+"/"+project_config.getMain_file_format()), project_config.getEvaluations(), true);
-                                        if(Double.isNaN(score)){
-                                                score=0;
-                                        }
-                                        System.out.println("Score for "+folderName+" is "+score);
+                                        ArrayList<DetailedEvaluation>detailedEvaluations = new ArrayList<>();
+
                                         String[] student_info = folderName.split("_");
                                         String student_name = splitCamelCase(student_info[1]);
                                         Student_Table student = new Student_Table(student_info[0], student_name);
                                         DBConnector.getInstance().addStudent_Table(student);
-                                        
+                                        detailedEvaluations = pl_config.executeAndEvaluate(new File(folder.getAbsolutePath()+"/"+filename+"/"+project_config.getMain_file_format()), project_config.getEvaluations(), true,student_info[0]);
+                                         for(DetailedEvaluation detailedEva :detailedEvaluations){
+
+                                                 DBConnector.getInstance().addDetailedEvaluation(detailedEva);
+                                         }
+
+                                        int successcount=0;
+                                        int totalquestions=0;
+                                        for (DetailedEvaluation detailedeva:detailedEvaluations){
+                                                totalquestions++;
+                                                if (detailedeva.getSuccess_code()==0){
+                                                        successcount++;
+
+                                                }
+
+                                        }
+                                        double score=(double) successcount/totalquestions*100;
+                                        if(Double.isNaN(score)){
+                                                score=0;
+                                        }
+                                        System.out.println("Score for "+folderName+" is "+score);
+
+
                                         Grade grade = new Grade(-1, project_config.getId(), student.getId(), (int) score);
                                         DBConnector.getInstance().addGrade(grade);
 

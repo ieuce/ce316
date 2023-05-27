@@ -8,8 +8,6 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.gson.annotations.Expose;
-
 public class PLConfig{
     private int id;
     private String name;
@@ -18,7 +16,7 @@ public class PLConfig{
     private String compileInsString;
     private String runInsString;
     private String versionCheckCommand;
-    private transient Pattern versionExtractPattern;
+    private Pattern versionExtractPattern;
     private String versionExtractPatternString;
 
     public PLConfig(int id, String name, String versionString, boolean need_compiler, String compileInsString, String runInsString, String versionCheckCommand, String versionExtractPattern) throws Exception{
@@ -98,12 +96,12 @@ public class PLConfig{
             Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
             String output = scanner.hasNext() ? scanner.next() : "";
             scanner.close();
-    
+
             InputStream errorStream = process.getErrorStream();
             scanner = new Scanner(errorStream).useDelimiter("\\A");
             String errorOutput = scanner.hasNext() ? scanner.next() : "";
             scanner.close();
-    
+
             int exitCode;
             try {
                 exitCode = process.waitFor();
@@ -123,14 +121,42 @@ public class PLConfig{
     public int getId(){
         return this.id;
     }
-    
+
     public String getName(){
         return this.name;
     }
 
-    public double executeAndEvaluate(File file, ArrayList<Evaluation> evaluations, boolean debug) {
+    public ArrayList<DetailedEvaluation> executeAndEvaluate(File file, ArrayList<Evaluation> evaluations, boolean debug, String student_id) {
+        /**
+         * detailed evaluation isteniyor
+         *  private int evaluation_id;
+         *     private String student_id;
+         *     private int success_code;
+         *     private String output;
+         *
+         * evaluation veriliyor ve
+         *  private int id;
+         *     private int project_id;
+         *
+         *     private String pinput;
+         *     private String poutput;
+         *
+         *score puanı da hesaplanıyor
+
+         **/
+
+        ArrayList<DetailedEvaluation>detailedEvaluations = new ArrayList<>();
+
+
         int totalQuestions = evaluations.size();
-        int correctAnswers = 0;
+
+        int id=-1;
+        int evaid;
+        String pinput;
+        String poutput;
+        String studentid;
+        int successcode;
+        String outputtaken;
 
         for (int i = 0; i < totalQuestions; i++) {
             Evaluation evaluation = evaluations.get(i);
@@ -140,28 +166,33 @@ public class PLConfig{
             ExecuteStatus output = executeProgram(file, input, debug);
             String actualOutput = output.getOutput();
             boolean success = actualOutput.trim().equals(expectedOutput.trim());
-            
+            evaid=evaluation.getId();
+            studentid=student_id;
+            outputtaken=output.getOutput();
+
+
             if(debug){
                 System.out.println("Input: " + input);
                 System.out.println("Expected Output: " + expectedOutput);
                 System.out.println("Actual Output: " + actualOutput);
                 System.out.println("Success: " + success);
             }
-
-            if (success) {
-                correctAnswers++;
+            if(output.getSuccess()){
+                if (success){
+                    successcode=0;
+                }
+                else {
+                    successcode=1;
+                }
             }
+            else {
+                successcode=2;
+            }
+            detailedEvaluations.add(new DetailedEvaluation(evaid,studentid,successcode,outputtaken));
+
         }
 
-        double score = (double) correctAnswers / totalQuestions * 100;
-
-        if(debug){
-            System.out.println("Correct Answers: " + correctAnswers);
-            System.out.println("Total Questions: " + totalQuestions);
-            System.out.println("Overall Score: " + score);
-        }
-
-        return score;
+        return detailedEvaluations;
     }
 
     public String getVersionString() {

@@ -339,7 +339,7 @@
                                                    <padding>
                                                       <Insets right="100.0" />
                                                    </padding></Label>
-                                                <Button fx:id="GoToAddLectureButton" mnemonicParsing="false" onAction="#openAddLectureScreen" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-color: transparent; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;">
+                                                <Button fx:id="GoToAddLectureButton" mnemonicParsing="false" onAction="#openAddLectureScreen" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;" stylesheets="@css/Button.css">
                                                    <graphic>
                                                       <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -409,7 +409,7 @@
                                                                 </VBox>
                                                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="394.0" spacing="20.0">
                                                    <children>
-                                                      <Button fx:id="EditLectureButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#openEditLecture" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
+                                                      <Button fx:id="EditLectureButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#openEditLecture" prefHeight="28.0" prefWidth="139.0" style="-fx-border-color: grey; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Edit">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
@@ -448,7 +448,7 @@
                                                       <Insets right="100.0" />
                                                    </padding>
                                                 </Label>
-                                                <Button fx:id="GoToAddProjectButton" mnemonicParsing="false" onAction="#openAddProjectScreen" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-color: transparent; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;">
+                                                <Button fx:id="GoToAddProjectButton" mnemonicParsing="false" onAction="#openAddProjectScreen" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;" stylesheets="@css/Button.css">
                                                    <graphic>
                                                       <ImageView fitHeight="25.0" fitWidth="25.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -483,7 +483,7 @@
                                     </VBox>
                                     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                          <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
                                              <padding>
                                                 <Insets right="10.0" />
                                              </padding>
@@ -498,7 +498,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                    <children>
-                                                      <ScrollPane fx:id="generatedResumeScrollPane1" fitToHeight="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="393.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+                                                      <ScrollPane fx:id="generatedResumeScrollPane1" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="393.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                                                          <content>
                                                             <GridPane fx:id="ProjectGrid" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="393.0" stylesheets="@css/Gridpane.css" vgap="10.0">
                                                                <columnConstraints>
@@ -518,12 +518,11 @@
                                                 </VBox>
                                                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="394.0" spacing="20.0">
                                                    <children>
-                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
+                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-border-color: grey; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Edit">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
                                                       </Button>
-                                                      <Button alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Save" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -642,7 +641,7 @@
                                                       <Insets />
                                                    </HBox.margin>
                                                 </Label>
-                                                <Button fx:id="GoToAddPLButton" mnemonicParsing="false" onAction="#openAddProgLangScreen" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-color: transparent; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;">
+                                                <Button fx:id="GoToAddPLButton" mnemonicParsing="false" onAction="#openAddProgLangScreen" prefHeight="35.0" prefWidth="41.0" style="-fx-border-color: grey; -fx-background-radius: 100; -fx-border-width: 1; -fx-border-radius: 50;" stylesheets="@css/Button.css">
                                                    <graphic>
                                                       <ImageView fitHeight="25.0" fitWidth="25.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -712,7 +711,7 @@
                                                 </VBox>
                                                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="394.0" spacing="20.0">
                                                    <children>
-                                                      <Button fx:id="EditProgLangButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#openEditProgLang" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit">
+                                                      <Button fx:id="EditProgLangButton" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#openEditProgLang" prefHeight="28.0" prefWidth="139.0" style="-fx-border-color: grey; -fx-background-radius: 10; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Edit">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
@@ -751,18 +750,30 @@
                                                                                     <children>
                                                                                         <VBox fx:id="templatePane" alignment="CENTER" prefHeight="602.0" prefWidth="610.0" style="-fx-background-color: white; -fx-border-width: 0;" VBox.vgrow="ALWAYS">
                                                                                             <children>
-                                                                                                <VBox fx:id="templateNameVBox" maxWidth="200.0" prefWidth="205.0" VBox.vgrow="NEVER">
-                                                                                                    <children>
-                                                                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="229.0" style="-fx-border-color: grey; -fx-border-width: 2;" text=" Lecture">
-                                                                                 <font>
-                                                                                    <Font name="System Bold" size="20.0" />
-                                                                                 </font>
-                                                                              </Label>
-                                                                                                    </children>
-                                                                                                    <VBox.margin>
-                                                                                                        <Insets bottom="30.0" top="20.0" />
-                                                                                                    </VBox.margin>
-                                                                                                </VBox>
+                                                                        <HBox alignment="TOP_RIGHT" minHeight="-Infinity" prefHeight="48.0" prefWidth="609.0">
+                                                                           <children>
+                                                                                                      <VBox fx:id="templateNameVBox" maxWidth="200.0" prefWidth="205.0">
+                                                                                                          <children>
+                                                                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="229.0" style="-fx-border-color: grey; -fx-border-width: 2;" text=" Lecture">
+                                                                                       <font>
+                                                                                          <Font name="System Bold" size="20.0" />
+                                                                                       </font>
+                                                                                       <VBox.margin>
+                                                                                          <Insets />
+                                                                                       </VBox.margin>
+                                                                                    </Label>
+                                                                                                          </children>
+                                                                                 <HBox.margin>
+                                                                                    <Insets right="175.0" top="5.0" />
+                                                                                 </HBox.margin>
+                                                                                                      </VBox>
+                                                                              <Button mnemonicParsing="false" onAction="#openLectureScreen" style="-fx-border-color: grey; -fx-border-radius: 50; -fx-background-radius: 50;" stylesheets="@css/Button.css" text="X">
+                                                                                 <HBox.margin>
+                                                                                    <Insets right="5.0" />
+                                                                                 </HBox.margin>
+                                                                              </Button>
+                                                                           </children>
+                                                                        </HBox>
                                                                         <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="369.0" prefWidth="609.0">
                                                                            <children>
                                                                               <ScrollPane fx:id="generatedResumeScrollPane2" fitToHeight="true" focusTraversable="false" hbarPolicy="NEVER" hmax="0.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="371.0" prefWidth="608.0" stylesheets="@css/ScrollPane.css" vbarPolicy="NEVER">
@@ -788,7 +799,7 @@
                                                                         </VBox>
                                                                                                 <VBox fx:id="templateAttributeView" alignment="TOP_CENTER" prefHeight="901.0" prefWidth="609.0" VBox.vgrow="ALWAYS">
                                                                                                     <children>
-                                                                                                        <Button fx:id="AddLectureButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Add" />
+                                                                                                        <Button fx:id="AddLectureButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="78.0" style="-fx-border-color: grey; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Add" />
                                                                                                     </children>
                                                                                                     <VBox.margin>
                                                                                                         <Insets bottom="50.0" top="50.0" />
@@ -837,14 +848,31 @@
                                                                <children>
                                                                   <VBox fx:id="templatePane1" alignment="CENTER" prefHeight="614.0" prefWidth="609.0" style="-fx-background-color: white; -fx-border-width: 0;" VBox.vgrow="ALWAYS">
                                                                      <children>
-                                                                        <VBox fx:id="templateNameVBox1" maxWidth="200.0" prefWidth="205.0" VBox.vgrow="NEVER">
+                                                                        <HBox alignment="TOP_RIGHT" minHeight="-Infinity" prefHeight="48.0" prefWidth="609.0">
                                                                            <children>
-                                                                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="229.0" style="-fx-border-color: grey; -fx-border-width: 2;" text=" Project">
-                                                                                 <font>
-                                                                                    <Font name="System Bold" size="20.0" />
-                                                                                 </font>
-                                                                              </Label>
+                                                                              <VBox fx:id="templateNameVBox3" maxWidth="200.0" prefWidth="205.0">
+                                                                                 <HBox.margin>
+                                                                                    <Insets right="175.0" top="5.0" />
+                                                                                 </HBox.margin>
+                                                                                 <children>
+                                                                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="229.0" style="-fx-border-color: grey; -fx-border-width: 2;" text=" Project">
+                                                                                       <font>
+                                                                                          <Font name="System Bold" size="20.0" />
+                                                                                       </font>
+                                                                                       <VBox.margin>
+                                                                                          <Insets top="10.0" />
+                                                                                       </VBox.margin>
+                                                                                    </Label>
+                                                                                 </children>
+                                                                              </VBox>
+                                                                              <Button mnemonicParsing="false" onAction="#openLectureScreen" style="-fx-border-color: grey; -fx-border-radius: 50; -fx-background-radius: 50;" stylesheets="@css/Button.css" text="X">
+                                                                                 <HBox.margin>
+                                                                                    <Insets right="5.0" />
+                                                                                 </HBox.margin>
+                                                                              </Button>
                                                                            </children>
+                                                                        </HBox>
+                                                                        <VBox fx:id="templateNameVBox1" maxWidth="200.0" prefWidth="205.0" VBox.vgrow="NEVER">
                                                                            <VBox.margin>
                                                                               <Insets bottom="30.0" top="20.0" />
                                                                            </VBox.margin>
@@ -889,7 +917,7 @@
                                                                         </VBox>
                                                                         <VBox fx:id="templateAttributeView1" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="39.0" prefWidth="609.0">
                                                                            <children>
-                                                                              <Button fx:id="AddAttribute" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Add Arguments" />
+                                                                              <Button fx:id="AddAttribute" mnemonicParsing="false" prefHeight="28.0" prefWidth="139.0" style="-fx-border-color: grey; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Add Arguments" />
                                                                            </children>
                                                                            <VBox.margin>
                                                                               <Insets />
@@ -897,8 +925,11 @@
                                                                         </VBox>
                                                                         <VBox fx:id="templateAttributeView11" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="38.0" prefWidth="609.0">
                                                                            <children>
-                                                                              <Button fx:id="AddProjectButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Add" />
+                                                                              <Button fx:id="AddProjectButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="78.0" style="-fx-border-color: grey; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Add" />
                                                                            </children>
+                                                                           <VBox.margin>
+                                                                              <Insets bottom="30.0" />
+                                                                           </VBox.margin>
                                                                         </VBox>
                                                                      </children>
                                                                      <effect>
@@ -940,14 +971,28 @@
                                                                <children>
                                                                   <VBox fx:id="templatePane2" alignment="CENTER" prefHeight="602.0" prefWidth="610.0" style="-fx-background-color: white; -fx-border-width: 0;" VBox.vgrow="ALWAYS">
                                                                      <children>
-                                                                        <VBox fx:id="templateNameVBox2" maxWidth="346.0" prefHeight="34.0" prefWidth="346.0" VBox.vgrow="NEVER">
+                                                                        <HBox alignment="TOP_RIGHT" minHeight="-Infinity" prefHeight="48.0" prefWidth="609.0">
                                                                            <children>
-                                                                              <Label alignment="CENTER" prefHeight="34.0" prefWidth="386.0" style="-fx-border-color: grey; -fx-border-width: 2;" text="Programming Language">
-                                                                                 <font>
-                                                                                    <Font name="System Bold" size="20.0" />
-                                                                                 </font>
-                                                                              </Label>
+                                                                              <VBox fx:id="templateNameVBox4" maxWidth="301.0" prefHeight="43.0" prefWidth="301.0">
+                                                                                 <HBox.margin>
+                                                                                    <Insets right="125.0" top="5.0" />
+                                                                                 </HBox.margin>
+                                                                                 <children>
+                                                                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="300.0" style="-fx-border-color: grey; -fx-border-width: 2;" text="Programming Language">
+                                                                                       <font>
+                                                                                          <Font name="System Bold" size="20.0" />
+                                                                                       </font>
+                                                                                    </Label>
+                                                                                 </children>
+                                                                              </VBox>
+                                                                              <Button mnemonicParsing="false" onAction="#openPLScreen" style="-fx-border-color: grey; -fx-border-radius: 50; -fx-background-radius: 50;" stylesheets="@css/Button.css" text="X">
+                                                                                 <HBox.margin>
+                                                                                    <Insets right="5.0" />
+                                                                                 </HBox.margin>
+                                                                              </Button>
                                                                            </children>
+                                                                        </HBox>
+                                                                        <VBox fx:id="templateNameVBox2" maxWidth="346.0" prefHeight="34.0" prefWidth="346.0" VBox.vgrow="NEVER">
                                                                            <VBox.margin>
                                                                               <Insets bottom="30.0" top="20.0" />
                                                                            </VBox.margin>
@@ -974,7 +1019,7 @@
                                                                         </VBox>
                                                                         <VBox fx:id="templateAttributeView2" alignment="TOP_CENTER" prefHeight="901.0" prefWidth="609.0" VBox.vgrow="ALWAYS">
                                                                            <children>
-                                                                              <Button fx:id="AddPLButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="78.0" style="-fx-background-color: transparent; -fx-border-color: grey; -fx-border-radius: 10;" text="Add" />
+                                                                              <Button fx:id="AddPLButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="78.0" style="-fx-border-color: grey; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Add" />
                                                                            </children>
                                                                            <VBox.margin>
                                                                               <Insets bottom="50.0" top="50.0" />
@@ -1021,7 +1066,7 @@
                                                                   <Insets right="260.0" />
                                                                </HBox.margin>
                                                             </Label>
-                                                            <Button fx:id="CloseEditLecture" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50;" text="X">
+                                                            <Button fx:id="CloseEditLecture" mnemonicParsing="false" style="-fx-border-color: grey; -fx-border-radius: 50; -fx-background-radius: 50;" stylesheets="@css/Button.css" text="X">
                                                                <HBox.margin>
                                                                   <Insets left="20.0" />
                                                                </HBox.margin>
@@ -1077,7 +1122,7 @@
                                                       </HBox>
                                                       <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="48.0" prefWidth="579.0" spacing="100.0" VBox.vgrow="NEVER">
                                                          <children>
-                                                            <Button fx:id="EditLectureConfirm" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit" />
+                                                            <Button fx:id="EditLectureConfirm" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" style="-fx-border-color: grey; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Edit" />
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -1106,7 +1151,7 @@
                                                                   <Insets right="260.0" />
                                                                </HBox.margin>
                                                             </Label>
-                                                            <Button fx:id="CloseEditProgLang" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 50;" text="X">
+                                                            <Button fx:id="CloseEditProgLang" mnemonicParsing="false" style="-fx-border-color: grey; -fx-background-radius: 50; -fx-border-radius: 50;" stylesheets="@css/Button.css" text="X">
                                                                <HBox.margin>
                                                                   <Insets left="20.0" />
                                                                </HBox.margin>
@@ -1168,7 +1213,7 @@
                                                       </HBox>
                                                       <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="42.0" prefWidth="839.0" spacing="100.0" VBox.vgrow="NEVER">
                                                          <children>
-                                                            <Button fx:id="EditProgLangConfirm" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 10;" text="Edit" />
+                                                            <Button fx:id="EditProgLangConfirm" mnemonicParsing="false" prefHeight="27.0" prefWidth="56.0" style="-fx-border-color: grey; -fx-border-radius: 10;" stylesheets="@css/Button.css" text="Edit" />
                                                          </children>
                                                       </HBox>
                                                    </children>
@@ -1179,47 +1224,52 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <HBox fx:id="DetailedEvaluationHbox" minHeight="-Infinity" prefHeight="700.0" spacing="20.0">
+                              <HBox fx:id="DetailedEvaluationHbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="700.0" spacing="20.0">
                                  <children>
-                                    <VBox fx:id="originalResumeVBox3" alignment="TOP_CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="919.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                    <VBox fx:id="originalResumeVBox3" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="919.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <HBox alignment="CENTER" prefHeight="26.0" prefWidth="500.0" spacing="40.0" VBox.vgrow="NEVER">
+                                          <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="35.0" prefWidth="375.0" style="-fx-font-size: 24;" text=" Detailed Evaluation Table" textFill="#070707">
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="35.0" prefWidth="321.0" style="-fx-font-size: 24;" text="Student Performance Analysis" textFill="#070707">
                                                    <font>
                                                       <Font name="System Bold" size="14.0" />
                                                    </font>
                                                    <HBox.margin>
                                                       <Insets />
                                                    </HBox.margin>
-                                                   <padding>
-                                                      <Insets right="50.0" />
-                                                   </padding>
                                                 </Label>
                                              </children>
                                              <VBox.margin>
-                                                <Insets top="10.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </HBox>
-                                          <TableView fx:id="DetailedEvaluationTable" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectFromLectureTable" prefHeight="525.0" prefWidth="905.0" style="-fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: black;" stylesheets="@css/TableView.css" VBox.vgrow="ALWAYS">
+                                          <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="500.0">
+                                             <children>
+                                                <Label fx:id="StudentIDLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="375.0" style="-fx-font-size: 24;" text="student ıd : 20200602025" textFill="#070707">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <TableView fx:id="DetailedEvaluationTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="919.0" stylesheets="@css/DetailedTableView.css" VBox.vgrow="SOMETIMES">
                                              <columns>
-                                                <TableColumn fx:id="EvaluationId" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="70.0" resizable="false" sortable="false" />
-                                                <TableColumn fx:id="EvaluationProjectId" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="70.0" sortable="false" />
-                                                <TableColumn fx:id="EvaluationRunStatus" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" sortable="false" />
-                                                <TableColumn fx:id="EvaluationRunOutput" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" sortable="false" />
-                                                <TableColumn fx:id="EvaluationStudentId" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="370.0" resizable="false" sortable="false" />
+                                                <TableColumn fx:id="inputColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="180.0" sortable="false" text="Given Input" />
+                                                <TableColumn fx:id="poutputColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="190.0" sortable="false" text="Given Output" />
+                                                <TableColumn fx:id="EvaluationRunOutput" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" sortable="false" text="Run Output" />
+                                                <TableColumn fx:id="EvaluationRunStatus" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" sortable="false" text="Correctness" />
                                              </columns>
                                              <VBox.margin>
-                                                <Insets bottom="20.0" />
+                                                <Insets bottom="20.0" right="20.0" />
                                              </VBox.margin>
                                           </TableView>
                                        </children>
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
-                                       <padding>
-                                          <Insets top="100.0" />
-                                       </padding>
                                     </VBox>
                                  </children>
                               </HBox>
