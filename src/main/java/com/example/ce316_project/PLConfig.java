@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.gson.annotations.Expose;
+
 public class PLConfig{
     private int id;
     private String name;
@@ -16,9 +18,10 @@ public class PLConfig{
     private String compileInsString;
     private String runInsString;
     private String versionCheckCommand;
-    private Pattern versionExtractPattern;
+    private transient Pattern versionExtractPattern;
+    private String versionExtractPatternString;
 
-    public PLConfig(int id, String name, String versionString, boolean need_compiler, String compileInsString, String runInsString, String versionCheckCommand, Pattern versionExtractPattern) throws Exception{
+    public PLConfig(int id, String name, String versionString, boolean need_compiler, String compileInsString, String runInsString, String versionCheckCommand, String versionExtractPattern) throws Exception{
         this.id = id;
         this.name = name.trim();
         this.versionString = versionString.trim();
@@ -26,7 +29,8 @@ public class PLConfig{
         this.compileInsString = compileInsString;
         this.runInsString = runInsString.trim();
         this.versionCheckCommand = versionCheckCommand.trim();
-        this.versionExtractPattern = versionExtractPattern;
+        this.versionExtractPatternString = versionExtractPattern.trim();
+        this.versionExtractPattern = Pattern.compile(versionExtractPattern);
 
         if(this.need_compiler && this.compileInsString == null){
             throw new Exception("Compiler instruction string can not be null!");
@@ -180,7 +184,7 @@ public class PLConfig{
         return versionCheckCommand;
     }
 
-    public Pattern getVersionExtractPattern() {
-        return versionExtractPattern;
+    public String getVersionExtractPattern() {
+        return versionExtractPatternString;
     }
 }

@@ -12,37 +12,37 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@images/help/Frame%201.png" />
+            <Image url="@images/help/GİGATEAM.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@images/help/Frame%202.png" />
+            <Image url="@images/help/giga.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@images/help/Frame%203.png" />
+            <Image url="@images/help/GİGATEAM.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@images/help/Frame%204.png" />
+            <Image url="@images/help/giga.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@images/help/Frame%205.png" />
+            <Image url="@images/help/GİGATEAM.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@images/help/Frame%206.png" />
+            <Image url="@images/help/giga.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
-            <Image url="@images/help/Frame%207.png" />
+            <Image url="@images/help/GİGATEAM.png" />
          </image>
       </ImageView>
       <VBox alignment="CENTER">
@@ -76,12 +76,12 @@
             <HBox alignment="BOTTOM_CENTER" prefHeight="76.0" prefWidth="837.0" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
                   <Button fx:id="button1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: black; -fx-background-radius: 20;" />
-                  <Button fx:id="button2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparetn; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparetn; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparetn; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparetn; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button6" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparetn; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
-                  <Button fx:id="button7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparetn; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+                  <Button fx:id="button2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+                  <Button fx:id="button3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+                  <Button fx:id="button4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+                  <Button fx:id="button5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+                  <Button fx:id="button6" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
+                  <Button fx:id="button7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-background-radius: 20; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 20;" />
                </children>
                <padding>
                   <Insets bottom="25.0" />

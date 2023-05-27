@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
+
+
+
 public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException {
@@ -20,6 +23,7 @@ public class App extends Application {
         stage.setMinHeight(800);
         stage.setMinWidth(1300);
         stage.setScene(scene);
+
         stage.show();
     }
 

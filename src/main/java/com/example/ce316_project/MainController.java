@@ -1,9 +1,15 @@
 package com.example.ce316_project;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,16 +18,24 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-
+import javafx.stage.FileChooser;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -33,38 +47,91 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 
+
+import javafx.scene.media.*;
+
+
+class Config {
+        private String type;
+        private String config;
+
+        public Config(String type, String config) {
+                this.type = type;
+                this.config = config;
+        }
+
+        public String getType() {
+                return type;
+        }
+
+        public String getConfig() {
+                return config;
+        }
+}
+    
 public class MainController {
+
+
+        @FXML
+        private MediaView mediaView;
+
+        @FXML
+        private HBox mediaHbox;
+
 
         @FXML
         private Button AddAttribute;
         @FXML
         private Button SmallLectureButton;
-
         @FXML
         private Button SmallPLButton;
-
-
         @FXML
         private HBox AddLectureBox;
         @FXML
         private HBox EditLectureHBox;
         @FXML
         private GridPane EditLectureGrid;
-
         @FXML
         private GridPane ArgumentsProjectGrid;
-
-
 
         @FXML
         private HBox EditProjectHBox;
 
         @FXML
+        private HBox DetailedEvaluationHbox;
+
+        @FXML
+        private TableView DetailedEvaluationTable;
+
+        @FXML
+        private TableColumn EvaluationId;
+
+
+        @FXML
+        private TableColumn EvaluationProjectId;
+
+
+        @FXML
+        private TableColumn EvaluationRunStatus;
+
+
+        @FXML
+        private TableColumn EvaluationRunOutput;
+
+
+        @FXML
+        private TableColumn EvaluationStudentId;
+
+
+
+
+
+
+        @FXML
         private HBox EditProgLangHBox;
-
-
 
         @FXML
         private HBox StudentsHbox;
@@ -223,36 +290,6 @@ public class MainController {
         private HBox firstEllipses;
 
         @FXML
-        private VBox generatedResumeBox;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane1;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane2;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane21;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane22;
-
-        @FXML
-        private ScrollPane generatedResumeScrollPane3;
-
-        @FXML
-        private VBox generatedResumeVBox;
-
-        @FXML
-        private VBox generatedResumeVBox1;
-
-        @FXML
-        private VBox generatedResumeVBox2;
-
-        @FXML
         private Button leftBarButton;
 
         @FXML
@@ -320,7 +357,46 @@ public class MainController {
         int project_id = -1;
         int student_id = -1;
 
+        private Media media;
+        private MediaPlayer mediaPlayer;
+
         public void initialize() throws SQLException, IOException {
+                if(!new File("info.db").exists()){
+                        try {
+                                mediaHbox.setVisible(true);
+                                allHbox.setVisible(false);
+
+                                String file_path = "images/team3.mp4";
+                                media = new Media(getClass().getResource(file_path).toExternalForm());
+                                mediaPlayer=new MediaPlayer(media);
+
+                                MediaPlayer.Status status = mediaPlayer.getStatus();
+                                if (status == MediaPlayer.Status.UNKNOWN) {
+                                System.out.println("Media Player trying to play");
+
+                                }
+
+                                mediaView.setMediaPlayer(mediaPlayer);
+                                mediaPlayer.play();
+
+                                mediaPlayer.setOnEndOfMedia(() -> {
+                                        System.out.println("finished successfully");
+                                        
+                                        mediaHbox.setVisible(false);
+                                        allHbox.setVisible(true);
+
+                                        openLectureScreen();
+                                });
+
+                        }
+                        catch (Exception e){
+                                System.out.println("naneyi yedi");
+                                e.printStackTrace();
+                        }       
+                } else {
+                        openLectureScreen();
+                }
+
                 firstEllipses.widthProperty().addListener((obs, oldVal, newVal) -> {
                         if (firstEllipses.getWidth() < 1400)
                                 shortDrawer();
@@ -328,26 +404,7 @@ public class MainController {
                                 longDrawer();
                 });
 
-                generatedResumeBox.heightProperty().addListener((obs, oldVal, newVal) -> {
-                        ellipse2.setFitHeight(generatedResumeBox.getHeight());
-                        ellipse2.setFitWidth(generatedResumeBox.getWidth() / 2);
-                });
-
-                generatedResumeBox.widthProperty().addListener((obs, oldVal, newVal) -> {
-                        ellipse2.setFitHeight(generatedResumeBox.getHeight());
-                        ellipse2.setFitWidth(generatedResumeBox.getWidth() / 2);
-                });
-
-                /*originalResumeVBox.widthProperty().addListener((obs, oldVal, newVal) -> {
-                        scrollVBox.minWidth(originalResumeVBox.getWidth());
-                });*/
-
-                allHbox.heightProperty().addListener((obs, oldVal, newVal) -> {
-                        generatedResumeScrollPane.setPrefWidth(generatedResumeVBox.getWidth());
-                        generatedResumeScrollPane.setPrefHeight(allHbox.getHeight() - 200);
-                });
-
-              /*  LectureTableView.getSelectionModel().selectedItemProperty().addListener((observable,oldvalue,newValue) ->{
+                LectureTableView.getSelectionModel().selectedItemProperty().addListener((observable,oldvalue,newValue) ->{
                         try {
                                 selectFromLectureTable();
                         } catch (SQLException e) {
@@ -355,13 +412,7 @@ public class MainController {
                         } catch (IOException e) {
                                 throw new RuntimeException(e);
                         }
-                });*/
-
-              openLectureScreen();
-
-
-
-
+                });
         }
 
 
@@ -382,24 +433,22 @@ public class MainController {
                 firstEllipses.setVisible(false);
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
+                mediaHbox.setVisible(false);
+                DetailedEvaluationHbox.setVisible(false);
+
 
                 String path = "images/trash.png";
-                String path2="images/GO.png";
-
+                String path2="images/Go.png";
                 Image image = new Image(getClass().getResource(path).toExternalForm());
                 Image image2 = new Image(getClass().getResource(path2).toExternalForm());
-
+                
                 ObservableList<TableShow> LectureList = FXCollections
                         .observableArrayList();
 
                 LectureNameColumn.setCellValueFactory(new PropertyValueFactory<TableShow, String>("name"));
-
-
                 LectureTrashColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image"));
-
                 LectureGoColumn.setCellValueFactory(new PropertyValueFactory<TableShow, ImageView>("image2"));
 
-                
                 for(LectureConfig lecture_config: DBConnector.getInstance().getAllLectureConfigObjects()){
                         LectureList.add(new TableShow(lecture_config.getLecture_id(), lecture_config.getLecture_Name(), new ImageView(image),new ImageView(image2)));// new ImageView(image),new ImageView(image2)));
                 }
@@ -714,7 +763,7 @@ public class MainController {
                 lec_id = id;
 
                 String path = "images/trash.png";
-                String path2="images/GO.png";
+                String path2="images/Go.png";
 
 
                 Image image = new Image(getClass().getResource(path).toExternalForm());
@@ -907,7 +956,7 @@ public void openPLScreen() {
         StudentsHbox.setVisible(false);
 
         String path = "images/trash.png";
-        String path2="images/GO.png";
+        String path2="images/Go.png";
 
         Image image = new Image(getClass().getResource(path).toExternalForm());
         Image image2 = new Image(getClass().getResource(path2).toExternalForm());
@@ -1043,7 +1092,7 @@ public void openPLScreen() {
                         
                         
                         String TempPL_VersionExtractPattern=selectedPL_VersionExtractPattern.getText();
-                        Pattern pattern = Pattern.compile(TempPL_VersionExtractPattern);
+                        String pattern = TempPL_VersionExtractPattern;
 
                       try {
                                PLConfig ProgrammingLanguageConf = new PLConfig(PL_id,TempPL_Name,TempPL_Version,TempPL_NeedCompiler,TempPL_Compilerİns,TempPL_Runİns,TempPL_VersionCheck,pattern);
@@ -1060,6 +1109,121 @@ public void openPLScreen() {
                         openPLScreen();
 
                 });
+        }
+
+        @FXML
+        public void openImportScreen() {
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(false);
+                PL_HBox.setVisible(false);
+                PL_HBox.setEffect(null);
+                AddProjectBox.setVisible(false);
+                DetailedEvaluationHbox.setVisible(false);
+
+                AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(false);
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(false);
+                thirdEllipses.setVisible(true);
+                StudentsHbox.setVisible(false);
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Configuration File");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+                File file = fileChooser.showSaveDialog(null);
+                if (file != null) {
+                        String filePath = file.getAbsolutePath();
+
+                        try (FileReader reader = new FileReader(filePath)) {
+                                Gson gson = new Gson();
+                                Type listType = new TypeToken<List<Config>>() {}.getType();
+                                List<Config> objectList = gson.fromJson(reader, listType);
+                    
+                                for (Config obj : objectList) {
+                                        switch(obj.getType()){
+                                                case "lecture":
+                                                        DBConnector.getInstance().addLecture(gson.fromJson(obj.getConfig(), LectureConfig.class));
+                                                        break;
+                                                case "project":
+                                                        DBConnector.getInstance().addProjectwithId(gson.fromJson(obj.getConfig(), ProjectConfig.class));
+                                                        break;
+                                                case "pl":
+                                                        DBConnector.getInstance().addPL(gson.fromJson(obj.getConfig(), PLConfig.class));
+                                                        break;
+                                        }
+                                }
+
+                                System.out.println("Data imported successfully!");
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
+
+                openLectureScreen();
+        }
+
+
+        @FXML
+        public void openExportScreen() {
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(false);
+                PL_HBox.setVisible(false);
+                PL_HBox.setEffect(null);
+                AddProjectBox.setVisible(false);
+                DetailedEvaluationHbox.setVisible(false);
+
+                AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(false);
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(false);
+                thirdEllipses.setVisible(true);
+                StudentsHbox.setVisible(false);
+                
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                JsonArray jsonArray = new JsonArray();
+
+                ArrayList<LectureConfig> lectures = DBConnector.getInstance().getAllLectureConfigObjects();
+                for(LectureConfig lecture : lectures) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("type", "lecture");
+                        jsonObject.addProperty("config", gson.toJson(lecture));
+                        jsonArray.add(jsonObject);
+                }
+
+                ArrayList<ProjectConfig> projects = DBConnector.getInstance().getAllPConfigObjects();
+                for(ProjectConfig project : projects) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("type", "project");
+                        jsonObject.addProperty("config", gson.toJson(project));
+                        jsonArray.add(jsonObject);
+                }
+                
+                ArrayList<PLConfig> programmingLanguages = DBConnector.getInstance().getAllPLConfigObjects();
+                for(PLConfig plConfig : programmingLanguages) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("type", "pl");
+                        jsonObject.addProperty("config", gson.toJson(plConfig));
+                        jsonArray.add(jsonObject);
+                }
+
+                String json = gson.toJson(jsonArray);
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save Configuration File");
+                fileChooser.setInitialFileName("data.json");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+                File file = fileChooser.showSaveDialog(null);
+                if (file != null) {
+                        String filePath = file.getAbsolutePath();
+                        try (FileWriter writer = new FileWriter(filePath)) {
+                                writer.write(json);
+                                System.out.println("JSON data has been written to the file.");
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
+
+                openLectureScreen();
         }
 
         public void selectFromPLTable() throws SQLException, IOException {
@@ -1104,7 +1268,7 @@ public void openPLScreen() {
                         String compileIns = ProgrammingLanguage.getCompileInsString();
                         String RunIns=ProgrammingLanguage.getRunInsString();
                         String versionCheck=ProgrammingLanguage.getVersionCheckCommand();
-                        String pattern = ProgrammingLanguage.getVersionExtractPattern().toString();
+                        String pattern = ProgrammingLanguage.getVersionExtractPattern();
 
                         Label l1 = new Label("Programming Language ID :");
 
@@ -1197,7 +1361,7 @@ public void openPLScreen() {
                 String compileIns = ProgrammingLanguage.getCompileInsString();
                 String RunIns=ProgrammingLanguage.getRunInsString();
                 String versionCheck=ProgrammingLanguage.getVersionCheckCommand();
-                String pattern = ProgrammingLanguage.getVersionExtractPattern().toString();
+                String pattern = ProgrammingLanguage.getVersionExtractPattern();
 
                 Label ProgLangID = new Label("Programming Language ID :");
                 EditProgLangoldvalue.add(ProgLangID, 0, 0);
@@ -1367,7 +1531,7 @@ public void openPLScreen() {
                 EditProgLangConfirm.setOnAction(event -> {
                         PLConfig PLNew = null;
                         try {
-                                PLNew = new PLConfig(pl_id,NewProgLangNameText.getText(),NewProgLangVersionText.getText(),Boolean.parseBoolean(NewProgLangNeedCompilerText.getText()),NewProgLangCompileInstructionsText.getText(),NewProgLangRunInstructionsText.getText(),NewProgLangVersionCheckCommandText.getText(),Pattern.compile(NewProgLangVersionExtractPatternText.getText()));
+                                PLNew = new PLConfig(pl_id,NewProgLangNameText.getText(),NewProgLangVersionText.getText(),Boolean.parseBoolean(NewProgLangNeedCompilerText.getText()),NewProgLangCompileInstructionsText.getText(),NewProgLangRunInstructionsText.getText(),NewProgLangVersionCheckCommandText.getText(),NewProgLangVersionExtractPatternText.getText());
                         } catch (Exception e) {
                                 throw new RuntimeException(e);
                         }
@@ -1427,13 +1591,13 @@ public void openPLScreen() {
                 secondEllipses.setVisible(true);
                 thirdEllipses.setVisible(false);
           
-                String path="images/GO.png";
+                String path="images/Go.png";
                 Image image = new Image(getClass().getResource(path).toExternalForm());
 
                 StudentIDColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
                 StudentNameColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("name"));
                 StudentGradeColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("grade"));
-                StudentGoColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("image"));
+                StudentGoColumn.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image"));
 
                 ObservableList<GradeTableShow> student_grade_list = FXCollections
                         .observableArrayList();
@@ -1448,7 +1612,89 @@ public void openPLScreen() {
         }
 
         @FXML
-        public void selectFromStudentTable(){}
+        public void selectFromStudentTable(){
+                if (StudentTableView.getSelectionModel().getSelectedCells() == null ||
+                        StudentTableView.getSelectionModel().getSelectedIndex() == -1) {
+                        return;
+                }
+
+                int index = StudentTableView.getSelectionModel().getSelectedIndex();
+
+                String StudentID = (String) StudentIDColumn.getCellData(index);
+
+
+                ObservableList<TablePosition> selectedCells = StudentTableView.getSelectionModel().getSelectedCells();
+
+
+
+
+                  if (selectedCells.get(0).getTableColumn().equals(StudentGoColumn)) {
+
+                          Student_Table student = DBConnector.getInstance().getStudentObject(StudentID);
+                          openDetailedEvaluation(student.getId());
+
+                }
+
+        }
+
+        @FXML
+        public void openDetailedEvaluation(String id){
+                LecturesHBox.setVisible(false);
+                ProjectsHBox.setVisible(false);
+                LecturesHBox.setEffect(null);
+                StudentsHbox.setVisible(false);
+                PL_HBox.setVisible(false);
+                AddProjectBox.setVisible(false);
+                AddLectureBox.setVisible(false);
+                AddPLBox.setVisible(false);
+
+                firstEllipses.setVisible(false);
+                secondEllipses.setVisible(true);
+                thirdEllipses.setVisible(false);
+                DetailedEvaluationHbox.setVisible(true);
+
+                System.out.println("id budur  "+id);
+
+
+                EvaluationId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("id"));
+                EvaluationProjectId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("project_id"));
+
+
+             /*   switch(runstatus){
+
+
+                        case1:{String path1="images/success.png";
+                        Image image = new Image(getClass().getResource(path1).toExternalForm());
+                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image"));
+                        break;}
+
+                        case2:{String path2="images/cross.png";
+                        Image image2 = new Image(getClass().getResource(path2).toExternalForm());
+                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image2"));
+                        break;}
+
+                        case3:{String path3="images/error.png";
+                        Image image3 = new Image(getClass().getResource(path3).toExternalForm());
+                        EvaluationRunStatus.setCellValueFactory(new PropertyValueFactory<GradeTableShow, ImageView>("image3"));
+                        break;}
+
+
+                }*/
+
+                EvaluationRunOutput.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("RunOutput"));
+                EvaluationStudentId.setCellValueFactory(new PropertyValueFactory<GradeTableShow, String>("student_id"));
+
+                ObservableList<GradeTableShow> student_grade_list = FXCollections
+                        .observableArrayList();
+
+                ArrayList<Grade> grades = DBConnector.getInstance().getGradesObject(Integer.parseInt(id)); //Integer.parseInt() soru işaretli olmalı mı?
+             /*   for (Grade grade : grades) {
+                        Student_Table student = DBConnector.getInstance().getStudentObject(grade.getStudent_id());
+                        student_grade_list.add(new GradeTableShow(student.getId(), student.getName() ,grade.getGrade(), new ImageView(image)));
+                }
+
+                StudentTableView.setItems(student_grade_list);*/
+        }
 
 
 
@@ -1575,5 +1821,17 @@ public void openPLScreen() {
                 } catch (IOException e) {
                         System.out.println("Error extracting zip file: " + e.getMessage());
                 }
+        }
+
+        @FXML
+        private void GoHelp() throws IOException {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpScreen.fxml"));
+                Parent root = fxmlLoader.load();
+                Scene scene = new Scene(root, 800, 600);
+                stage.setTitle("Help");
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.showAndWait();
         }
 }

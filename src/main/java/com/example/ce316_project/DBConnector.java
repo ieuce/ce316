@@ -3,7 +3,6 @@ package com.example.ce316_project;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class DBConnector {
     private static DBConnector instance = null;
@@ -13,7 +12,7 @@ public class DBConnector {
 
     private PreparedStatement insertLecture, insertProgrammingLanguage, insertProject, insertGrade, insertEvaluation, insertStudentTable, insertDetailedEvaluation, getDetailedEvaluation2p,
             getPLConfig, getAllPLConfigIds,getAllLectureIds,getAllProjectIds, getMaxProjectID,
-            getLectureConfig, getProjectConfig, getEvaluations, getAllGrades, getStudent,
+            getLectureConfig, getProjectConfig, getEvaluations, getAllGrades, getStudent, insertProjectwithID,
             getLecture,getPL, deleteLecture, deleteLanguge, deleteProject, deleteGrade, deleteEvaluation,deleteDetailedEvaluation,getAllDetailedEvaluationids, getProjectIDfromLectureID, getProjectIDfromPL;
 
 
@@ -83,6 +82,7 @@ public class DBConnector {
             insertLecture = connection.prepareStatement("INSERT INTO Lecture (LECTURE_ID, LECTURE_NAME, LECTURER) VALUES (?,?,?)");
             insertProgrammingLanguage = connection.prepareStatement("INSERT INTO ProgrammingLanguage (PLANGUAGE_ID, PLANGUAGE_NAME, PLANGUAGE_VERSIONSTRING, PLANGUAGE_NEEDCOMPILER, PLANGUAGE_COMPILEINSSTRING, PLANGUAGE_RUNINSSTRING, PLANGUAGE_VERSIONCHECKCOMMAND, PLANGUAGE_VERSIONEXTRACTPATTERN) VALUES (?,?,?,?,?,?,?,?)");
             insertProject = connection.prepareStatement("INSERT INTO Project (PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?)");
+            insertProjectwithID = connection.prepareStatement("INSERT INTO Project (PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION,PROJECT_LECTURE_ID,PROJECT_PROGRAMMING_LANGUAGE_ID,PROJECT_MAIN_FILE_FORMAT) VALUES (?,?,?,?,?,?)");
             insertEvaluation = connection.prepareStatement("INSERT INTO Evaluation_Table (PROJECT_ID, P_INPUT, P_OUTPUT) VALUES (?,?,?)");
             insertGrade = connection.prepareStatement("INSERT INTO Grade_Table(PROJECT_ID, STUDENT_ID, GRADE) VALUES (?,?,?)");
             insertStudentTable = connection.prepareStatement("INSERT INTO Student_Table (STUDENT_ID,STUDENT_NAME) VALUES  (?,?)");
@@ -218,7 +218,7 @@ public class DBConnector {
             String compileInsString = language.getCompileInsString();
             String runInsString = language.getRunInsString();
             String versionCheckCommand = language.getVersionCheckCommand();
-            String versionExtractPattern = language.getVersionExtractPattern().pattern();
+            String versionExtractPattern = language.getVersionExtractPattern();
             int need_compilerint;
             if (need_compiler == true) {
                 need_compilerint = 1;
@@ -238,6 +238,33 @@ public class DBConnector {
         } catch (Exception e) {
             System.out.println(e);
 
+        }
+    }
+
+    public void addProjectwithId(ProjectConfig project){
+        try {
+            int id = project.getId();
+            String title=project.getTitle();
+            String description=project.getDescription();
+            int lecture_id = project.getLecture_id();
+            int programming_language_id=project.getProgramming_language_id();
+            String mainFileFormat=project.getMain_file_format();
+
+            insertProjectwithID.setInt(1,id);
+            insertProjectwithID.setString(2, title);
+            insertProjectwithID.setString(3, description);
+            insertProjectwithID.setInt(4,lecture_id);
+            insertProjectwithID.setInt(5,programming_language_id);
+            insertProjectwithID.setString(6,mainFileFormat);
+            insertProjectwithID.execute();
+
+            ArrayList<Evaluation> evaluations = project.getEvaluations();
+            for(Evaluation evaluation : evaluations){
+                addEvaluation(evaluation);
+            }
+
+        } catch (Exception e) {
+            System.err.println(e);
         }
     }
 
@@ -288,7 +315,7 @@ public class DBConnector {
                 need_compiler = false;
             }
 
-            PLConfig config = new PLConfig(id, name, versionString, need_compiler, compileInsString, runInsString, versionCheckCommand, Pattern.compile(versionExtractPattern));
+            PLConfig config = new PLConfig(id, name, versionString, need_compiler, compileInsString, runInsString, versionCheckCommand, versionExtractPattern);
 
             return config;
 
