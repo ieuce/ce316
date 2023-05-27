@@ -8,7 +8,7 @@ module com.example.ce316_project {
     requires javafx.media;
     requires com.google.gson;
 
-    opens com.example.ce316_project to javafx.fxml;
+    opens com.example.ce316_project to javafx.fxml,com.google.gson;
 
     exports com.example.ce316_project;
 }
