@@ -465,6 +465,7 @@ public class MainController {
                 firstEllipses.setVisible(false);
                 secondEllipses.setVisible(false);
                 thirdEllipses.setVisible(false);
+                DetailedEvaluationHbox.setVisible(false);
 
 
                 int LectureIDTEMP = (LectureTableView.getItems().size())+1;
@@ -726,6 +727,13 @@ public class MainController {
         }
         int row=0;
 
+        @FXML
+        public void returnToProject(){
+                openProjectScreen(lec_id);
+        }
+
+
+
        @FXML
         public void openProjectScreen(int id) {
                 LecturesHBox.setVisible(false);
@@ -740,6 +748,7 @@ public class MainController {
                 firstEllipses.setVisible(true);
                 secondEllipses.setVisible(false);
                 thirdEllipses.setVisible(false);
+               DetailedEvaluationHbox.setVisible(false);
                 lec_id = id;
 
                 String path = "images/trash.png";
@@ -934,6 +943,7 @@ public void openPLScreen() {
         secondEllipses.setVisible(false);
         thirdEllipses.setVisible(true);
         StudentsHbox.setVisible(false);
+        DetailedEvaluationHbox.setVisible(false);
 
         String path = "images/trash.png";
         String path2="images/Go.png";
@@ -1106,6 +1116,7 @@ public void openPLScreen() {
                 secondEllipses.setVisible(false);
                 thirdEllipses.setVisible(true);
                 StudentsHbox.setVisible(false);
+                DetailedEvaluationHbox.setVisible(false);
 
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Open Configuration File");
