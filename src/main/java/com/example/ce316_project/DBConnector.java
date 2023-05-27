@@ -504,7 +504,7 @@ public class DBConnector {
             String RunIns =rs.getString(6);
             String VersionCheck=rs.getString(7);
             String versionPattern=rs.getString(8);
-            Pattern pattern = Pattern.compile(versionPattern);
+            String pattern = versionPattern;
 
             PLConfig config = new PLConfig(id, Name, version,need_compiler,compileIns,RunIns,VersionCheck,pattern);
             return config;
